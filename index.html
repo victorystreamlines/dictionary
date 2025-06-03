@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genetic Invent Vocabulary Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .pagination-controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-info {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .bookmark-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .bookmark-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .bookmark-label {
+            color: #667eea;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .question.bookmarked {
+            border-color: #ffc107;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        .bookmark-navigation {
+            padding: 20px;
+            background: #fff9e6;
+            border-bottom: 1px solid #ffc107;
+            text-align: center;
+        }
+
+        .bookmark-nav-btn {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(255, 193, 7, 0.3);
+        }
+
+        .bookmark-nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        .bookmark-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .bookmark-counter {
+            color: #ff8f00;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .ai-prompt-btn {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(108, 92, 231, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ai-prompt-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .ai-prompt-btn.copied {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
+        @keyframes copySuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, #e17055 0%, #fd79a8 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(225, 112, 85, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4);
+        }
+
+        .audio-btn.playing {
+            background: linear-gradient(135deg, #fd79a8 0%, #e17055 100%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .audio-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .arabic-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 184, 148, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .arabic-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .translation-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .english-section {
+            flex: 1;
+        }
+
+        .arabic-section {
+            flex: 1;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .word-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .arabic-word {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00b894;
+            font-family: 'Arial Unicode MS', 'Tahoma', sans-serif;
+        }
+
+        .definition {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .context-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin-top: 15px;
+        }
+
+        .context-example h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .quiz-container {
+            padding: 40px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .question {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .input-field {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-field.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .input-field.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .answer {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .progress {
+            background: #e9ecef;
+            height: 4px;
+            border-radius: 2px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            height: 100%;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .question {
+                padding: 20px;
+            }
+            
+            .input-field {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Genetic Invent Vocabulary Quiz</h1>
+            <p>Master technical vocabulary for innovation and patent excellence</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="showAnswers()">Show Answers</button>
+            <button class="btn" onclick="hideAnswers()">Hide Answers</button>
+            <button class="btn" onclick="generateNewQuiz()">New Quiz</button>
+            <button class="btn" onclick="refreshQuiz()" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔄 Refresh Page</button>
+        </div>
+        
+        <div class="bookmark-navigation" id="bookmarkNav" style="display: none;">
+            <div>
+                <span class="bookmark-counter">📚 <span id="bookmarkCount">0</span> Bookmarked Questions</span>
+                <button class="bookmark-nav-btn" onclick="goToPreviousBookmark()">← Previous Bookmark</button>
+                <button class="bookmark-nav-btn" onclick="goToNextBookmark()">Next Bookmark →</button>
+                <button class="bookmark-nav-btn" onclick="clearAllBookmarks()">Clear All</button>
+            </div>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="quiz-container" id="quizContainer">
+            <!-- Questions will be generated here -->
+        </div>
+        
+        <!-- Arabic Translation Modal -->
+        <div id="arabicModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Word Translation</h2>
+                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="translation-content">
+                    <div class="english-section">
+                        <div class="word-display" id="englishWord"></div>
+                        <div class="definition" id="englishDefinition"></div>
+                        <div class="context-example">
+                            <h4>Professional Context:</h4>
+                            <p id="contextExample"></p>
+                        </div>
+                    </div>
+                    <div class="arabic-section">
+                        <div class="arabic-word" id="arabicWord"></div>
+                        <div class="definition" id="arabicDefinition"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination-controls">
+            <div>
+                <button class="btn" id="firstBtn" onclick="firstPage()">⏮ First</button>
+                <button class="btn" id="prevBtn" onclick="previousPage()">← Previous</button>
+            </div>
+            <div class="page-info">
+                <span id="currentPage">1</span> of <span id="totalPages">1</span>
+                <br>
+                <small>Questions <span id="questionRange">1-25</span> of <span id="totalQuestions">506</span></small>
+            </div>
+            <div>
+                <button class="btn" id="nextBtn" onclick="nextPage()">Next →</button>
+                <button class="btn" id="lastBtn" onclick="lastPage()">Last ⏭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            "aback", "abashed", "abattoir", "abbess", "abbey", "abbot", "abbreviate", "ABC", "abdicate", "abduct",
+            "abet", "abhor", "abhorrent", "abide", "ablaze", "abnormal", "aboard", "abode", "abolish", "abort",
+            "abrasive", "abreast", "abridge", "abscess", "abscond", "abseil", "absentee", "absolute", "absolve", "abstain",
+            "abstention", "abstinence", "absurd", "abundance", "abundant", "abusive", "academy", "accelerate", "accelerator", "accentuate",
+            "accessible", "accession", "accessory", "accident", "acclaim", "acclimatize", "accommodate", "accompaniment", "accompany", "accomplice",
+            "accomplish", "accomplishment", "accordance", "accordingly", "accordion", "accost", "accountable", "accountant", "accumulate", "accumulation",
+            "accuracy", "accusation", "accustomed", "ace", "ache", "acne", "acorn", "acoustic", "acquainted", "acquisition",
+            "acquit", "acre", "acrobat", "acronym", "acrylic", "activate", "acupuncture", "acute", "AD", "adamant",
+            "addict", "addiction", "addictive", "additive", "adept", "adhere", "adhesive", "adjacent", "adjective", "adjoining",
+            "adjourn", "adjudicate", "administer", "administration", "admirable", "admiral", "admiration", "admission", "admittance", "all", "adorable",
+            "adore", "adoration", "adorn", "adrenalin", "adrift", "adultery", "adverb", "adversary", "adverse", "advisable",
+            "advocate", "aerobics", "aeroplane", "aerosol", "aesthetic", "affair", "affect", "affected", "affiliate", "affinity",
+            "affirm", "affirmative", "afflict", "affluence", "afford", "affront", "afield", "afloat", "afoot", "afraid",
+            "afresh", "African-American", "Afro-Caribbean", "aftermath", "aftershave", "afterthought", "agenda", "aggravate", "aggregate", "aggression",
+            "aggrieved", "agile", "agitate", "agnostic", "ago", "agonize", "agonizing", "agony", "agreeable", "agriculture",
+            "ah", "aha", "aide", "AIDS", "ailing", "ailment", "airborne", "aircraft", "airfield", "airless",
+            "airline", "airliner", "airmail", "airplane", "airport", "airsick", "airspace", "airstrip", "aisle", "ajar",
+            "akin", "alas", "albino", "album", "alcove", "ale", "alert", "algae", "algebra", "alias",
+            "alibi", "alien", "alienate", "align", "alike", "alimony", "alkali", "Allah", "allay", "allege",
+            "alleged", "allegiance", "allergy", "alleviate", "alley", "alligator", "allocate", "allot", "allotment", "allowance",
+            "alloy", "allude", "almighty", "almond", "aloof", "alpine", "alright", "altar", "alteration", "alternative",
+            "altitude", "alto", "aluminium", "AM", "amalgamate", "amass", "amateur", "ambassador", "amber", "ambiguous",
+            "ambitious", "ambivalent", "ambush", "amen", "amenable", "amend", "amends", "amenity", "American", "amiable",
+            "amiably", "amicable", "amicably", "amid", "amiss", "amnesia", "amnesty", "amount", "amp", "amphibian",
+            "ample", "amplify", "amputate", "anaemia", "anaesthetic", "anagram", "analogous", "analogy", "analytical", "analyst",
+            "anarchy", "anatomy", "ancestor", "anchovy", "anecdote", "anew", "angel", "angelically", "Anglican", "Anglo-",
+            "Anglo-Saxon", "angry", "anguish", "angular", "animated", "annex", "annexe", "anniversary", "annotated", "annual",
+            "anonymity", "anonymous", "anorak", "anorexia", "ant", "antagonism", "antagonize", "Antarctic", "antelope", "antenatal",
+            "antenna", "anthem", "anthology", "anthropology", "antibiotic", "antibody", "anticipation", "anticlimax", "antics", "antidote",
+            "antipathy", "antiperspirant", "antiquated", "antique", "antiquity", "anti-Semitism", "antiseptic", "antisocial", "antler", "anus",
+            "anyhow", "anyone", "anyplace", "anyway", "apartheid", "ape", "aperitif", "apiece", "apologetic", "apology",
+            "apostle", "apostrophe", "apparatus", "apparent", "appear", "appearance", "appendicitis", "appendix", "appetizer", "appetizing",
+            "applaud", "applause", "appliance", "applicable", "applicant", "appraise", "appraisal", "appreciable", "appreciate", "appreciation",
+            "appropriate", "apprehensive", "apprentice", "approach", "approximate", "apricot", "apron", "aptitude", "aquarium", "Aquarius",
+            "aquatic", "Arab", "Arabic", "arable", "arbitrary", "arbitrate", "arbitration", "arc", "arcade", "archaic",
+            "archbishop", "architecture", "archives", "archway", "Arctic", "arduous", "arena", "arguable", "arid", "Aries",
+            "aristocrat", "arithmetic", "armband", "armchair", "armhole", "armistice", "armour", "armoured", "armpit", "army",
+            "aroma", "aromatherapy", "arouse", "arrange", "array", "arrears", "arrest", "arrival", "arrive", "arrow",
+            "arsenic", "arson", "artery", "artful", "arthritis", "artichoke", "articulated", "artificial", "artificially", "artillery",
+            "artistry", "AS", "asap", "asbestos", "ascent", "ascertain", "ascribe", "Asian", "askew", "asparagus", "aspect",
+            "asphalt", "asphyxiate", "aspic", "aspiration", "aspire", "aspirin", "assassin", "assassinate", "assassination", "assault",
+            "assembly", "assent", "assert", "assess", "assign", "assimilate", "assimilation", "assist", "Assoc", "assorted",
+            "Asst", "assure", "asteroid", "asthma", "asthmatic", "astonish", "astound", "astray", "astride", "astrology",
+            "astronaut", "astronomy", "astute", "asylum", "atheism", "athlete", "athletic", "athletics", "atishoo", "ATM",
+            "atmospheric", "atomic", "atrocious", "atrocity", "attack", "attain", "attend", "attendance", "attendant", "attention",
+            "attentive", "attic", "attract", "attraction", "atypical", "auction", "auctioneer", "audible", "audio", "audit",
+            "auditor", "audition", "auditorium", "augur", "aura", "aural", "authentic", "authenticity", "authoritarian", "authoritative",
+            "authorize", "autistic", "autobiography", "autograph", "automate", "automation", "automobile", "autonomous", "autopsy", "auxiliary",
+            "avail", "available", "avant-garde", "avenge", "avenue", "average", "averse", "aviary", "avid", "avocado",
+            "avoid", "await", "awoken", "awaken", "aware", "aware", "awash", "away", "awe", "awry", "axis",
+            "axle", "ayatollah", "aye"
+        ];
+
+        const contextTemplates = [
+            "Our patent {WORD} requires careful documentation before filing.",
+            "The Genetic Learning system must {WORD} to achieve optimal performance.",
+            "During our innovation meeting, we discussed how to {WORD} the project timeline.",
+            "The electrical component showed {WORD} behavior under testing conditions.",
+            "Our incubator aims to {WORD} revolutionary technologies in the deep-tech sector.",
+            "The magnetization system's {WORD} properties exceeded our expectations.",
+            "We need to {WORD} our research methodology for better patent outcomes.",
+            "The transistor design requires {WORD} precision in manufacturing.",
+            "Our technical team will {WORD} the new resistance measurements.",
+            "The innovation process demands {WORD} attention to detail.",
+            "Client proposals must be {WORD} and professionally presented.",
+            "The laboratory equipment needs {WORD} calibration for accurate results.",
+            "Our patent filing strategy should {WORD} market trends and competition.",
+            "The engineering specifications call for {WORD} materials and components.",
+            "Deep-tech innovations require {WORD} investment in research and development.",
+            "The Genetic Invent system can {WORD} complex technical problems efficiently.",
+            "Our company's {WORD} approach sets us apart from competitors.",
+            "The invention's {WORD} features make it highly patentable.",
+            "Technical documentation must be {WORD} to avoid patent disputes.",
+            "The electrical system's {WORD} performance validates our design approach."
+        ];
+
+        let allQuestions = [];
+        let currentQuestions = [];
+        let answersVisible = false;
+        let currentPage = 1;
+        const questionsPerPage = 25;
+        let totalPages = 1;
+        let bookmarkedQuestions = new Set();
+
+        // Arabic translations for vocabulary words
+        const arabicTranslations = {
+            "aback": "مصدوم",
+            "abashed": "خجل",
+            "abattoir": "مسلخ",
+            "abbess": "رئيسة دير",
+            "abbey": "دير",
+            "abbot": "رئيس دير",
+            "abbreviate": "اختصار",
+            "ABC": "أساسيات",
+            "abdicate": "تنازل",
+            "abduct": "اختطاف",
+            "abet": "تحريض",
+            "abhor": "كراهية",
+            "abhorrent": "مقيت",
+            "abide": "التزم",
+            "ablaze": "مشتعل",
+            "abnormal": "غير طبيعي",
+            "aboard": "على متن",
+            "abode": "سكن",
+            "abolish": "إلغاء",
+            "abort": "إحباط",
+            "abrasive": "كاشط",
+            "abreast": "مواكب",
+            "abridge": "تلخيص",
+            "abscess": "خراج",
+            "abscond": "هروب",
+            "abseil": "تسلق",
+            "absentee": "غائب",
+            "absolute": "مطلق",
+            "absolve": "تبرئة",
+            "abstain": "امتناع",
+            "abstention": "امتناع",
+            "abstinence": "امتناع",
+            "absurd": "سخيف",
+            "abundance": "وفرة",
+            "abundant": "وفير",
+            "abusive": "مسيء",
+            "academy": "أكاديمية",
+            "accelerate": "تسريع",
+            "accelerator": "مسرع",
+            "accentuate": "تأكيد",
+            "accessible": "متاح",
+            "accession": "انضمام",
+            "accessory": "ملحق",
+            "accident": "حادث",
+            "acclaim": "إشادة",
+            "acclimatize": "تكيف",
+            "accommodate": "استيعاب",
+            "accompaniment": "مرافقة",
+            "accompany": "مرافقة",
+            "accomplice": "شريك",
+            "accomplish": "إنجاز",
+            "accomplishment": "إنجاز",
+            "accordance": "توافق",
+            "accordingly": "وفقا لذلك",
+            "accordion": "أكورديون",
+            "accost": "اعتراض",
+            "accountable": "مسؤول",
+            "accountant": "محاسب",
+            "accumulate": "تراكم",
+            "accumulation": "تراكم",
+            "accuracy": "دقة",
+            "accusation": "اتهام",
+            "accustomed": "معتاد",
+            "ace": "بارع",
+            "ache": "ألم",
+            "acne": "حب الشباب",
+            "acorn": "جوزة",
+            "acoustic": "صوتي",
+            "acquainted": "مألوف",
+            "acquisition": "اكتساب",
+            "acquit": "تبرئة",
+            "acre": "فدان",
+            "acrobat": "بهلوان",
+            "acronym": "اختصار",
+            "acrylic": "أكريليك",
+            "activate": "تفعيل",
+            "acupuncture": "وخز",
+            "acute": "حاد",
+            "AD": "ميلادي",
+            "adamant": "عنيد",
+            "addict": "مدمن",
+            "addiction": "إدمان",
+            "addictive": "مسبب للإدمان",
+            "additive": "مضاف",
+            "adept": "ماهر",
+            "adhere": "التزام",
+            "adhesive": "لاصق",
+            "adjacent": "مجاور",
+            "adjective": "صفة",
+            "adjoining": "متجاور",
+            "adjourn": "تأجيل",
+            "adjudicate": "قضاء",
+            "administer": "إدارة",
+            "administration": "إدارة",
+            "admirable": "رائع",
+            "admiral": "أميرال",
+            "admiration": "إعجاب",
+            "admission": "قبول",
+            "admittance": "دخول",
+            "all": "جميع",
+            "adorable": "محبوب",
+            "adore": "عبادة",
+            "adoration": "عبادة",
+            "adorn": "تزيين",
+            "adrenalin": "أدرينالين",
+            "adrift": "تائه",
+            "adultery": "زنا",
+            "adverb": "ظرف",
+            "adversary": "خصم",
+            "adverse": "معاكس",
+            "advisable": "مستحسن",
+            "advocate": "دعم",
+            "aerobics": "أيروبيك",
+            "aeroplane": "طائرة",
+            "aerosol": "رذاذ",
+            "aesthetic": "جمالي",
+            "affair": "شأن",
+            "affect": "تأثير",
+            "affected": "متأثر",
+            "affiliate": "انتساب",
+            "affinity": "تقارب",
+            "affirm": "تأكيد",
+            "affirmative": "إيجابي",
+            "afflict": "ابتلاء",
+            "affluence": "ثراء",
+            "afford": "تحمل التكلفة",
+            "affront": "إهانة",
+            "afield": "بعيدا",
+            "afloat": "طافي",
+            "afoot": "جاري",
+            "afraid": "خائف",
+            "afresh": "من جديد",
+            "African-American": "أفريقي أمريكي",
+            "Afro-Caribbean": "أفريقي كاريبي",
+            "aftermath": "أعقاب",
+            "aftershave": "ما بعد الحلاقة",
+            "afterthought": "فكرة لاحقة",
+            "agenda": "جدول أعمال",
+            "aggravate": "تفاقم",
+            "aggregate": "مجموع",
+            "aggression": "عدوان",
+            "aggrieved": "متضرر",
+            "agile": "رشيق",
+            "agitate": "إثارة",
+            "agnostic": "لا أدري",
+            "ago": "منذ",
+            "agonize": "معاناة",
+            "agonizing": "مؤلم",
+            "agony": "عذاب",
+            "agreeable": "لطيف",
+            "agriculture": "زراعة",
+            "ah": "آه",
+            "aha": "آها",
+            "aide": "مساعد",
+            "AIDS": "الإيدز",
+            "ailing": "مريض",
+            "ailment": "مرض",
+            "airborne": "محمول جواً",
+            "aircraft": "طائرة",
+            "airfield": "مطار",
+            "airless": "خانق",
+            "airline": "شركة طيران",
+            "airliner": "طائرة ركاب",
+            "airmail": "بريد جوي",
+            "airplane": "طائرة",
+            "airport": "مطار",
+            "airsick": "دوار الطيران",
+            "airspace": "مجال جوي",
+            "airstrip": "مدرج",
+            "aisle": "ممر",
+            "ajar": "موارب",
+            "akin": "مشابه",
+            "alas": "للأسف",
+            "albino": "مهق",
+            "album": "ألبوم",
+            "alcove": "كوة",
+            "ale": "جعة",
+            "alert": "تنبيه",
+            "algae": "طحالب",
+            "algebra": "جبر",
+            "alias": "اسم مستعار",
+            "alibi": "حجة غياب",
+            "alien": "غريب",
+            "alienate": "إبعاد",
+            "align": "محاذاة",
+            "alike": "متشابه",
+            "alimony": "نفقة",
+            "alkali": "قلوي",
+            "Allah": "الله",
+            "allay": "تهدئة",
+            "allege": "زعم",
+            "alleged": "مزعوم",
+            "allegiance": "ولاء",
+            "allergy": "حساسية",
+            "alleviate": "تخفيف",
+            "alley": "زقاق",
+            "alligator": "تمساح",
+            "allocate": "تخصيص",
+            "allot": "تخصيص",
+            "allotment": "مخصصات",
+            "allowance": "بدل",
+            "alloy": "سبيكة",
+            "allude": "تلميح",
+            "almighty": "قدير",
+            "almond": "لوز",
+            "aloof": "منعزل",
+            "alpine": "جبلي",
+            "alright": "حسنا",
+            "altar": "مذبح",
+            "alteration": "تعديل",
+            "alternative": "بديل",
+            "altitude": "ارتفاع",
+            "alto": "صوت عالي",
+            "aluminium": "ألومنيوم",
+            "AM": "صباحا",
+            "amalgamate": "دمج",
+            "amass": "تراكم",
+            "amateur": "هاوي",
+            "ambassador": "سفير",
+            "amber": "عنبر",
+            "ambiguous": "غامض",
+            "ambitious": "طموح",
+            "ambivalent": "متناقض",
+            "ambush": "كمين",
+            "amen": "آمين",
+            "amenable": "مطيع",
+            "amend": "تعديل",
+            "amends": "تعويض",
+            "amenity": "مرفق",
+            "American": "أمريكي",
+            "amiable": "ودود",
+            "amiably": "بود",
+            "amicable": "ودي",
+            "amicably": "بود",
+            "amid": "وسط",
+            "amiss": "خطأ",
+            "amnesia": "فقدان ذاكرة",
+            "amnesty": "عفو",
+            "amount": "مقدار",
+            "amp": "أمبير",
+            "amphibian": "برمائي",
+            "ample": "واسع",
+            "amplify": "تضخيم",
+            "amputate": "بتر",
+            "anaemia": "فقر دم",
+            "anaesthetic": "مخدر",
+            "anagram": "تبديل حروف",
+            "analogous": "مماثل",
+            "analogy": "تشبيه",
+            "analytical": "تحليلي",
+            "analyst": "محلل",
+            "anarchy": "فوضى",
+            "anatomy": "تشريح",
+            "ancestor": "سلف",
+            "anchovy": "أنشوجة",
+            "anecdote": "حكاية",
+            "anew": "من جديد",
+            "angel": "ملاك",
+            "angelically": "بطهارة",
+            "Anglican": "أنجليكاني",
+            "Anglo-": "أنجلو",
+            "Anglo-Saxon": "أنجلو ساكسوني",
+            "angry": "غاضب",
+            "anguish": "كرب",
+            "angular": "زاوي",
+            "animated": "متحرك",
+            "annex": "ملحق",
+            "annexe": "ملحق",
+            "anniversary": "ذكرى سنوية",
+            "annotated": "مشروح",
+            "annual": "سنوي",
+            "anonymity": "إخفاء هوية",
+            "anonymous": "مجهول",
+            "anorak": "معطف",
+            "anorexia": "فقدان شهية",
+            "ant": "نملة",
+            "antagonism": "عداء",
+            "antagonize": "عداء",
+            "Antarctic": "القطب الجنوبي",
+            "antelope": "ظبي",
+            "antenatal": "ما قبل الولادة",
+            "antenna": "هوائي",
+            "anthem": "نشيد",
+            "anthology": "مختارات",
+            "anthropology": "أنثروبولوجيا",
+            "antibiotic": "مضاد حيوي",
+            "antibody": "جسم مضاد",
+            "anticipation": "توقع",
+            "anticlimax": "انتكاسة",
+            "antics": "مهرجة",
+            "antidote": "ترياق",
+            "antipathy": "كراهية",
+            "antiperspirant": "مضاد تعرق",
+            "antiquated": "عتيق",
+            "antique": "تحفة",
+            "antiquity": "قدم",
+            "anti-Semitism": "معاداة السامية",
+            "antiseptic": "مطهر",
+            "antisocial": "مضاد اجتماعي",
+            "antler": "قرن",
+            "anus": "شرج",
+            "anyhow": "على أي حال",
+            "anyone": "أي شخص",
+            "anyplace": "أي مكان",
+            "anyway": "على أي حال",
+            "apartheid": "فصل عنصري",
+            "ape": "قرد",
+            "aperitif": "مشهي",
+            "apiece": "لكل واحد",
+            "apologetic": "معتذر",
+            "apology": "اعتذار",
+            "apostle": "رسول",
+            "apostrophe": "فاصلة عليا",
+            "apparatus": "جهاز",
+            "apparent": "واضح",
+            "appear": "ظهور",
+            "appearance": "مظهر",
+            "appendicitis": "التهاب زائدة",
+            "appendix": "زائدة",
+            "appetizer": "مقبلات",
+            "appetizing": "شهي",
+            "applaud": "تصفيق",
+            "applause": "تصفيق",
+            "appliance": "جهاز",
+            "applicable": "قابل للتطبيق",
+            "applicant": "متقدم",
+            "appraise": "تقييم",
+            "appraisal": "تقييم",
+            "appreciable": "ملموس",
+            "appreciate": "تقدير",
+            "appreciation": "تقدير",
+            "appropriate": "مناسب",
+            "apprehensive": "قلق",
+            "apprentice": "متدرب",
+            "approach": "نهج",
+            "approximate": "تقريبي",
+            "apricot": "مشمش",
+            "apron": "مئزر",
+            "aptitude": "استعداد",
+            "aquarium": "حوض سمك",
+            "Aquarius": "الدلو",
+            "aquatic": "مائي",
+            "Arab": "عربي",
+            "Arabic": "عربي",
+            "arable": "صالح للزراعة",
+            "arbitrary": "تعسفي",
+            "arbitrate": "تحكيم",
+            "arbitration": "تحكيم",
+            "arc": "قوس",
+            "arcade": "رواق",
+            "archaic": "عتيق",
+            "archbishop": "أسقف أعظم",
+            "architecture": "هندسة معمارية",
+            "archives": "أرشيف",
+            "archway": "قوس",
+            "Arctic": "القطب الشمالي",
+            "arduous": "شاق",
+            "arena": "ساحة",
+            "arguable": "قابل للجدل",
+            "arid": "قاحل",
+            "Aries": "الحمل",
+            "aristocrat": "أرستقراطي",
+            "arithmetic": "حساب",
+            "armband": "شارة ذراع",
+            "armchair": "كرسي بذراعين",
+            "armhole": "فتحة الذراع",
+            "armistice": "هدنة",
+            "armour": "درع",
+            "armoured": "مدرع",
+            "armpit": "إبط",
+            "army": "جيش",
+            "aroma": "عطر",
+            "aromatherapy": "علاج عطري",
+            "arouse": "إثارة",
+            "arrange": "ترتيب",
+            "array": "مصفوفة",
+            "arrears": "متأخرات",
+            "arrest": "اعتقال",
+            "arrival": "وصول",
+            "arrive": "وصول",
+            "arrow": "سهم",
+            "arsenic": "زرنيخ",
+            "arson": "حريق متعمد",
+            "artery": "شريان",
+            "artful": "ماكر",
+            "arthritis": "التهاب مفاصل",
+            "artichoke": "خرشوف",
+            "articulated": "مفصل",
+            "artificial": "اصطناعي",
+            "artificially": "اصطناعيا",
+            "artillery": "مدفعية",
+            "artistry": "براعة فنية",
+            "AS": "كما",
+            "asap": "في أسرع وقت",
+            "asbestos": "أسبست",
+            "ascent": "صعود",
+            "ascertain": "تأكد",
+            "ascribe": "نسب",
+            "Asian": "آسيوي",
+            "askew": "منحرف",
+            "asparagus": "هليون",
+            "aspect": "جانب",
+            "asphalt": "أسفلت",
+            "asphyxiate": "خنق",
+            "aspic": "هلام",
+            "aspiration": "طموح",
+            "aspire": "تطلع",
+            "aspirin": "أسبرين",
+            "assassin": "قاتل",
+            "assassinate": "اغتيال",
+            "assassination": "اغتيال",
+            "assault": "اعتداء",
+            "assembly": "تجميع",
+            "assent": "موافقة",
+            "assert": "تأكيد",
+            "assess": "تقييم",
+            "assign": "تكليف",
+            "assimilate": "استيعاب",
+            "assimilation": "استيعاب",
+            "assist": "مساعدة",
+            "Assoc": "جمعية",
+            "assorted": "متنوع",
+            "Asst": "مساعد",
+            "assure": "تأكيد",
+            "asteroid": "كويكب",
+            "asthma": "ربو",
+            "asthmatic": "مصاب بالربو",
+            "astonish": "دهشة",
+            "astound": "ذهول",
+            "astray": "ضال",
+            "astride": "متفرج",
+            "astrology": "علم نجوم",
+            "astronaut": "رائد فضاء",
+            "astronomy": "علم فلك",
+            "astute": "فطن",
+            "asylum": "ملجأ",
+            "atheism": "إلحاد",
+            "athlete": "رياضي",
+            "athletic": "رياضي",
+            "athletics": "ألعاب قوى",
+            "atishoo": "عطسة",
+            "ATM": "صراف آلي",
+            "atmospheric": "جوي",
+            "atomic": "ذري",
+            "atrocious": "فظيع",
+            "atrocity": "فظاعة",
+            "attack": "هجوم",
+            "attain": "تحقيق",
+            "attend": "حضور",
+            "attendance": "حضور",
+            "attendant": "مرافق",
+            "attention": "انتباه",
+            "attentive": "منتبه",
+            "attic": "علية",
+            "attract": "جذب",
+            "attraction": "جاذبية",
+            "atypical": "غير نمطي",
+            "auction": "مزاد",
+            "auctioneer": "مزايد",
+            "audible": "مسموع",
+            "audio": "صوتي",
+            "audit": "تدقيق",
+            "auditor": "مدقق",
+            "audition": "اختبار أداء",
+            "auditorium": "قاعة",
+            "augur": "تنبؤ",
+            "aura": "هالة",
+            "aural": "سمعي",
+            "authentic": "أصيل",
+            "authenticity": "أصالة",
+            "authoritarian": "استبدادي",
+            "authoritative": "موثوق",
+            "authorize": "ترخيص",
+            "autistic": "توحدي",
+            "autobiography": "سيرة ذاتية",
+            "autograph": "توقيع",
+            "automate": "أتمتة",
+            "automation": "أتمتة",
+            "automobile": "سيارة",
+            "autonomous": "مستقل",
+            "autopsy": "تشريح جثة",
+            "auxiliary": "مساعد",
+            "avail": "فائدة",
+            "available": "متاح",
+            "avant-garde": "طليعي",
+            "avenge": "انتقام",
+            "avenue": "شارع",
+            "average": "متوسط",
+            "averse": "نافر",
+            "aviary": "قفص طيور",
+            "avid": "متحمس",
+            "avocado": "أفوكادو",
+            "avoid": "تجنب",
+            "await": "انتظار",
+            "awoken": "مستيقظ",
+            "awaken": "إيقاظ",
+            "aware": "مدرك",
+            "awash": "مغمور",
+            "away": "بعيدا",
+            "awe": "رهبة",
+            "awry": "معوج",
+            "axis": "محور",
+            "axle": "محور",
+            "ayatollah": "آية الله",
+            "aye": "نعم"
+        };
+
+        function getRandomTemplate() {
+            return contextTemplates[Math.floor(Math.random() * contextTemplates.length)];
+        }
+
+        function generateQuestion(word, index) {
+            const sentence = getContextualSentence(word);
+            
+            return {
+                word: word,
+                sentence: sentence,
+                answer: word,
+                number: index + 1
+            };
+        }
+
+        function getContextualSentence(word) {
+            // Custom sentences for each word to ensure grammatical correctness
+            const sentences = {
+                "aback": "The unexpected test results took our engineering team _____ during the patent review.",
+                "abashed": "The junior researcher felt _____ when presenting incomplete data to the board.",
+                "abattoir": "The industrial equipment supplier operates an _____ for specialized machinery components.",
+                "abbess": "The historical documents mention an _____ who contributed to early scientific manuscripts.",
+                "abbey": "Our company retreat was held at a converted _____ in the countryside.",
+                "abbot": "The guest speaker, a former _____, discussed ethics in technological innovation.",
+                "abbreviate": "Please _____ the technical specifications to fit the patent summary.",
+                "ABC": "The training manual covers the _____ of genetic learning systems.",
+                "abdicate": "The CEO refused to _____ responsibility for the failed product launch.",
+                "abduct": "Security protocols prevent unauthorized personnel from attempting to _____ sensitive data.",
+                "abet": "The consultant agreed to _____ our research efforts through strategic planning.",
+                "abhor": "Most engineers _____ poorly designed systems that waste energy.",
+                "abhorrent": "Stealing intellectual property is _____ to our company's ethical standards.",
+                "abide": "All patent applications must _____ by international filing regulations.",
+                "ablaze": "The laboratory was _____ with activity during the breakthrough discovery.",
+                "abnormal": "The sensor detected _____ readings in the magnetization system.",
+                "aboard": "Welcome _____ our innovation team as we launch the new project.",
+                "abode": "The CEO's _____ serves as a venue for important business meetings.",
+                "abolish": "The new policy will _____ outdated procedures in our research division.",
+                "abort": "We had to _____ the experiment due to safety concerns.",
+                "abrasive": "The material's _____ properties make it ideal for industrial applications.",
+                "abreast": "Our team stays _____ of the latest technological developments.",
+                "abridge": "The publisher decided to _____ the technical manual for broader accessibility.",
+                "abscess": "The quality control department identified an _____ in the production process.",
+                "abscond": "The former employee attempted to _____ with confidential research data.",
+                "abseil": "The maintenance team will _____ down the tower to install new equipment.",
+                "absentee": "The _____ board member participated via video conference.",
+                "absolute": "We need _____ precision in our electrical component measurements.",
+                "absolve": "The investigation will _____ the research team of any wrongdoing.",
+                "abstain": "Several committee members chose to _____ from voting on the proposal.",
+                "abstention": "The board recorded one _____ in the final vote count.",
+                "abstinence": "The lab policy requires _____ from alcohol during working hours.",
+                "absurd": "It would be _____ to ignore safety protocols in our experiments.",
+                "abundance": "The new facility provides an _____ of space for research activities.",
+                "abundant": "Our company has _____ resources for innovation projects.",
+                "abusive": "The HR department handles complaints about _____ workplace behavior.",
+                "academy": "Our engineering _____ provides advanced training for technical staff.",
+                "accelerate": "The new funding will _____ our research and development timeline.",
+                "accelerator": "The particle _____ enables advanced materials testing in our laboratory.",
+                "accentuate": "The presentation should _____ the key benefits of our invention.",
+                "accessible": "Our patent database is _____ to all authorized research personnel.",
+                "accession": "The library's _____ includes the latest scientific journals.",
+                "accessory": "Each device comes with a protective _____ for safe transport.",
+                "accident": "The safety report documented one minor _____ in the laboratory.",
+                "acclaim": "The innovation received widespread _____ from the scientific community.",
+                "acclimatize": "New employees need time to _____ to our research environment.",
+                "accommodate": "The conference room can _____ up to fifty attendees.",
+                "accompaniment": "The technical manual serves as an _____ to the training program.",
+                "accompany": "Detailed diagrams _____ each step of the installation process.",
+                "accomplice": "The investigation revealed no _____ in the data breach incident.",
+                "accomplish": "Our research team aims to _____ the project goals within six months.",
+                "accomplishment": "Developing the genetic learning system was a major _____ for our company.",
+                "accordance": "All procedures must be performed in _____ with safety regulations.",
+                "accordingly": "The test results were positive, and we proceeded _____ with production.",
+                "accordion": "The equipment storage unit features an _____ design for space efficiency.",
+                "accost": "Security personnel are trained not to _____ visitors in an aggressive manner.",
+                "accountable": "Each department head is _____ for their team's performance metrics.",
+                "accountant": "Our senior _____ reviews all research and development expenditures.",
+                "accumulate": "Data sensors _____ information continuously throughout the testing process.",
+                "accumulation": "The _____ of technical knowledge drives our innovation capabilities.",
+                "accuracy": "Measurement _____ is critical for our electrical component specifications.",
+                "accusation": "The patent dispute involved a serious _____ of intellectual property theft.",
+                "accustomed": "Our engineers are _____ to working with cutting-edge technology.",
+                "ace": "The lead researcher is an _____ at solving complex technical problems.",
+                "ache": "Working long hours in the lab can cause back _____ for researchers.",
+                "acne": "The workplace wellness program addresses health issues including _____ treatment.",
+                "acorn": "The company logo features an _____ symbolizing growth from small innovations.",
+                "acoustic": "The laboratory requires _____ insulation to minimize noise interference.",
+                "acquainted": "New team members become _____ with our protocols during orientation.",
+                "acquisition": "The _____ of new patents strengthens our intellectual property portfolio.",
+                "acquit": "The ethics committee voted to _____ the researcher of any misconduct charges.",
+                "acre": "Our new research facility spans over twenty _____ of industrial land.",
+                "acrobat": "The installation team worked like an _____ to reach difficult equipment locations.",
+                "acronym": "GPS is a common _____ used in our navigation system development.",
+                "acrylic": "The protective shields are made from high-grade _____ material.",
+                "activate": "Press the green button to _____ the magnetization system.",
+                "acupuncture": "Employee wellness benefits include coverage for _____ treatments.",
+                "acute": "The sensor system can detect even _____ changes in electrical resistance.",
+                "AD": "The patent filing date shows _____ 2024 on all documentation.",
+                "adamant": "The safety inspector was _____ about following proper procedures.",
+                "addict": "The training program helps employees avoid becoming a technology _____.",
+                "addiction": "Digital _____ in the workplace can reduce productivity levels.",
+                "addictive": "Some mobile applications are designed to be _____ and increase user engagement.",
+                "additive": "The manufacturing process uses a special _____ to improve material strength.",
+                "adept": "Our engineering team is particularly _____ at solving complex electrical problems.",
+                "adhere": "All patent applications must _____ to international filing standards.",
+                "adhesive": "The component assembly requires a high-strength _____ for permanent bonding.",
+                "adjacent": "The laboratory is located _____ to the main research facility.",
+                "adjective": "Technical documentation should use precise _____ descriptions for clarity.",
+                "adjoining": "The conference room has an _____ break area for refreshments.",
+                "adjourn": "The board meeting will _____ at five o'clock this afternoon.",
+                "adjudicate": "The patent office will _____ disputes between competing applications.",
+                "administer": "The project manager will _____ the implementation of new protocols.",
+                "administration": "The research _____ oversees all laboratory safety procedures.",
+                "admirable": "The team's dedication to innovation is truly _____.",
+                "admiral": "The guest speaker, a retired _____, discussed leadership in technology.",
+                "admiration": "The breakthrough invention earned widespread _____ from industry experts.",
+                "admission": "The conference requires advance _____ for all attendees.",
+                "admittance": "Security badges control _____ to restricted research areas.",
+                "all": "We must check _____ electrical connections before activating the system.",
+                "adorable": "The miniature prototype robot has an _____ design that appeals to users.",
+                "adore": "Our clients _____ the user-friendly interface of our genetic learning system.",
+                "adoration": "The team's _____ for innovative technology drives their creativity.",
+                "adorn": "Company awards _____ the walls of our main conference room.",
+                "adrenalin": "The _____ rush during product launches motivates our sales team.",
+                "adrift": "Without clear objectives, the project team felt _____ and unfocused.",
+                "adultery": "Company policy strictly prohibits _____ and maintains professional relationships.",
+                "adverb": "Technical writing courses teach proper _____ usage for clarity.",
+                "adversary": "Patent litigation often involves facing a formidable legal _____.",
+                "adverse": "The _____ weather conditions delayed our field testing schedule.",
+                "advisable": "It is _____ to backup all research data before system updates.",
+                "advocate": "Our legal team will _____ for stronger intellectual property protection.",
+                "aerobics": "The company wellness program includes _____ classes for employees.",
+                "aeroplane": "Business travel often requires booking an _____ for client meetings.",
+                "aerosol": "The manufacturing process uses _____ coating for component protection.",
+                "aesthetic": "The product design team focuses on both functional and _____ appeal.",
+                "affair": "The patent licensing _____ required months of complex negotiations.",
+                "affect": "Temperature changes can _____ the accuracy of our measuring instruments.",
+                "affected": "The power outage _____ our laboratory's experimental timeline.",
+                "affiliate": "Our research institute will _____ with the international technology consortium.",
+                "affinity": "The team shows great _____ for solving complex engineering problems.",
+                "affirm": "The test results _____ our hypothesis about magnetic field strength.",
+                "affirmative": "The board gave an _____ response to the funding proposal.",
+                "afflict": "Technical glitches can _____ even the most sophisticated systems.",
+                "affluence": "The company's _____ allows investment in cutting-edge research equipment.",
+                "afford": "Our budget can _____ the purchase of advanced laboratory instruments.",
+                "affront": "Stealing intellectual property is an _____ to our company's integrity.",
+                "afield": "Our research interests have expanded far _____ from the original scope.",
+                "afloat": "Strong patent revenues keep our innovation department _____.",
+                "afoot": "There are exciting developments _____ in our genetic learning research.",
+                "afraid": "Investors are _____ of the risks associated with experimental technology.",
+                "afresh": "After the system failure, we decided to start the project _____.",
+                "African-American": "Our diversity initiative promotes _____ leadership in technology.",
+                "Afro-Caribbean": "The conference celebrates _____ contributions to scientific innovation.",
+                "aftermath": "The _____ of the successful patent filing brought media attention.",
+                "aftershave": "The company gift shop stocks _____ and other personal care items.",
+                "afterthought": "Safety protocols should never be an _____ in laboratory design.",
+                "agenda": "Tomorrow's meeting _____ includes discussion of the new research proposals.",
+                "aggravate": "Frequent interruptions can _____ productivity in the research environment.",
+                "aggregate": "The _____ data from all sensors provides comprehensive system analysis.",
+                "aggression": "Competitive _____ drives our team to outperform industry standards.",
+                "aggrieved": "The _____ patent holder filed a complaint with the licensing board.",
+                "agile": "Our development team uses _____ methodology for rapid prototyping.",
+                "agitate": "Mechanical stirrers _____ chemical solutions in our laboratory experiments.",
+                "agnostic": "Our platform remains technology _____ to support various systems.",
+                "ago": "The breakthrough discovery happened three years _____ in our main lab.",
+                "agonize": "Engineers often _____ over design decisions that affect product safety.",
+                "agonizing": "The patent approval process can be an _____ wait for inventors.",
+                "agony": "The system crash caused _____ for the development team.",
+                "agreeable": "The client found our licensing terms _____ and signed the contract.",
+                "agriculture": "Our biotechnology division develops innovations for modern _____.",
+                "ah": "_____, now I understand how the magnetization system operates!",
+                "aha": "The researcher had an _____ moment when the solution became clear.",
+                "aide": "The research _____ assists with data collection and analysis.",
+                "AIDS": "Our medical technology division works on _____ research and treatment devices.",
+                "ailing": "The _____ manufacturing process needs immediate optimization.",
+                "ailment": "Repetitive strain injury is a common _____ among laboratory technicians.",
+                "airborne": "The _____ particles in the cleanroom must be carefully controlled.",
+                "aircraft": "Our defense contracts include components for military _____.",
+                "airfield": "The company jet lands at a private _____ near headquarters.",
+                "airless": "The vacuum chamber creates an _____ environment for sensitive experiments.",
+                "airline": "Business partnerships with the _____ industry drive our navigation research.",
+                "airliner": "Our avionics team designs systems for commercial _____ applications.",
+                "airmail": "Important patent documents are sent via _____ for faster delivery.",
+                "airplane": "The _____ manufacturing industry uses our advanced composite materials.",
+                "airport": "Technology demonstrations often take place at the international _____.",
+                "airsick": "Some employees feel _____ during flights to conference presentations.",
+                "airspace": "Drone testing requires permission to use restricted _____.",
+                "airstrip": "Our remote testing facility includes a small _____ for supply deliveries.",
+                "aisle": "Laboratory equipment is organized with a clear _____ for emergency access.",
+                "ajar": "The security protocol requires all doors to remain _____ during inspections.",
+                "akin": "This new discovery is _____ to our previous breakthrough in 2022.",
+                "alas": "_____, the experiment failed due to equipment malfunction.",
+                "albino": "The rare _____ laboratory mice are used for specialized genetic studies.",
+                "album": "The company _____ showcases our innovation achievements over the decades.",
+                "alcove": "The quiet _____ provides a perfect space for concentrated research work.",
+                "ale": "The company celebration included local craft _____ for the team.",
+                "alert": "Security systems immediately _____ management to unauthorized access attempts.",
+                "algae": "Biotechnology research explores _____ as a sustainable energy source.",
+                "algebra": "Complex _____ calculations are essential for our engineering simulations.",
+                "alias": "The software developer used an _____ for the beta testing program.",
+                "alibi": "The security investigation required each employee to provide an _____.",
+                "alien": "The concept of _____ technology often inspires our futuristic designs.",
+                "alienate": "Poor communication can _____ team members from collaborative projects.",
+                "align": "All team objectives must _____ with the company's strategic vision.",
+                "alike": "Both research divisions think _____ about the importance of innovation.",
+                "alimony": "HR policies address personal matters including _____ and family support.",
+                "alkali": "The chemistry lab uses _____ solutions for materials testing procedures.",
+                "Allah": "The prayer room accommodates employees who worship _____ during work hours.",
+                "allay": "Clear communication helps _____ concerns about the new technology implementation.",
+                "allege": "Competitors may _____ patent infringement without substantial evidence.",
+                "alleged": "The _____ security breach prompted a comprehensive system review.",
+                "allegiance": "Employee _____ to company values drives our innovation culture.",
+                "allergy": "Workplace safety considers potential _____ reactions to laboratory chemicals.",
+                "alleviate": "Ergonomic workstations help _____ strain from long research sessions.",
+                "alley": "The loading _____ behind the building provides access for equipment delivery.",
+                "alligator": "The robust _____ clips are used to secure electrical test connections.",
+                "allocate": "Project managers must carefully _____ resources across research priorities.",
+                "allot": "Each department will _____ time for mandatory safety training sessions.",
+                "allotment": "The budget _____ for research equipment exceeds previous years.",
+                "allowance": "Travel _____ covers expenses for attending international conferences.",
+                "alloy": "The specialized _____ provides superior strength for our mechanical components.",
+                "allude": "The presentation will _____ to future developments without revealing details.",
+                "almighty": "The _____ computing power enables complex genetic algorithm processing.",
+                "almond": "The break room offers healthy snacks including _____ and other nuts.",
+                "aloof": "The senior researcher appears _____ but is actually quite approachable.",
+                "alpine": "Our environmental testing includes _____ conditions for extreme weather simulation.",
+                "alright": "The quality control inspector confirmed everything looks _____ for production.",
+                "altar": "The company memorial _____ honors employees who contributed to major breakthroughs.",
+                "alteration": "The design _____ improves the efficiency of our magnetization system.",
+                "alternative": "Our backup plan provides an _____ solution if the primary system fails.",
+                "altitude": "Drone testing requires operation at various _____ levels for comprehensive data.",
+                "alto": "The conference room audio system includes _____ speakers for clear presentation sound.",
+                "aluminium": "The lightweight _____ frame reduces the overall weight of our prototype device.",
+                "AM": "The morning briefing starts at 9:00 _____ in the main conference room.",
+                "amalgamate": "The merger will _____ two leading research teams into one powerful unit.",
+                "amass": "Our patent portfolio continues to _____ valuable intellectual property rights.",
+                "amateur": "No _____ mistakes are acceptable in our professional patent filing process.",
+                "ambassador": "The company _____ represents our interests at international technology summits.",
+                "amber": "The warning light glows _____ when the system requires maintenance attention.",
+                "ambiguous": "Patent language must never be _____ to avoid legal disputes later.",
+                "ambitious": "Our _____ five-year plan includes expanding into three new technology sectors.",
+                "ambivalent": "The board remains _____ about investing in unproven genetic learning algorithms.",
+                "ambush": "Competitors may _____ our product launch with their own announcements.",
+                "amen": "After the blessing, the group responded with a collective _____.",
+                "amenable": "The client proved _____ to our proposed licensing terms and conditions.",
+                "amend": "Legal counsel advised us to _____ the contract before final signature.",
+                "amends": "The company made _____ for the delayed delivery by providing additional services.",
+                "amenity": "The research facility includes every _____ needed for comfortable long-term work.",
+                "American": "Our _____ division leads the development of domestic patent applications.",
+                "amiable": "The _____ negotiation atmosphere led to a successful partnership agreement.",
+                "amiably": "Both parties discussed the licensing terms _____ throughout the meeting.",
+                "amicable": "We reached an _____ settlement regarding the patent dispute resolution.",
+                "amicably": "The former partners separated _____ and continue collaborative research projects.",
+                "amid": "_____ the chaos of system upgrades, our team maintained excellent productivity.",
+                "amiss": "Nothing seems _____ with the experimental results from yesterday's testing.",
+                "amnesia": "Data _____ occurred when the server crashed during the backup process.",
+                "amnesty": "The company declared _____ for employees who report safety violations voluntarily.",
+                "amount": "The total _____ of research funding exceeds our initial budget projections.",
+                "amp": "The electrical system draws fifteen _____ during peak operation periods.",
+                "amphibian": "Our biotech division studies _____ genetics for regenerative medicine applications.",
+                "ample": "The new laboratory provides _____ space for expanding our research activities.",
+                "amplify": "Digital systems _____ weak signals for accurate data measurement and analysis.",
+                "amputate": "Surgical robotics research helps doctors _____ limbs with greater precision.",
+                "anaemia": "Medical device testing includes patients with _____ and other blood disorders.",
+                "anaesthetic": "The medical equipment division develops advanced _____ delivery systems for hospitals.",
+                "anagram": "The software engineer created an _____ puzzle using technical terminology.",
+                "analogous": "This genetic learning process is _____ to how human neurons form connections.",
+                "analogy": "The professor used a helpful _____ to explain complex magnetization principles.",
+                "analytical": "Our _____ team processes vast amounts of experimental data daily.",
+                "analyst": "The financial _____ reviews research and development expenditure reports monthly.",
+                "anarchy": "Without proper project management, research teams can descend into complete _____.",
+                "anatomy": "Understanding electrical circuit _____ is essential for our engineering design work.",
+                "ancestor": "Our current technology evolved from its primitive _____ developed decades ago.",
+                "anchovy": "The cafeteria chef prepared a Mediterranean salad featuring fresh _____.",
+                "anecdote": "The keynote speaker shared an interesting _____ about early patent history.",
+                "anew": "After the equipment failure, we had to begin the experiment _____.",
+                "angel": "The investor became our guardian _____ by funding the crucial research phase.",
+                "angelically": "The customer service representative smiled _____ while handling difficult client complaints.",
+                "Anglican": "The _____ chaplain provides spiritual guidance for employees of that faith.",
+                "Anglo-": "Our _____Saxon legal traditions influence how we structure patent agreements.",
+                "Anglo-Saxon": "The company's _____ heritage shapes our approach to business ethics.",
+                "angry": "The client became _____ when the prototype delivery was delayed unexpectedly.",
+                "anguish": "The researcher felt great _____ when the experiment failed after months of work.",
+                "angular": "The _____ design of our new device reduces wind resistance significantly.",
+                "animated": "The presenter became quite _____ when discussing breakthrough genetic discoveries.",
+                "annex": "The research facility will _____ the adjacent building for expanded laboratory space.",
+                "annexe": "The new laboratory _____ houses specialized equipment for genetic analysis work.",
+                "anniversary": "Next month marks the tenth _____ of our most successful patent filing.",
+                "annotated": "The technical manual includes _____ diagrams explaining each component function.",
+                "annual": "Our _____ research budget exceeds fifty million dollars for innovation projects.",
+                "anonymity": "The employee feedback system guarantees complete _____ for honest responses.",
+                "anonymous": "An _____ whistleblower reported the safety violation to regulatory authorities.",
+                "anorak": "The field researcher wore a waterproof _____ during outdoor equipment testing.",
+                "anorexia": "Employee health programs address eating disorders including _____ and related conditions.",
+                "ant": "The biomimetics team studies _____ colonies to improve swarm robotics algorithms.",
+                "antagonism": "Personal _____ between team leaders can disrupt collaborative research efforts.",
+                "antagonize": "Aggressive patent enforcement strategies may _____ potential licensing partners unnecessarily.",
+                "Antarctic": "Our climate simulation chamber replicates _____ conditions for equipment testing.",
+                "antelope": "The robotics team designed a quadruped robot inspired by _____ movement patterns.",
+                "antenatal": "Medical technology research includes _____ monitoring devices for expectant mothers.",
+                "antenna": "The wireless communication system requires a high-gain _____ for optimal signal transmission.",
+                "anthem": "The company _____ plays during major award ceremonies and celebrations.",
+                "anthology": "The technical _____ contains selected research papers from our best scientists.",
+                "anthropology": "Cultural _____ research helps us understand global technology adoption patterns.",
+                "antibiotic": "Pharmaceutical research develops new _____ compounds for resistant bacterial infections.",
+                "antibody": "Immunology research focuses on _____ production for targeted medical treatments.",
+                "anticipation": "The team worked with great _____ toward the upcoming patent approval deadline.",
+                "anticlimax": "The product launch proved an _____ after months of intensive marketing buildup.",
+                "antics": "The CEO's playful _____ at company parties boost employee morale significantly.",
+                "antidote": "Emergency protocols include _____ procedures for chemical exposure incidents.",
+                "antipathy": "Personal _____ should never interfere with professional collaboration on research projects.",
+                "antiperspirant": "The company wellness program provides personal care items including _____.",
+                "antiquated": "The _____ filing system was replaced with modern digital document management.",
+                "antique": "The boardroom features an _____ oak table from the company's founding era.",
+                "antiquity": "Patent law traces its origins to _____ when guilds protected trade secrets.",
+                "anti-Semitism": "Company policy strictly prohibits _____ and all forms of religious discrimination.",
+                "antiseptic": "Laboratory safety requires _____ cleaning solutions for all work surfaces.",
+                "antisocial": "Team building activities help integrate _____ employees into collaborative work groups.",
+                "antler": "The decorative _____ in the reception area symbolizes strength and natural growth.",
+                "anus": "Medical device research includes treatments for _____ and related digestive conditions.",
+                "anyhow": "The experiment failed, but we learned valuable information _____.",
+                "anyone": "_____ with security clearance can access the restricted research areas safely.",
+                "anyplace": "Wireless technology allows researchers to work from _____ within the facility.",
+                "anyway": "The patent application was rejected, but we will appeal the decision _____.",
+                "apartheid": "Our diversity training covers historical injustices including _____ and systemic discrimination.",
+                "ape": "Primatology research studies _____ intelligence to improve artificial intelligence algorithms.",
+                "aperitif": "The business dinner began with champagne served as an _____ before presentations.",
+                "apiece": "Each research team received fifty thousand dollars _____ for equipment purchases.",
+                "apologetic": "The supplier was _____ about the delayed shipment of critical components.",
+                "apology": "The CEO issued a public _____ for the data security breach incident.",
+                "apostle": "The company founder is considered an _____ of sustainable technology innovation.",
+                "apostrophe": "Technical writing guidelines specify proper _____ usage in possessive scientific terms.",
+                "apparatus": "The experimental _____ requires careful calibration before each testing session.",
+                "apparent": "It became _____ that the system malfunction was caused by overheating.",
+                "appear": "Test results _____ to confirm our hypothesis about magnetic field effects.",
+                "appearance": "The professional _____ of our facility impresses visiting client delegations.",
+                "appendicitis": "The company health plan covers emergency surgery for _____ and similar conditions.",
+                "appendix": "The technical manual includes a detailed _____ with troubleshooting procedures.",
+                "appetizer": "The networking event featured catered _____ selections and professional refreshments.",
+                "appetizing": "The cafeteria serves _____ meals to keep our research staff well-nourished.",
+                "applaud": "The board members _____ the innovative breakthrough achieved by our genetics team.",
+                "applause": "Thunderous _____ erupted when the CEO announced our successful patent approval.",
+                "appliance": "Each laboratory workstation includes a specialized electrical _____ for precision measurements.",
+                "applicable": "Safety regulations are _____ to all personnel working in hazardous research areas.",
+                "applicant": "Every job _____ must demonstrate expertise in genetic learning system development.",
+                "appraise": "Independent experts will _____ the value of our intellectual property portfolio.",
+                "appraisal": "The annual performance _____ evaluates each researcher's contribution to innovation projects.",
+                "appreciable": "There was an _____ improvement in system efficiency after the software update.",
+                "appreciate": "Clients _____ our transparent approach to patent licensing negotiations.",
+                "appreciation": "The team expressed genuine _____ for the additional research funding allocation.",
+                "appropriate": "Please select the most _____ testing protocol for this sensitive experiment.",
+                "apprehensive": "Some investors remain _____ about the risks of cutting-edge genetic technology.",
+                "apprentice": "The new _____ will assist senior engineers with prototype development work.",
+                "approach": "Our systematic _____ to innovation ensures consistent breakthrough results.",
+                "approximate": "The _____ cost of laboratory equipment exceeds two million dollars annually.",
+                "apricot": "The executive dining room serves fresh _____ as part of healthy meal options.",
+                "apron": "Laboratory safety requires wearing a protective _____ during chemical handling procedures.",
+                "aptitude": "The candidate demonstrated exceptional _____ for complex problem-solving tasks.",
+                "aquarium": "The lobby _____ creates a calming environment for visiting business partners.",
+                "Aquarius": "The project timeline coincides with the _____ constellation's optimal viewing period.",
+                "aquatic": "Marine biotechnology research focuses on _____ organisms and their genetic properties.",
+                "Arab": "Our Middle Eastern division employs talented _____ engineers and researchers.",
+                "Arabic": "Technical documentation includes _____ translations for international market expansion.",
+                "arable": "The company's sustainable agriculture division develops technology for _____ land management.",
+                "arbitrary": "Patent decisions should never be _____ but based on rigorous technical analysis.",
+                "arbitrate": "Legal experts will _____ the dispute between competing patent holders.",
+                "arbitration": "The licensing disagreement will proceed to binding _____ next month.",
+                "arc": "The electrical _____ demonstrates plasma behavior under controlled laboratory conditions.",
+                "arcade": "The employee recreation _____ provides stress relief between intensive research sessions.",
+                "archaic": "The _____ filing system was completely replaced with modern digital infrastructure.",
+                "archbishop": "The company chaplain, an _____, provides spiritual guidance for religious employees.",
+                "architecture": "Software _____ design is crucial for our genetic learning system performance.",
+                "archives": "Company _____ contain decades of breakthrough research and patent documentation.",
+                "archway": "The ornate _____ connects the original building with our modern research facility.",
+                "Arctic": "Environmental testing simulates _____ conditions for extreme weather equipment validation.",
+                "arduous": "Patent prosecution can be an _____ process requiring patience and persistence.",
+                "arena": "The competitive _____ of genetic technology demands constant innovation excellence.",
+                "arguable": "It is _____ whether artificial intelligence will replace human researchers entirely.",
+                "arid": "Our desert testing facility operates in _____ conditions for equipment durability validation.",
+                "Aries": "The project launch date falls during the _____ astrological period in March.",
+                "aristocrat": "The company founder, descended from an _____, maintained elegant business traditions.",
+                "arithmetic": "Complex _____ calculations verify the accuracy of our genetic algorithm predictions.",
+                "armband": "Safety personnel wear reflective _____ identification during emergency evacuation drills.",
+                "armchair": "The executive _____ provides comfortable seating during lengthy board meeting sessions.",
+                "armhole": "Ergonomic lab coats feature reinforced _____ construction for improved mobility.",
+                "armistice": "The patent war ended with an _____ agreement benefiting both companies.",
+                "armour": "Protective _____ shields researchers from radiation exposure in nuclear experiments.",
+                "armoured": "The _____ vehicle transports sensitive prototypes between secure research facilities.",
+                "armpit": "Ergonomic workstation design prevents strain in the shoulder and _____ area.",
+                "army": "Our research _____ includes hundreds of scientists working on breakthrough technologies.",
+                "aroma": "The pleasant _____ of fresh coffee permeates the early morning laboratory environment.",
+                "aromatherapy": "Employee wellness programs include _____ sessions for stress reduction and relaxation.",
+                "arouse": "Breakthrough discoveries _____ excitement throughout the entire research community.",
+                "arrange": "Project managers _____ laboratory schedules to maximize equipment utilization efficiency.",
+                "array": "The sensor _____ collects comprehensive data from multiple experimental monitoring points.",
+                "arrears": "Supplier payments fell into _____ during the temporary budget restructuring period.",
+                "arrest": "Security will _____ anyone attempting unauthorized access to classified research areas.",
+                "arrival": "The _____ of new equipment marks a significant milestone for our expansion plans.",
+                "arrive": "International delegates will _____ tomorrow for the innovation summit presentations.",
+                "arrow": "The directional _____ guides visitors through our complex multi-building research campus.",
+                "arsenic": "Hazardous materials handling includes proper disposal of _____ and similar toxic substances.",
+                "arson": "Security protocols protect against _____ and other deliberate threats to facilities.",
+                "artery": "The main communication _____ connects all laboratory networks throughout the facility.",
+                "artful": "The _____ negotiation strategy secured favorable licensing terms for our patents.",
+                "arthritis": "Ergonomic equipment helps prevent _____ and repetitive strain injuries in researchers.",
+                "artichoke": "The executive chef prepares gourmet _____ dishes for important client dinners.",
+                "articulated": "The robotic arm features _____ joints for precise manipulation of delicate components.",
+                "artificial": "Our research focuses on _____ intelligence applications in genetic learning systems.",
+                "artificially": "Laboratory conditions are _____ controlled to ensure consistent experimental results.",
+                "artillery": "Military contracts include development of advanced _____ guidance systems technology.",
+                "artistry": "The product design team combines technical expertise with creative _____ for innovation.",
+                "AS": "The meeting will begin _____ soon as all board members arrive.",
+                "asap": "Please submit the patent application _____ to meet the critical filing deadline.",
+                "asbestos": "Building renovation removed all _____ materials to ensure employee safety compliance.",
+                "ascent": "The company's rapid _____ to market leadership demonstrates our innovation excellence.",
+                "ascertain": "Quality control teams _____ that all products meet rigorous safety standards.",
+                "ascribe": "We _____ our success to dedicated teamwork and cutting-edge research methodologies.",
+                "Asian": "Our _____ market expansion requires cultural sensitivity and local partnership development.",
+                "askew": "The laboratory equipment was positioned _____ after the seismic activity yesterday.",
+                "asparagus": "The company garden grows fresh _____ and other vegetables for cafeteria meals.",
+                "aspect": "Every _____ of product development receives careful consideration and thorough analysis.",
+                "asphalt": "The new _____ parking area accommodates increased employee and visitor vehicle capacity.",
+                "asphyxiate": "Safety training prevents accidents that could _____ workers in confined laboratory spaces.",
+                "aspic": "The culinary team prepared elegant _____ presentations for the annual awards banquet.",
+                "aspiration": "Our company's _____ is to revolutionize genetic learning technology globally.",
+                "aspire": "Young researchers _____ to make breakthrough discoveries that benefit humanity.",
+                "aspirin": "The medical dispensary stocks _____ and other basic medications for employee use.",
+                "assassin": "Corporate security protects executives from potential threats including hired _____.",
+                "assassinate": "Competitors should never _____ character or resort to unethical business practices.",
+                "assassination": "The _____ attempt on the CEO led to enhanced security protocols immediately.",
+                "assault": "Company policy prohibits any form of _____ or threatening behavior toward colleagues.",
+                "assembly": "The product _____ line incorporates advanced robotics for precision manufacturing.",
+                "assent": "Board members gave unanimous _____ to the proposed research funding increase.",
+                "assert": "Patent attorneys _____ our intellectual property rights in licensing negotiations.",
+                "assess": "Independent auditors regularly _____ our research and development investment returns.",
+                "assign": "Department heads _____ specific research projects to their most qualified team members.",
+                "assimilate": "New employees quickly _____ company culture and innovative working methodologies.",
+                "assimilation": "Cultural _____ programs help international researchers adapt to local business practices.",
+                "assist": "Technical support staff _____ researchers with complex equipment operation and maintenance.",
+                "Assoc": "Dr. Johnson holds the title of Research _____ in our genetics division.",
+                "assorted": "The laboratory stocks _____ chemical reagents for diverse experimental requirements.",
+                "Asst": "The _____ Director oversees daily operations while the Director focuses on strategy.",
+                "assure": "Quality control procedures _____ that all products meet international safety standards.",
+                "asteroid": "Space technology research includes tracking _____ movements for planetary defense systems.",
+                "asthma": "Workplace health programs accommodate employees with _____ and other respiratory conditions.",
+                "asthmatic": "The air filtration system protects _____ employees from harmful laboratory particulates.",
+                "astonish": "Breakthrough results continue to _____ the international scientific research community.",
+                "astound": "The genetic discovery will _____ medical professionals worldwide with its implications.",
+                "astray": "Without proper guidance, research projects can go _____ and waste valuable resources.",
+                "astride": "The engineer sat _____ the large equipment housing to adjust internal components.",
+                "astrology": "While some employees enjoy _____, our decisions rely on scientific evidence.",
+                "astronaut": "Former _____ consultants provide valuable insights for space technology development projects.",
+                "astronomy": "Our _____ division develops advanced telescopic imaging systems for research institutions.",
+                "astute": "The _____ business development manager identified lucrative licensing opportunities immediately.",
+                "asylum": "The company provides safe _____ for researchers fleeing political persecution abroad.",
+                "atheism": "Religious diversity policies respect all beliefs including _____ and secular worldviews.",
+                "athlete": "The company sponsors employee _____ participation in corporate sporting competitions.",
+                "athletic": "Workplace wellness promotes _____ activities to maintain researcher health and productivity.",
+                "athletics": "Company _____ programs include running clubs and competitive sporting events.",
+                "atishoo": "Allergy protocols address employee responses including sneezing sounds like _____.",
+                "ATM": "The lobby _____ provides convenient banking access for employees and visitors.",
+                "atmospheric": "Environmental chambers simulate various _____ conditions for comprehensive product testing.",
+                "atomic": "Our _____ research division develops advanced nuclear technology for energy applications.",
+                "atrocious": "The _____ safety violation resulted in immediate shutdown of laboratory operations.",
+                "atrocity": "Corporate ethics policies prevent any _____ against employees or intellectual property theft.",
+                "attack": "Cybersecurity systems defend against malicious _____ on our research databases.",
+                "attain": "Dedicated researchers work tirelessly to _____ breakthrough discoveries in genetic learning.",
+                "attend": "All department heads must _____ the monthly innovation strategy meeting.",
+                "attendance": "Perfect _____ at safety training sessions is mandatory for laboratory access.",
+                "attendant": "The conference _____ assists delegates with registration and technical documentation.",
+                "attention": "Complex experiments require absolute _____ to detail and safety protocols.",
+                "attentive": "The _____ project manager noticed potential issues before they became problems.",
+                "attic": "The building's _____ houses archived research documents and historical equipment.",
+                "attract": "Competitive salaries help _____ top talent to our genetic research teams.",
+                "attraction": "The company's main _____ for employees is cutting-edge research opportunities.",
+                "atypical": "The _____ test results prompted further investigation and additional experimentation.",
+                "auction": "The equipment _____ allows smaller companies to acquire specialized laboratory instruments.",
+                "auctioneer": "The professional _____ conducted the sale of surplus research equipment efficiently.",
+                "audible": "Alarm systems provide _____ warnings for emergency evacuation procedures.",
+                "audio": "The presentation includes _____ recordings of genetic learning algorithm demonstrations.",
+                "audit": "External consultants will _____ our research and development financial records.",
+                "auditor": "The independent _____ verified compliance with international patent filing regulations.",
+                "audition": "Potential presenters must _____ for speaking roles at the annual conference.",
+                "auditorium": "The main _____ accommodates five hundred attendees for company-wide announcements.",
+                "augur": "Early test results _____ well for the success of our genetic innovation project.",
+                "aura": "The Nobel laureate's presence created an _____ of scientific excellence.",
+                "aural": "Laboratory safety training includes both visual and _____ learning components.",
+                "authentic": "Patent documentation must be completely _____ to withstand legal scrutiny.",
+                "authenticity": "Digital signatures verify the _____ of all intellectual property submissions.",
+                "authoritarian": "The company rejects _____ management styles in favor of collaborative leadership.",
+                "authoritative": "The research director provides _____ guidance on complex technical decisions.",
+                "authorize": "Only senior management can _____ access to classified research areas.",
+                "autistic": "Workplace inclusion programs support _____ employees with specialized accommodation needs.",
+                "autobiography": "The founder's _____ details the company's evolution from startup to industry leader.",
+                "autograph": "The celebrity scientist signed an _____ for the young researcher.",
+                "automate": "Advanced robotics systems _____ repetitive manufacturing processes for efficiency.",
+                "automation": "Laboratory _____ reduces human error and increases experimental consistency.",
+                "automobile": "Transportation research develops electric _____ battery technology for sustainability.",
+                "autonomous": "The _____ drone system conducts aerial surveys without human intervention.",
+                "autopsy": "Medical device research includes post-mortem _____ analysis for safety validation.",
+                "auxiliary": "The _____ power system ensures continuous operation during electrical outages.",
+                "avail": "Researchers can _____ themselves of extensive library resources and databases.",
+                "available": "The new laboratory equipment is _____ for booking through our scheduling system.",
+                "avant-garde": "Our _____ research approaches challenge conventional scientific thinking.",
+                "avenge": "Legal action will _____ any theft of our valuable intellectual property.",
+                "avenue": "Patent licensing provides a profitable _____ for monetizing research investments.",
+                "average": "The _____ development timeline for new products is eighteen months.",
+                "averse": "Conservative investors remain _____ to funding speculative genetic research projects.",
+                "aviary": "The campus _____ provides a peaceful environment for employee relaxation.",
+                "avid": "The research team includes _____ scientists passionate about genetic breakthrough discoveries.",
+                "avocado": "The healthy cafeteria menu features fresh _____ in nutritious employee meals.",
+                "avoid": "Safety protocols help _____ accidents during hazardous chemical handling procedures.",
+                "await": "Patent holders eagerly _____ approval decisions from international regulatory authorities.",
+                "awoken": "Security personnel are immediately _____ when motion detectors activate.",
+                "awaken": "Breakthrough discoveries _____ new possibilities for genetic learning applications.",
+                "awash": "The laboratory was _____ with excitement following the successful experiment.",
+                "away": "Confidential research materials must be stored _____ from unauthorized personnel.",
+                "awe": "Visitors express _____ when touring our state-of-the-art genetic research facilities.",
+                "awry": "When experiments go _____, our protocols ensure safe shutdown procedures.",
+                "axis": "The rotating equipment operates smoothly around its central _____ point.",
+                "axle": "The transport vehicle requires a new _____ to safely move laboratory equipment.",
+                "ayatollah": "The company respects diverse religious leaders including the _____ from Iran.",
+                "aye": "The board vote was unanimous with every member responding _____."
+            };
+            
+            return sentences[word] || `The word "${word}" is commonly used in professional and technical contexts.`;
+        }
+
+        function generateAllQuestions() {
+            // Shuffle words to create variety
+            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+            allQuestions = shuffledWords.map((word, index) => generateQuestion(word, index));
+            totalPages = Math.ceil(allQuestions.length / questionsPerPage);
+            currentPage = 1;
+            loadBookmarks();
+            loadCurrentPage();
+        }
+
+        function loadCurrentPage() {
+            const startIndex = (currentPage - 1) * questionsPerPage;
+            const endIndex = startIndex + questionsPerPage;
+            currentQuestions = allQuestions.slice(startIndex, endIndex);
+            renderQuiz();
+            updatePaginationUI();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            currentQuestions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.id = `question-${question.number}`;
+                
+                // Check if this question is bookmarked
+                const isBookmarked = bookmarkedQuestions.has(question.number);
+                if (isBookmarked) {
+                    questionDiv.classList.add('bookmarked');
+                }
+                
+                questionDiv.innerHTML = `
+                    <div class="bookmark-container">
+                        <input type="checkbox" class="bookmark-checkbox" id="bookmark-${question.number}" 
+                               ${isBookmarked ? 'checked' : ''} 
+                               onchange="toggleBookmark(${question.number})">
+                        <label for="bookmark-${question.number}" class="bookmark-label">🔖 Bookmark this question</label>
+                    </div>
+                    <div class="question-number">Question ${question.number}</div>
+                    <div class="question-text">${question.sentence}</div>
+                    <input type="text" class="input-field" id="input-${question.number}" 
+                           placeholder="Enter the missing word..." 
+                           data-answer="${question.answer.toLowerCase()}"
+                           oninput="checkAnswer(this)"
+                           onkeydown="handleEnterKey(event, ${question.number})">
+                    <div class="question-actions">
+                        <button class="audio-btn" onclick="pronounceWord('${question.answer}', ${question.number})" id="audio-btn-${question.number}">
+                            🔊 Pronounce
+                        </button>
+                        <button class="ai-prompt-btn" onclick="generateAIPrompt('${question.answer}', ${question.number})" id="ai-btn-${question.number}">
+                            🤖 Get AI Explanation
+                        </button>
+                        <button class="arabic-btn" onclick="showArabicTranslation('${question.answer}')">
+                            🇸🇦 Arabic Translation
+                        </button>
+                    </div>
+                    <div class="answer" id="answer-${question.number}">
+                        <strong>Answer:</strong> ${question.answer}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+            
+            updateProgress();
+            updateBookmarkUI();
+            // Restore any previously entered answers
+            restoreAnswers();
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const totalWords = words.length;
+            const questionsShown = Math.min(currentPage * questionsPerPage, totalWords);
+            const progress = (questionsShown / totalWords) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function checkAnswer(input) {
+            const userAnswer = input.value.toLowerCase().trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            // Save the answer
+            localStorage.setItem(input.id, input.value);
+            
+            // Remove existing classes
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === '') {
+                // Empty input, no styling
+                return;
+            } else if (userAnswer === correctAnswer) {
+                // Correct answer
+                input.classList.add('correct');
+            } else {
+                // Incorrect answer
+                input.classList.add('incorrect');
+            }
+        }
+
+        function restoreAnswers() {
+            currentQuestions.forEach((question) => {
+                const input = document.getElementById(`input-${question.number}`);
+                if (input) {
+                    const savedValue = localStorage.getItem(input.id);
+                    if (savedValue) {
+                        input.value = savedValue;
+                        checkAnswer(input);
+                    }
+                }
+            });
+        }
+
+        function handleEnterKey(event, currentQuestionNumber) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                goToNextQuestion(currentQuestionNumber);
+            }
+        }
+
+        function goToNextQuestion(currentQuestionNumber) {
+            // Find the next question number
+            const currentQuestionIndex = currentQuestions.findIndex(q => q.number === currentQuestionNumber);
+            
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                // Move to next question on same page
+                const nextQuestion = currentQuestions[currentQuestionIndex + 1];
+                const nextInput = document.getElementById(`input-${nextQuestion.number}`);
+                if (nextInput) {
+                    nextInput.focus();
+                    nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                // Move to next page if available
+                if (currentPage < totalPages) {
+                    nextPage();
+                    // Focus on first question of next page after it loads
+                    setTimeout(() => {
+                        if (currentQuestions.length > 0) {
+                            const firstInput = document.getElementById(`input-${currentQuestions[0].number}`);
+                            if (firstInput) {
+                                firstInput.focus();
+                                firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    }, 100);
+                } else {
+                    // We're at the last question - maybe show completion message
+                    showCompletionMessage();
+                }
+            }
+        }
+
+        function showCompletionMessage() {
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+                color: white;
+                padding: 20px 40px;
+                border-radius: 15px;
+                font-size: 1.2rem;
+                font-weight: bold;
+                box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = '🎉 You\'ve reached the end! Great job on completing all questions!';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        function updatePaginationUI() {
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+            document.getElementById('totalQuestions').textContent = words.length;
+            
+            const startQuestion = (currentPage - 1) * questionsPerPage + 1;
+            const endQuestion = Math.min(currentPage * questionsPerPage, words.length);
+            document.getElementById('questionRange').textContent = `${startQuestion}-${endQuestion}`;
+            
+            // Update button states
+            const isFirstPage = currentPage === 1;
+            const isLastPage = currentPage === totalPages;
+            
+            document.getElementById('firstBtn').disabled = isFirstPage;
+            document.getElementById('prevBtn').disabled = isFirstPage;
+            document.getElementById('nextBtn').disabled = isLastPage;
+            document.getElementById('lastBtn').disabled = isLastPage;
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadCurrentPage();
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadCurrentPage();
+            }
+        }
+
+        function firstPage() {
+            if (currentPage !== 1) {
+                currentPage = 1;
+                loadCurrentPage();
+            }
+        }
+
+        function lastPage() {
+            if (currentPage !== totalPages) {
+                currentPage = totalPages;
+                loadCurrentPage();
+            }
+        }
+
+        function toggleBookmark(questionNumber) {
+            if (bookmarkedQuestions.has(questionNumber)) {
+                bookmarkedQuestions.delete(questionNumber);
+                document.getElementById(`question-${questionNumber}`).classList.remove('bookmarked');
+            } else {
+                bookmarkedQuestions.add(questionNumber);
+                document.getElementById(`question-${questionNumber}`).classList.add('bookmarked');
+            }
+            saveBookmarks();
+            updateBookmarkUI();
+        }
+
+        function saveBookmarks() {
+            localStorage.setItem('bookmarkedQuestions', JSON.stringify([...bookmarkedQuestions]));
+        }
+
+        function loadBookmarks() {
+            const saved = localStorage.getItem('bookmarkedQuestions');
+            if (saved) {
+                bookmarkedQuestions = new Set(JSON.parse(saved));
+            }
+        }
+
+        function updateBookmarkUI() {
+            const bookmarkCount = bookmarkedQuestions.size;
+            document.getElementById('bookmarkCount').textContent = bookmarkCount;
+            
+            const bookmarkNav = document.getElementById('bookmarkNav');
+            if (bookmarkCount > 0) {
+                bookmarkNav.style.display = 'block';
+            } else {
+                bookmarkNav.style.display = 'none';
+            }
+        }
+
+        function getBookmarkedQuestionsSorted() {
+            return [...bookmarkedQuestions].sort((a, b) => a - b);
+        }
+
+        function goToNextBookmark() {
+            const sortedBookmarks = getBookmarkedQuestionsSorted();
+            if (sortedBookmarks.length === 0) return;
+            
+            const currentQuestionNumber = (currentPage - 1) * questionsPerPage + 1;
+            const nextBookmark = sortedBookmarks.find(q => q > currentQuestionNumber);
+            
+            if (nextBookmark) {
+                goToQuestionNumber(nextBookmark);
+            } else {
+                // Go to first bookmark (wrap around)
+                goToQuestionNumber(sortedBookmarks[0]);
+            }
+        }
+
+        function goToPreviousBookmark() {
+            const sortedBookmarks = getBookmarkedQuestionsSorted();
+            if (sortedBookmarks.length === 0) return;
+            
+            const currentQuestionNumber = (currentPage - 1) * questionsPerPage + 1;
+            const prevBookmark = sortedBookmarks.reverse().find(q => q < currentQuestionNumber);
+            
+            if (prevBookmark) {
+                goToQuestionNumber(prevBookmark);
+            } else {
+                // Go to last bookmark (wrap around)
+                goToQuestionNumber(sortedBookmarks[0]);
+            }
+        }
+
+        function goToQuestionNumber(questionNumber) {
+            const targetPage = Math.ceil(questionNumber / questionsPerPage);
+            if (targetPage !== currentPage) {
+                currentPage = targetPage;
+                loadCurrentPage();
+            }
+            
+            // Scroll to the specific question
+            setTimeout(() => {
+                const questionElement = document.getElementById(`question-${questionNumber}`);
+                if (questionElement) {
+                    questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Add a brief highlight effect
+                    questionElement.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        questionElement.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }, 100);
+        }
+
+        function clearAllBookmarks() {
+            if (confirm('Are you sure you want to clear all bookmarks?')) {
+                bookmarkedQuestions.clear();
+                saveBookmarks();
+                updateBookmarkUI();
+                // Remove visual indicators from current page
+                document.querySelectorAll('.question.bookmarked').forEach(q => {
+                    q.classList.remove('bookmarked');
+                });
+                document.querySelectorAll('.bookmark-checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+            }
+        }
+
+        function showArabicTranslation(word) {
+            const modal = document.getElementById('arabicModal');
+            const englishWord = document.getElementById('englishWord');
+            const arabicWord = document.getElementById('arabicWord');
+            const englishDefinition = document.getElementById('englishDefinition');
+            const arabicDefinition = document.getElementById('arabicDefinition');
+            const contextExample = document.getElementById('contextExample');
+            
+            // Get Arabic translation
+            const arabicTranslation = arabicTranslations[word.toLowerCase()] || "غير متوفر";
+            
+            // Set content
+            englishWord.textContent = word.toUpperCase();
+            arabicWord.textContent = arabicTranslation;
+            
+            // Simple definitions based on word context
+            const definitions = {
+                "accelerate": "To increase speed or rate of progress",
+                "academy": "An institution of learning or training",
+                "accurate": "Precise and correct without error",
+                "acquire": "To obtain or gain possession of",
+                "activate": "To make active or operational",
+                "adept": "Highly skilled or proficient",
+                "adhere": "To stick firmly or follow closely",
+                "adjacent": "Next to or adjoining something",
+                "administer": "To manage or oversee operations",
+                "advocate": "To support or recommend strongly"
+            };
+            
+            englishDefinition.textContent = definitions[word.toLowerCase()] || "A vocabulary word used in professional and technical contexts.";
+            arabicDefinition.textContent = "المعنى باللغة العربية";
+            
+            // Context examples
+            const contexts = {
+                "accelerate": "Our R&D team will accelerate the patent filing process for the new invention.",
+                "academy": "The engineering academy provides advanced training for our technical staff.",
+                "accurate": "Accurate measurements are essential for our electrical component specifications.",
+                "acquire": "We plan to acquire the intellectual property rights for this innovation.",
+                "activate": "Please activate the new magnetization system for testing.",
+                "adept": "Our team is adept at developing cutting-edge technological solutions.",
+                "adhere": "All patent applications must adhere to international filing standards.",
+                "adjacent": "The laboratory is adjacent to our main research facility.",
+                "administer": "We administer multiple innovation projects simultaneously.",
+                "advocate": "I advocate for increased investment in genetic learning technologies."
+            };
+            
+            contextExample.textContent = contexts[word.toLowerCase()] || `In our patent company, the word "${word}" is frequently used in technical documentation and innovation proposals.`;
+            
+            // Show modal
+            modal.style.display = 'block';
+            
+            // Add click outside to close
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+        }
+        
+        function closeModal() {
+            document.getElementById('arabicModal').style.display = 'none';
+            window.onclick = null;
+        }
+
+        function pronounceWord(word, questionNumber) {
+            // Check if speech synthesis is supported
+            if (!('speechSynthesis' in window)) {
+                alert('Sorry, your browser does not support speech synthesis.');
+                return;
+            }
+
+            const button = document.getElementById(`audio-btn-${questionNumber}`);
+            
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+
+            // Create speech synthesis utterance
+            const utterance = new SpeechSynthesisUtterance(word);
+            
+            // Configure speech settings for clear English pronunciation
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8; // Slightly slower for clarity
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            // Visual feedback when speaking starts
+            utterance.onstart = function() {
+                button.classList.add('playing');
+                button.innerHTML = '🔊 Playing...';
+                button.disabled = true;
+            };
+
+            // Reset button when speech ends
+            utterance.onend = function() {
+                button.classList.remove('playing');
+                button.innerHTML = '🔊 Pronounce';
+                button.disabled = false;
+            };
+
+            // Handle speech errors
+            utterance.onerror = function(event) {
+                console.error('Speech synthesis error:', event.error);
+                button.classList.remove('playing');
+                button.innerHTML = '🔊 Error';
+                button.disabled = false;
+                
+                setTimeout(() => {
+                    button.innerHTML = '🔊 Pronounce';
+                }, 2000);
+            };
+
+            // Try to get a clear English voice
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => 
+                voice.lang.startsWith('en') && 
+                (voice.name.includes('Google') || voice.name.includes('Microsoft') || voice.default)
+            );
+            
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            }
+
+            // Speak the word
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Load voices when they become available
+        window.speechSynthesis.onvoiceschanged = function() {
+            // Voices are now loaded and available
+        };
+
+        function generateAIPrompt(word, questionNumber) {
+            const prompt = `Please provide a comprehensive explanation of the word "${word}" including:
+
+1. **Simple Definition**: 
+   - Give me a clear, easy-to-understand definition of "${word}"
+
+2. **Contextual Usage**: 
+   - Show how "${word}" is used in different contexts, especially in:
+     - Professional/business settings
+     - Technical and engineering contexts
+     - Patent and innovation environments
+     - Scientific and academic writing
+
+3. **Detailed Analysis**:
+   - Part of speech and grammatical usage
+   - Synonyms and antonyms
+   - Different meanings or interpretations
+   - Common phrases or collocations with "${word}"
+
+4. **Etymology & Historical Origin**:
+   - Where does the word "${word}" come from?
+   - Historical development and evolution of meaning
+   - Language of origin (Latin, Greek, Germanic, etc.)
+   - How the meaning has changed over time
+
+5. **Professional Application**:
+   - How "${word}" might be used in patent documentation
+   - Relevance to innovation and technology fields
+   - Example sentences in technical writing
+   - Usage in formal communication and proposals
+
+6. **Memory & Learning Tips**:
+   - Mnemonics or memory tricks for "${word}"
+   - Word associations or visual imagery
+   - Tips for remembering the correct usage
+
+Please provide detailed explanations for each section to help me master this vocabulary word in professional contexts.`;
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(prompt).then(() => {
+                // Visual feedback
+                const button = document.getElementById(`ai-btn-${questionNumber}`);
+                const originalText = button.innerHTML;
+                
+                button.classList.add('copied');
+                button.innerHTML = '✅ Copied to Clipboard!';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = originalText;
+                }, 2000);
+                
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = prompt;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                // Visual feedback
+                const button = document.getElementById(`ai-btn-${questionNumber}`);
+                const originalText = button.innerHTML;
+                
+                button.classList.add('copied');
+                button.innerHTML = '✅ Copied to Clipboard!';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        function showAnswers() {
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => {
+                answer.classList.add('show');
+            });
+            answersVisible = true;
+        }
+
+        function hideAnswers() {
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => {
+                answer.classList.remove('show');
+            });
+            answersVisible = false;
+        }
+
+        function generateNewQuiz() {
+            hideAnswers();
+            // Clear all saved answers but keep bookmarks
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('input-')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            generateAllQuestions();
+        }
+
+        function refreshQuiz() {
+            if (confirm('Are you sure you want to refresh the entire quiz? This will clear all your answers and start fresh.')) {
+                // Clear all localStorage data (answers and bookmarks)
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('input-') || key === 'bookmarkedQuestions') {
+                        localStorage.removeItem(key);
+                    }
+                });
+                
+                // Reload the entire page
+                window.location.reload();
+            }
+        }
+
+        // Initialize quiz on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateAllQuestions();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    previousPage();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextPage();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
