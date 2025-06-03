@@ -499,6 +499,24 @@
         </div>
         
         <div class="controls">
+            <div style="margin-bottom: 15px;">
+                <label for="shuffleSelect" style="font-weight: bold; color: #667eea; margin-right: 10px;">📝 Word Order:</label>
+                <select id="shuffleSelect" onchange="handleShuffleChange()" style="
+                    background: white;
+                    border: 2px solid #667eea;
+                    border-radius: 8px;
+                    padding: 8px 15px;
+                    font-size: 1rem;
+                    color: #333;
+                    cursor: pointer;
+                    min-width: 150px;
+                ">
+                    <option value="original">Original Order</option>
+                    <option value="ascending">A to Z (Ascending)</option>
+                    <option value="descending">Z to A (Descending)</option>
+                    <option value="random">Random Shuffle</option>
+                </select>
+            </div>
             <button class="btn" onclick="showAnswers()">Show Answers</button>
             <button class="btn" onclick="hideAnswers()">Hide Answers</button>
             <button class="btn" onclick="generateNewQuiz()">New Quiz</button>
@@ -648,6 +666,8 @@
         const questionsPerPage = 25;
         let totalPages = 1;
         let bookmarkedQuestions = new Set();
+        let currentShuffleMode = 'original';
+        let shuffledWords = [];
 
         // Arabic translations for vocabulary words
         const arabicTranslations = {
@@ -1686,13 +1706,138 @@
         }
 
         function generateAllQuestions() {
-            // Shuffle words to create variety
-            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+            // Apply the current shuffle mode
+            shuffledWords = getShuffledWords();
             allQuestions = shuffledWords.map((word, index) => generateQuestion(word, index));
             totalPages = Math.ceil(allQuestions.length / questionsPerPage);
             currentPage = 1;
             loadBookmarks();
             loadCurrentPage();
+        }
+
+        function getShuffledWords() {
+            let result = [...words];
+            
+            switch (currentShuffleMode) {
+                case 'ascending':
+                    result.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+                    break;
+                case 'descending':
+                    result.sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase()));
+                    break;
+                case 'random':
+                    // Use a seeded random shuffle for consistency
+                    const savedRandomSeed = localStorage.getItem('randomShuffleSeed');
+                    if (savedRandomSeed) {
+                        // Restore the same random order if we had one
+                        const savedOrder = localStorage.getItem('randomWordOrder');
+                        if (savedOrder) {
+                            try {
+                                result = JSON.parse(savedOrder);
+                                // Verify the saved order contains all our words
+                                if (result.length === words.length && words.every(word => result.includes(word))) {
+                                    return result;
+                                }
+                            } catch (e) {
+                                // If parsing fails, create new random order
+                            }
+                        }
+                    }
+                    // Create new random order
+                    result.sort(() => Math.random() - 0.5);
+                    // Save this random order
+                    localStorage.setItem('randomShuffleSeed', Date.now().toString());
+                    localStorage.setItem('randomWordOrder', JSON.stringify(result));
+                    break;
+                case 'original':
+                default:
+                    // Keep original order
+                    break;
+            }
+            
+            return result;
+        }
+
+        function handleShuffleChange() {
+            const shuffleSelect = document.getElementById('shuffleSelect');
+            const newShuffleMode = shuffleSelect.value;
+            
+            if (newShuffleMode !== currentShuffleMode) {
+                currentShuffleMode = newShuffleMode;
+                
+                // Save the preference
+                localStorage.setItem('shuffleMode', currentShuffleMode);
+                
+                // Regenerate questions with new order
+                generateAllQuestions();
+                
+                // Show notification about the change
+                showShuffleNotification(newShuffleMode);
+            }
+        }
+
+        function showShuffleNotification(mode) {
+            const messages = {
+                'original': '📝 Questions restored to original order',
+                'ascending': '🔤 Questions sorted A to Z (Ascending)',
+                'descending': '🔤 Questions sorted Z to A (Descending)',
+                'random': '🎲 Questions shuffled randomly'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 500;
+                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+                z-index: 2000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.textContent = messages[mode] || 'Order changed';
+            
+            // Add animation keyframes if not already added
+            if (!document.querySelector('#shuffleAnimation')) {
+                const style = document.createElement('style');
+                style.id = 'shuffleAnimation';
+                style.textContent = `
+                    @keyframes slideInRight {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        function loadShufflePreference() {
+            const savedMode = localStorage.getItem('shuffleMode');
+            if (savedMode && ['original', 'ascending', 'descending', 'random'].includes(savedMode)) {
+                currentShuffleMode = savedMode;
+                const shuffleSelect = document.getElementById('shuffleSelect');
+                if (shuffleSelect) {
+                    shuffleSelect.value = currentShuffleMode;
+                }
+            }
         }
 
         function loadCurrentPage() {
@@ -2253,9 +2398,13 @@ Please provide detailed explanations for each section to help me master this voc
 
         function refreshQuiz() {
             if (confirm('Are you sure you want to refresh the entire quiz? This will clear all your answers and start fresh.')) {
-                // Clear all localStorage data (answers and bookmarks)
+                // Clear all localStorage data (answers, bookmarks, and shuffle data)
                 Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('input-') || key === 'bookmarkedQuestions') {
+                    if (key.startsWith('input-') || 
+                        key === 'bookmarkedQuestions' || 
+                        key === 'randomShuffleSeed' || 
+                        key === 'randomWordOrder' ||
+                        key === 'shuffleMode') {
                         localStorage.removeItem(key);
                     }
                 });
@@ -2267,6 +2416,7 @@ Please provide detailed explanations for each section to help me master this voc
 
         // Initialize quiz on page load
         document.addEventListener('DOMContentLoaded', function() {
+            loadShufflePreference();
             generateAllQuestions();
         });
 
@@ -2284,4 +2434,4 @@ Please provide detailed explanations for each section to help me master this voc
         });
     </script>
 </body>
-</html> 
+</html>
