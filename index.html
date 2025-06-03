@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genetic Invent Vocabulary Quiz</title>
+    <title>GL Dictionary</title>
+    <link rel="icon" type="image/png" href="Genetic Lexicon Logo with Teal and Lavender.png">
     <style>
         * {
             margin: 0;
@@ -15,22 +16,29 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 95%;
+            width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 20px);
         }
 
         .header {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
-            padding: 40px;
+            padding: 30px;
             text-align: center;
         }
 
@@ -46,10 +54,60 @@
         }
 
         .controls {
-            padding: 30px;
+            padding: 20px;
             background: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
             text-align: center;
+        }
+
+        .general-notes-container {
+            background: #ffffff;
+            border-top: 1px solid #e9ecef;
+            padding: 15px 20px;
+            position: relative;
+        }
+
+        .general-notes-container::before {
+            content: "📋 General Quiz Notes";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .general-notes-textarea {
+            width: 100%;
+            height: 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #495057;
+            background: #f8f9fa;
+            resize: vertical;
+            min-height: 40px;
+            max-height: 120px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .general-notes-textarea:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .general-notes-textarea::placeholder {
+            color: #6c757d;
+            font-style: italic;
         }
 
         .btn {
@@ -85,6 +143,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
+            flex-shrink: 0;
         }
 
         .page-info {
@@ -369,9 +429,10 @@
         }
 
         .quiz-container {
-            padding: 40px;
-            max-height: 70vh;
+            padding: 20px 40px;
+            flex: 1;
             overflow-y: auto;
+            min-height: 0;
         }
 
         .question {
@@ -381,6 +442,64 @@
             padding: 25px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+        }
+
+        .question-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .question-main {
+            min-width: 0;
+        }
+
+        .notes-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 15px;
+            position: relative;
+            min-height: 120px;
+        }
+
+        .notes-container::before {
+            content: "📝 Notes";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 100px;
+            border: none;
+            background: transparent;
+            resize: vertical;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #495057;
+            outline: none;
+            padding: 8px 0;
+            min-height: 80px;
+        }
+
+        .notes-textarea::placeholder {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .notes-textarea:focus {
+            color: #212529;
         }
 
         .question:hover {
@@ -472,21 +591,91 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                max-width: 98%;
+                width: auto;
+                margin: 5px auto;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
             .header h1 {
                 font-size: 2rem;
             }
             
             .quiz-container {
-                padding: 20px;
+                padding: 15px;
+                flex: 1;
+                min-height: 0;
             }
             
             .question {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .question-content {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .notes-container {
+                min-height: 100px;
+            }
+            
+            .notes-textarea {
+                height: 80px;
+                min-height: 60px;
             }
             
             .input-field {
                 width: 100%;
                 max-width: 300px;
+            }
+            
+            .controls {
+                padding: 15px;
+            }
+            
+            .general-notes-container {
+                padding: 10px 15px;
+            }
+            
+            .general-notes-textarea {
+                height: 40px;
+                min-height: 35px;
+                max-height: 100px;
+                font-size: 0.85rem;
+            }
+            
+            .controls > div {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            .controls > div > div {
+                justify-content: center;
+            }
+            
+            .pagination-controls {
+                padding: 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 90%;
+                width: 1600px;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 85%;
+                width: 1800px;
             }
         }
     </style>
@@ -499,28 +688,46 @@
         </div>
         
         <div class="controls">
-            <div style="margin-bottom: 15px;">
-                <label for="shuffleSelect" style="font-weight: bold; color: #667eea; margin-right: 10px;">📝 Word Order:</label>
-                <select id="shuffleSelect" onchange="handleShuffleChange()" style="
-                    background: white;
-                    border: 2px solid #667eea;
-                    border-radius: 8px;
-                    padding: 8px 15px;
-                    font-size: 1rem;
-                    color: #333;
-                    cursor: pointer;
-                    min-width: 150px;
-                ">
-                    <option value="original">Original Order</option>
-                    <option value="ascending">A to Z (Ascending)</option>
-                    <option value="descending">Z to A (Descending)</option>
-                    <option value="random">Random Shuffle</option>
-                </select>
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            ">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label for="shuffleSelect" style="font-weight: bold; color: #667eea; white-space: nowrap;">📝 Word Order:</label>
+                    <select id="shuffleSelect" onchange="handleShuffleChange()" style="
+                        background: white;
+                        border: 2px solid #667eea;
+                        border-radius: 8px;
+                        padding: 8px 15px;
+                        font-size: 1rem;
+                        color: #333;
+                        cursor: pointer;
+                        min-width: 150px;
+                    ">
+                        <option value="ascending" selected>A to Z (Ascending)</option>
+                        <option value="original">Original Order</option>
+                        <option value="descending">Z to A (Descending)</option>
+                        <option value="random">Random Shuffle</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="showAnswers()">Show Answers</button>
+                <button class="btn" onclick="hideAnswers()">Hide Answers</button>
+                <button class="btn" onclick="generateNewQuiz()">New Quiz</button>
+                <button class="btn" onclick="clearAllNotes()" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);">🗑️ Clear Notes</button>
+                <button class="btn" onclick="refreshQuiz()" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔄 Refresh Page</button>
             </div>
-            <button class="btn" onclick="showAnswers()">Show Answers</button>
-            <button class="btn" onclick="hideAnswers()">Hide Answers</button>
-            <button class="btn" onclick="generateNewQuiz()">New Quiz</button>
-            <button class="btn" onclick="refreshQuiz()" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔄 Refresh Page</button>
+        </div>
+        
+        <div class="general-notes-container">
+            <textarea class="general-notes-textarea" 
+                      id="generalNotes" 
+                      placeholder="Write your general notes about the quiz here... (e.g., study strategies, patterns observed, areas to focus on)"
+                      oninput="saveGeneralNotes()"
+                      spellcheck="true"></textarea>
         </div>
         
         <div class="bookmark-navigation" id="bookmarkNav" style="display: none;">
@@ -666,7 +873,7 @@
         const questionsPerPage = 25;
         let totalPages = 1;
         let bookmarkedQuestions = new Set();
-        let currentShuffleMode = 'original';
+        let currentShuffleMode = 'ascending';
         let shuffledWords = [];
 
         // Arabic translations for vocabulary words
@@ -1833,10 +2040,14 @@
             const savedMode = localStorage.getItem('shuffleMode');
             if (savedMode && ['original', 'ascending', 'descending', 'random'].includes(savedMode)) {
                 currentShuffleMode = savedMode;
-                const shuffleSelect = document.getElementById('shuffleSelect');
-                if (shuffleSelect) {
-                    shuffleSelect.value = currentShuffleMode;
-                }
+            } else {
+                // Set default to ascending if no saved preference
+                currentShuffleMode = 'ascending';
+                localStorage.setItem('shuffleMode', 'ascending');
+            }
+            const shuffleSelect = document.getElementById('shuffleSelect');
+            if (shuffleSelect) {
+                shuffleSelect.value = currentShuffleMode;
             }
         }
 
@@ -1870,26 +2081,45 @@
                                onchange="toggleBookmark(${question.number})">
                         <label for="bookmark-${question.number}" class="bookmark-label">🔖 Bookmark this question</label>
                     </div>
-                    <div class="question-number">Question ${question.number}</div>
-                    <div class="question-text">${question.sentence}</div>
-                    <input type="text" class="input-field" id="input-${question.number}" 
-                           placeholder="Enter the missing word..." 
-                           data-answer="${question.answer.toLowerCase()}"
-                           oninput="checkAnswer(this)"
-                           onkeydown="handleEnterKey(event, ${question.number})">
-                    <div class="question-actions">
-                        <button class="audio-btn" onclick="pronounceWord('${question.answer}', ${question.number})" id="audio-btn-${question.number}">
-                            🔊 Pronounce
-                        </button>
-                        <button class="ai-prompt-btn" onclick="generateAIPrompt('${question.answer}', ${question.number})" id="ai-btn-${question.number}">
-                            🤖 Get AI Explanation
-                        </button>
-                        <button class="arabic-btn" onclick="showArabicTranslation('${question.answer}')">
-                            🇸🇦 Arabic Translation
-                        </button>
-                    </div>
-                    <div class="answer" id="answer-${question.number}">
-                        <strong>Answer:</strong> ${question.answer}
+                    
+                    <div class="question-content">
+                        <div class="question-main">
+                            <div class="question-number">Question ${question.number}</div>
+                            <div class="question-text">${question.sentence}</div>
+                            <input type="text" class="input-field" id="input-${question.number}" 
+                                   placeholder="Enter the missing word..." 
+                                   data-answer="${question.answer.toLowerCase()}"
+                                   oninput="checkAnswer(this)"
+                                   onkeydown="handleEnterKey(event, ${question.number})">
+                            <div class="question-actions">
+                                <button class="audio-btn" onclick="readQuestion(${question.number})" id="read-btn-${question.number}">
+                                    📖 Read Question
+                                </button>
+                                <button class="audio-btn" onclick="pronounceWord('${question.answer}', ${question.number})" id="audio-btn-${question.number}">
+                                    🔊 Pronounce
+                                </button>
+                                <button class="ai-prompt-btn" onclick="generateAIPrompt('${question.answer}', ${question.number})" id="ai-btn-${question.number}">
+                                    🤖 Get AI Explanation
+                                </button>
+                                <button class="arabic-btn" onclick="showArabicTranslation('${question.answer}')">
+                                    🇸🇦 Arabic Translation
+                                </button>
+                            </div>
+                            <div class="answer" id="answer-${question.number}">
+                                <strong>Answer:</strong> ${question.answer}
+                            </div>
+                        </div>
+                        
+                        <div class="notes-container">
+                            <textarea class="notes-textarea" 
+                                      id="notes-${question.number}" 
+                                      placeholder="Write your notes here...
+• Key insights
+• Memory tricks  
+• Related concepts"
+                                      oninput="saveNote(${question.number})"
+                                      spellcheck="true"></textarea>
+                        </div>
                     </div>
                 `;
                 container.appendChild(questionDiv);
@@ -1941,7 +2171,63 @@
                         checkAnswer(input);
                     }
                 }
+                
+                // Restore notes
+                const notesTextarea = document.getElementById(`notes-${question.number}`);
+                if (notesTextarea) {
+                    const savedNote = localStorage.getItem(`notes-${question.number}`);
+                    if (savedNote) {
+                        notesTextarea.value = savedNote;
+                    }
+                }
             });
+        }
+
+        function saveNote(questionNumber) {
+            const notesTextarea = document.getElementById(`notes-${questionNumber}`);
+            if (notesTextarea) {
+                localStorage.setItem(`notes-${questionNumber}`, notesTextarea.value);
+            }
+        }
+
+        function saveGeneralNotes() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            if (generalNotesTextarea) {
+                localStorage.setItem('generalQuizNotes', generalNotesTextarea.value);
+            }
+        }
+
+        function loadGeneralNotes() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            if (generalNotesTextarea) {
+                const savedNotes = localStorage.getItem('generalQuizNotes');
+                if (savedNotes) {
+                    generalNotesTextarea.value = savedNotes;
+                }
+            }
+        }
+
+        function clearAllNotes() {
+            // Clear from localStorage
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('notes-') || key === 'generalQuizNotes') {
+                    localStorage.removeItem(key);
+                }
+            });
+            
+            // Clear from current page textareas
+            currentQuestions.forEach((question) => {
+                const notesTextarea = document.getElementById(`notes-${question.number}`);
+                if (notesTextarea) {
+                    notesTextarea.value = '';
+                }
+            });
+            
+            // Clear general notes
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            if (generalNotesTextarea) {
+                generalNotesTextarea.value = '';
+            }
         }
 
         function handleEnterKey(event, currentQuestionNumber) {
@@ -2227,6 +2513,82 @@
             window.onclick = null;
         }
 
+        function readQuestion(questionNumber) {
+            // Check if speech synthesis is supported
+            if (!('speechSynthesis' in window)) {
+                alert('Sorry, your browser does not support speech synthesis.');
+                return;
+            }
+
+            const button = document.getElementById(`read-btn-${questionNumber}`);
+            
+            // Find the question text
+            const questionElement = document.getElementById(`question-${questionNumber}`);
+            const questionTextElement = questionElement.querySelector('.question-text');
+            
+            if (!questionTextElement) {
+                console.error('Question text not found');
+                return;
+            }
+            
+            // Get the question text and clean it up
+            let questionText = questionTextElement.textContent;
+            // Replace the blank (_____ or similar) with "blank" for better reading
+            questionText = questionText.replace(/_+/g, 'blank');
+            
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+
+            // Create speech synthesis utterance
+            const utterance = new SpeechSynthesisUtterance(questionText);
+            
+            // Configure speech settings for clear English pronunciation
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8; // Slightly slower for clarity
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            // Visual feedback when speaking starts
+            utterance.onstart = function() {
+                button.classList.add('playing');
+                button.innerHTML = '📖 Reading...';
+                button.disabled = true;
+            };
+
+            // Reset button when speech ends
+            utterance.onend = function() {
+                button.classList.remove('playing');
+                button.innerHTML = '📖 Read Question';
+                button.disabled = false;
+            };
+
+            // Handle speech errors
+            utterance.onerror = function(event) {
+                console.error('Speech synthesis error:', event.error);
+                button.classList.remove('playing');
+                button.innerHTML = '📖 Error';
+                button.disabled = false;
+                
+                setTimeout(() => {
+                    button.innerHTML = '📖 Read Question';
+                }, 2000);
+            };
+
+            // Try to get a clear English voice
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => 
+                voice.lang.startsWith('en') && 
+                (voice.name.includes('Google') || voice.name.includes('Microsoft') || voice.default)
+            );
+            
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            }
+
+            // Speak the question
+            window.speechSynthesis.speak(utterance);
+        }
+
         function pronounceWord(word, questionNumber) {
             // Check if speech synthesis is supported
             if (!('speechSynthesis' in window)) {
@@ -2397,27 +2759,27 @@ Please provide detailed explanations for each section to help me master this voc
         }
 
         function refreshQuiz() {
-            if (confirm('Are you sure you want to refresh the entire quiz? This will clear all your answers and start fresh.')) {
-                // Clear all localStorage data (answers, bookmarks, and shuffle data)
-                Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('input-') || 
-                        key === 'bookmarkedQuestions' || 
-                        key === 'randomShuffleSeed' || 
-                        key === 'randomWordOrder' ||
-                        key === 'shuffleMode') {
-                        localStorage.removeItem(key);
-                    }
-                });
-                
-                // Reload the entire page
-                window.location.reload();
-            }
+            // Clear localStorage data (answers, bookmarks, and shuffle data) but KEEP notes
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('input-') || 
+                    key === 'bookmarkedQuestions' || 
+                    key === 'randomShuffleSeed' || 
+                    key === 'randomWordOrder' ||
+                    key === 'shuffleMode') {
+                    localStorage.removeItem(key);
+                }
+                // Notes (key.startsWith('notes-')) are intentionally preserved
+            });
+            
+            // Reload the entire page
+            window.location.reload();
         }
 
         // Initialize quiz on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadShufflePreference();
             generateAllQuestions();
+            loadGeneralNotes();
         });
 
         // Keyboard navigation
