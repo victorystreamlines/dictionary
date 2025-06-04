@@ -2840,6 +2840,51 @@
             window.onclick = null;
         }
 
+        function getBestEnglishVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            
+            // Priority order for voice selection
+            const voicePriorities = [
+                // British Female Voices (Highest Priority)
+                voice => voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('female'),
+                voice => voice.lang.includes('en-GB') && (voice.name.toLowerCase().includes('emma') || voice.name.toLowerCase().includes('amy')),
+                voice => voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('google'),
+                voice => voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('microsoft'),
+                voice => voice.lang.includes('en-GB'),
+                
+                // High-quality US Female Voices
+                voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female'),
+                voice => voice.lang.includes('en-US') && (voice.name.toLowerCase().includes('samantha') || voice.name.toLowerCase().includes('karen')),
+                voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('google'),
+                voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('microsoft'),
+                
+                // Australian/Canadian Female Voices
+                voice => (voice.lang.includes('en-AU') || voice.lang.includes('en-CA')) && voice.name.toLowerCase().includes('female'),
+                voice => voice.lang.includes('en-AU') || voice.lang.includes('en-CA'),
+                
+                // Any English voice with quality indicators
+                voice => voice.lang.startsWith('en') && (voice.name.toLowerCase().includes('premium') || voice.name.toLowerCase().includes('neural')),
+                voice => voice.lang.startsWith('en') && voice.name.toLowerCase().includes('google'),
+                voice => voice.lang.startsWith('en') && voice.name.toLowerCase().includes('microsoft'),
+                
+                // Fallback to any English voice
+                voice => voice.lang.startsWith('en') && !voice.name.toLowerCase().includes('male'),
+                voice => voice.lang.startsWith('en')
+            ];
+            
+            // Try each priority level
+            for (const priorityCheck of voicePriorities) {
+                const foundVoice = voices.find(priorityCheck);
+                if (foundVoice) {
+                    console.log('Selected voice:', foundVoice.name, foundVoice.lang);
+                    return foundVoice;
+                }
+            }
+            
+            // Ultimate fallback
+            return voices.find(voice => voice.default) || voices[0] || null;
+        }
+
         function readQuestion(questionNumber) {
             // Check if speech synthesis is supported
             if (!('speechSynthesis' in window)) {
@@ -2869,10 +2914,9 @@
             // Create speech synthesis utterance
             const utterance = new SpeechSynthesisUtterance(questionText);
             
-            // Configure speech settings for clear English pronunciation
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8; // Slightly slower for clarity
-            utterance.pitch = 1.0;
+            // Configure speech settings for natural pronunciation
+            utterance.rate = 0.85; // Slightly slower for clarity and naturalness
+            utterance.pitch = 1.1; // Slightly higher pitch for pleasantness
             utterance.volume = 1.0;
 
             // Visual feedback when speaking starts
@@ -2901,15 +2945,13 @@
                 }, 2000);
             };
 
-            // Try to get a clear English voice
-            const voices = window.speechSynthesis.getVoices();
-            const englishVoice = voices.find(voice => 
-                voice.lang.startsWith('en') && 
-                (voice.name.includes('Google') || voice.name.includes('Microsoft') || voice.default)
-            );
-            
-            if (englishVoice) {
-                utterance.voice = englishVoice;
+            // Get the best available English voice
+            const bestVoice = getBestEnglishVoice();
+            if (bestVoice) {
+                utterance.voice = bestVoice;
+                utterance.lang = bestVoice.lang; // Use the voice's specific language
+            } else {
+                utterance.lang = 'en-GB'; // Default to British English
             }
 
             // Speak the question
@@ -2931,10 +2973,9 @@
             // Create speech synthesis utterance
             const utterance = new SpeechSynthesisUtterance(word);
             
-            // Configure speech settings for clear English pronunciation
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8; // Slightly slower for clarity
-            utterance.pitch = 1.0;
+            // Configure speech settings for clear word pronunciation
+            utterance.rate = 0.75; // Slower for individual word clarity
+            utterance.pitch = 1.05; // Slightly pleasant pitch
             utterance.volume = 1.0;
 
             // Visual feedback when speaking starts
@@ -2963,24 +3004,94 @@
                 }, 2000);
             };
 
-            // Try to get a clear English voice
-            const voices = window.speechSynthesis.getVoices();
-            const englishVoice = voices.find(voice => 
-                voice.lang.startsWith('en') && 
-                (voice.name.includes('Google') || voice.name.includes('Microsoft') || voice.default)
-            );
-            
-            if (englishVoice) {
-                utterance.voice = englishVoice;
+            // Get the best available English voice
+            const bestVoice = getBestEnglishVoice();
+            if (bestVoice) {
+                utterance.voice = bestVoice;
+                utterance.lang = bestVoice.lang; // Use the voice's specific language
+            } else {
+                utterance.lang = 'en-GB'; // Default to British English
             }
 
             // Speak the word
             window.speechSynthesis.speak(utterance);
         }
 
+        // Voice management functions
+        let voicesLoaded = false;
+        
+        function loadVoices() {
+            return new Promise((resolve) => {
+                const voices = window.speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    voicesLoaded = true;
+                    console.log('Available voices loaded:', voices.length);
+                    resolve(voices);
+                } else {
+                    // Wait for voices to load
+                    window.speechSynthesis.onvoiceschanged = function() {
+                        const newVoices = window.speechSynthesis.getVoices();
+                        if (newVoices.length > 0) {
+                            voicesLoaded = true;
+                            console.log('Available voices loaded:', newVoices.length);
+                            
+                            // Show selected voice info
+                            const selectedVoice = getBestEnglishVoice();
+                            if (selectedVoice) {
+                                console.log(`🎤 Voice selected: ${selectedVoice.name} (${selectedVoice.lang})`);
+                                showVoiceNotification(selectedVoice);
+                            }
+                            
+                            resolve(newVoices);
+                        }
+                    };
+                    
+                    // Trigger voice loading
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+                }
+            });
+        }
+        
+        function showVoiceNotification(voice) {
+            // Only show this notification once per session
+            if (sessionStorage.getItem('voiceNotificationShown')) {
+                return;
+            }
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                box-shadow: 0 5px 20px rgba(0, 184, 148, 0.3);
+                z-index: 2000;
+                animation: slideInRight 0.5s ease;
+                max-width: 300px;
+            `;
+            notification.innerHTML = `🎤 Voice Ready<br><small>${voice.name}</small>`;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 4000);
+            
+            sessionStorage.setItem('voiceNotificationShown', 'true');
+        }
+
         // Load voices when they become available
         window.speechSynthesis.onvoiceschanged = function() {
-            // Voices are now loaded and available
+            if (!voicesLoaded) {
+                loadVoices();
+            }
         };
 
         function generateAIPrompt(word, questionNumber) {
@@ -3108,6 +3219,13 @@ Please provide detailed explanations for each section to help me master this voc
             generateAllQuestions();
             loadGeneralNotes();
             loadGeneralNotesLockState();
+            
+            // Load speech synthesis voices
+            if ('speechSynthesis' in window) {
+                loadVoices().then(() => {
+                    console.log('Speech synthesis ready with optimized voice selection');
+                });
+            }
         });
 
         // Keyboard navigation
