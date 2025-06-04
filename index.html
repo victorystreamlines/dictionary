@@ -110,6 +110,88 @@
             font-style: italic;
         }
 
+        .general-notes-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .general-notes-copy-btn,
+        .general-notes-clear-btn,
+        .general-notes-lock-btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: fit-content;
+            font-weight: 500;
+        }
+
+        .general-notes-copy-btn {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            box-shadow: 0 3px 10px rgba(108, 92, 231, 0.3);
+        }
+
+        .general-notes-copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .general-notes-copy-btn.copied {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
+        .general-notes-clear-btn {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            box-shadow: 0 3px 10px rgba(253, 121, 168, 0.3);
+        }
+
+        .general-notes-clear-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        .general-notes-clear-btn.cleared {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
+        .general-notes-lock-btn {
+            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+            color: white;
+            box-shadow: 0 3px 10px rgba(255, 167, 38, 0.3);
+        }
+
+        .general-notes-lock-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 167, 38, 0.4);
+        }
+
+        .general-notes-lock-btn.locked {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        .general-notes-lock-btn.locked:hover {
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .general-notes-textarea:disabled {
+            background: #f1f1f1;
+            color: #666;
+            cursor: not-allowed;
+            border-color: #ccc;
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -649,6 +731,20 @@
                 font-size: 0.85rem;
             }
             
+            .general-notes-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .general-notes-copy-btn,
+            .general-notes-clear-btn,
+            .general-notes-lock-btn {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            
             .controls > div {
                 flex-direction: column !important;
                 gap: 10px !important;
@@ -728,6 +824,17 @@
                       placeholder="Write your general notes about the quiz here... (e.g., study strategies, patterns observed, areas to focus on)"
                       oninput="saveGeneralNotes()"
                       spellcheck="true"></textarea>
+            <div class="general-notes-buttons">
+                <button class="general-notes-copy-btn" onclick="copyGeneralNotes()" id="generalNotesCopyBtn">
+                    📋 Copy Notes
+                </button>
+                <button class="general-notes-clear-btn" onclick="clearGeneralNotes()" id="generalNotesClearBtn">
+                    🗑️ Clear Notes
+                </button>
+                <button class="general-notes-lock-btn" onclick="toggleGeneralNotesLock()" id="generalNotesLockBtn">
+                    🔓 Lock Notes
+                </button>
+            </div>
         </div>
         
         <div class="bookmark-navigation" id="bookmarkNav" style="display: none;">
@@ -2207,10 +2314,231 @@
             }
         }
 
+        function copyGeneralNotes() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const copyButton = document.getElementById('generalNotesCopyBtn');
+            
+            if (!generalNotesTextarea) {
+                console.error('General notes textarea not found');
+                return;
+            }
+            
+            const notesText = generalNotesTextarea.value;
+            
+            if (!notesText.trim()) {
+                // Show message for empty notes
+                const originalText = copyButton.innerHTML;
+                copyButton.innerHTML = '📝 No Notes to Copy';
+                copyButton.style.background = 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)';
+                
+                setTimeout(() => {
+                    copyButton.innerHTML = originalText;
+                    copyButton.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)';
+                }, 2000);
+                return;
+            }
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(notesText).then(() => {
+                // Visual feedback for successful copy
+                const originalText = copyButton.innerHTML;
+                
+                copyButton.classList.add('copied');
+                copyButton.innerHTML = '✅ Notes Copied!';
+                
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyButton.innerHTML = originalText;
+                }, 2000);
+                
+            }).catch(err => {
+                // Fallback for older browsers
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = notesText;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    textArea.style.top = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // Visual feedback
+                    const originalText = copyButton.innerHTML;
+                    
+                    copyButton.classList.add('copied');
+                    copyButton.innerHTML = '✅ Notes Copied!';
+                    
+                    setTimeout(() => {
+                        copyButton.classList.remove('copied');
+                        copyButton.innerHTML = originalText;
+                    }, 2000);
+                    
+                } catch (fallbackError) {
+                    console.error('Failed to copy text: ', fallbackError);
+                    
+                    // Show error message
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '❌ Copy Failed';
+                    copyButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+                    
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                        copyButton.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)';
+                    }, 2000);
+                }
+            });
+        }
+
+        function clearGeneralNotes() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const clearButton = document.getElementById('generalNotesClearBtn');
+            
+            if (!generalNotesTextarea) {
+                console.error('General notes textarea not found');
+                return;
+            }
+            
+            // Check if textarea is locked
+            if (generalNotesTextarea.disabled) {
+                const originalText = clearButton.innerHTML;
+                clearButton.innerHTML = '🔒 Notes Locked';
+                clearButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+                
+                setTimeout(() => {
+                    clearButton.innerHTML = originalText;
+                    clearButton.style.background = 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)';
+                }, 2000);
+                return;
+            }
+            
+            const currentText = generalNotesTextarea.value;
+            
+            if (!currentText.trim()) {
+                // Show message for already empty notes
+                const originalText = clearButton.innerHTML;
+                clearButton.innerHTML = '📝 Already Empty';
+                clearButton.style.background = 'linear-gradient(135deg, #6c757d 0%, #495057 100%)';
+                
+                setTimeout(() => {
+                    clearButton.innerHTML = originalText;
+                    clearButton.style.background = 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)';
+                }, 2000);
+                return;
+            }
+            
+            // Confirm before clearing
+            if (confirm('هل أنت متأكد من أنك تريد مسح النوتات العامة؟\nAre you sure you want to clear the general notes?')) {
+                // Clear the textarea
+                generalNotesTextarea.value = '';
+                
+                // Save the empty state
+                localStorage.removeItem('generalQuizNotes');
+                
+                // Visual feedback
+                const originalText = clearButton.innerHTML;
+                
+                clearButton.classList.add('cleared');
+                clearButton.innerHTML = '✅ Notes Cleared!';
+                
+                setTimeout(() => {
+                    clearButton.classList.remove('cleared');
+                    clearButton.innerHTML = originalText;
+                }, 2000);
+            }
+        }
+
+        function toggleGeneralNotesLock() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const lockButton = document.getElementById('generalNotesLockBtn');
+            
+            if (!generalNotesTextarea || !lockButton) {
+                console.error('General notes elements not found');
+                return;
+            }
+            
+            const isCurrentlyLocked = generalNotesTextarea.disabled;
+            
+            if (isCurrentlyLocked) {
+                // Unlock the textarea
+                generalNotesTextarea.disabled = false;
+                lockButton.classList.remove('locked');
+                lockButton.innerHTML = '🔓 Lock Notes';
+                
+                // Save unlock state
+                localStorage.setItem('generalNotesLocked', 'false');
+                
+                // Show unlock message
+                const originalText = lockButton.innerHTML;
+                lockButton.innerHTML = '🔓 Notes Unlocked';
+                lockButton.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+                
+                setTimeout(() => {
+                    lockButton.innerHTML = originalText;
+                    lockButton.style.background = 'linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)';
+                }, 2000);
+                
+            } else {
+                // Lock the textarea
+                generalNotesTextarea.disabled = true;
+                lockButton.classList.add('locked');
+                lockButton.innerHTML = '🔒 Unlock Notes';
+                
+                // Save lock state
+                localStorage.setItem('generalNotesLocked', 'true');
+                
+                // Show lock message
+                const originalText = lockButton.innerHTML;
+                lockButton.innerHTML = '🔒 Notes Locked';
+                
+                setTimeout(() => {
+                    lockButton.innerHTML = originalText;
+                }, 2000);
+            }
+        }
+
+        function loadGeneralNotesLockState() {
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const lockButton = document.getElementById('generalNotesLockBtn');
+            
+            if (!generalNotesTextarea || !lockButton) {
+                return;
+            }
+            
+            const isLocked = localStorage.getItem('generalNotesLocked') === 'true';
+            
+            if (isLocked) {
+                generalNotesTextarea.disabled = true;
+                lockButton.classList.add('locked');
+                lockButton.innerHTML = '🔒 Unlock Notes';
+            } else {
+                generalNotesTextarea.disabled = false;
+                lockButton.classList.remove('locked');
+                lockButton.innerHTML = '🔓 Lock Notes';
+            }
+        }
+
         function clearAllNotes() {
-            // Clear from localStorage
+            // Check if general notes are locked
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const isGeneralNotesLocked = generalNotesTextarea && generalNotesTextarea.disabled;
+            
+            let confirmMessage = 'هل أنت متأكد من أنك تريد مسح جميع النوتات؟\nAre you sure you want to clear all notes?';
+            if (isGeneralNotesLocked) {
+                confirmMessage += '\n\nملاحظة: النوتات العامة المقفلة لن يتم مسحها.\nNote: Locked general notes will not be cleared.';
+            }
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            // Clear from localStorage (but preserve locked general notes)
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('notes-') || key === 'generalQuizNotes') {
+                if (key.startsWith('notes-')) {
+                    localStorage.removeItem(key);
+                } else if (key === 'generalQuizNotes' && !isGeneralNotesLocked) {
                     localStorage.removeItem(key);
                 }
             });
@@ -2223,9 +2551,8 @@
                 }
             });
             
-            // Clear general notes
-            const generalNotesTextarea = document.getElementById('generalNotes');
-            if (generalNotesTextarea) {
+            // Clear general notes only if not locked
+            if (generalNotesTextarea && !isGeneralNotesLocked) {
                 generalNotesTextarea.value = '';
             }
         }
@@ -2780,6 +3107,7 @@ Please provide detailed explanations for each section to help me master this voc
             loadShufflePreference();
             generateAllQuestions();
             loadGeneralNotes();
+            loadGeneralNotesLockState();
         });
 
         // Keyboard navigation
