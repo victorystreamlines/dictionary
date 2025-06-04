@@ -120,7 +120,8 @@
         .general-notes-copy-btn,
         .general-notes-clear-btn,
         .general-notes-lock-btn,
-        .general-notes-resize-btn {
+        .general-notes-resize-btn,
+        .go-to-unfilled-btn {
             border: none;
             padding: 8px 16px;
             border-radius: 15px;
@@ -209,12 +210,37 @@
             animation: copySuccess 0.6s ease;
         }
 
+
+
+        .go-to-unfilled-btn {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+            box-shadow: 0 3px 10px rgba(162, 155, 254, 0.3);
+        }
+
+        .go-to-unfilled-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(162, 155, 254, 0.4);
+        }
+
+        .go-to-unfilled-btn.found {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
+        .go-to-unfilled-btn.all-filled {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
         .search-container input:focus {
             border-color: #4facfe;
             box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
 
-        .search-refresh-btn {
+        .search-refresh-btn,
+        .notes-export-btn,
+        .notes-import-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -231,13 +257,41 @@
             justify-content: center;
         }
 
-        .search-refresh-btn:hover {
+        .search-refresh-btn:hover,
+        .notes-export-btn:hover,
+        .notes-import-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .search-refresh-btn:active {
+        .search-refresh-btn:active,
+        .notes-export-btn:active,
+        .notes-import-btn:active {
             transform: translateY(0);
+        }
+
+        .notes-export-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            box-shadow: 0 3px 10px rgba(0, 184, 148, 0.3);
+        }
+
+        .notes-export-btn:hover {
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+        }
+
+        .notes-import-btn {
+            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+            box-shadow: 0 3px 10px rgba(255, 167, 38, 0.3);
+        }
+
+        .notes-import-btn:hover {
+            box-shadow: 0 4px 15px rgba(255, 167, 38, 0.4);
+        }
+
+        .notes-export-btn.exporting,
+        .notes-import-btn.importing {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            animation: copySuccess 0.6s ease;
         }
 
         .search-results-info {
@@ -251,6 +305,66 @@
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
             border-color: #ffc107 !important;
             box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1) !important;
+        }
+
+        .navigation-arrows {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 10;
+        }
+
+        .nav-arrow {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            opacity: 0.7;
+        }
+
+        .nav-arrow:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .nav-arrow.up {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            box-shadow: 0 3px 10px rgba(0, 184, 148, 0.3);
+        }
+
+        .nav-arrow.up:hover {
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.5);
+        }
+
+        .nav-arrow.down {
+            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+            box-shadow: 0 3px 10px rgba(255, 167, 38, 0.3);
+        }
+
+        .nav-arrow.down:hover {
+            box-shadow: 0 4px 15px rgba(255, 167, 38, 0.5);
+        }
+
+        .question {
+            position: relative;
         }
 
         .btn {
@@ -456,6 +570,26 @@
             box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
         }
 
+        .meaning-btn {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(116, 185, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .meaning-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.4);
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -569,6 +703,322 @@
         .context-example h4 {
             color: #667eea;
             margin-bottom: 8px;
+        }
+
+        .dictionary-modal {
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .dictionary-content {
+            padding: 20px 0;
+        }
+
+        .word-header {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .main-word {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .pronunciation {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .part-of-speech {
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .definition-section,
+        .synonyms-section,
+        .examples-section,
+        .etymology-section,
+        .professional-usage {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #74b9ff;
+        }
+
+        .definition-section h3,
+        .synonyms-section h3,
+        .examples-section h3,
+        .etymology-section h3,
+        .professional-usage h3 {
+            color: #0984e3;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .main-definition {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .synonyms-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .synonym-item {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .synonym-item:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .examples-list {
+            space-y: 15px;
+        }
+
+        .example-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #74b9ff;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .example-item .example-text {
+            font-style: italic;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .example-item .example-context {
+            font-size: 0.85rem;
+            color: #0984e3;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .etymology-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .usage-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .usage-highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .confirmation-modal {
+            max-width: 500px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .confirmation-modal::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .confirmation-header {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 17px 17px 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirmation-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .confirmation-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .confirmation-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .confirmation-body {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .confirmation-message-en {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .confirmation-message-ar {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-family: 'Arial Unicode MS', 'Tahoma', sans-serif;
+            direction: rtl;
+        }
+
+        .confirmation-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+
+        .warning-message-en,
+        .warning-message-ar {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .warning-message-ar {
+            direction: rtl;
+        }
+
+        .confirmation-actions {
+            padding: 0 25px 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .confirm-btn-cancel,
+        .confirm-btn-delete {
+            flex: 1;
+            max-width: 200px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .confirm-btn-cancel {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+        }
+
+        .confirm-btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(116, 185, 255, 0.4);
+        }
+
+        .confirm-btn-delete {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.3);
+        }
+
+        .confirm-btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(253, 121, 168, 0.4);
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateY(-2px) translateX(0); }
+            25% { transform: translateY(-2px) translateX(-2px); }
+            75% { transform: translateY(-2px) translateX(2px); }
+        }
+
+        .confirm-btn-cancel span:last-child,
+        .confirm-btn-delete span:last-child {
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
 
         .quiz-container {
@@ -772,6 +1222,20 @@
                 min-height: 60px;
             }
             
+            .navigation-arrows {
+                right: 5px;
+                top: 20px;
+                transform: none;
+                position: absolute;
+            }
+            
+            .nav-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+                opacity: 0.8;
+            }
+            
             .input-field {
                 width: 100%;
                 max-width: 300px;
@@ -800,7 +1264,8 @@
             .general-notes-copy-btn,
             .general-notes-clear-btn,
             .general-notes-lock-btn,
-            .general-notes-resize-btn {
+            .general-notes-resize-btn,
+            .go-to-unfilled-btn {
                 width: 100%;
                 justify-content: center;
                 font-size: 0.8rem;
@@ -832,7 +1297,9 @@
                 white-space: normal !important;
             }
             
-            .search-refresh-btn {
+            .search-refresh-btn,
+            .notes-export-btn,
+            .notes-import-btn {
                 align-self: center;
                 width: 50px !important;
             }
@@ -841,6 +1308,89 @@
                 padding: 15px;
                 flex-direction: column;
                 gap: 10px;
+            }
+            
+            .dictionary-modal {
+                max-width: 95%;
+                max-height: 90vh;
+                margin: 5% auto;
+            }
+            
+            .word-header {
+                padding: 15px;
+            }
+            
+            .main-word {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+            
+            .pronunciation {
+                font-size: 1rem;
+            }
+            
+            .definition-section,
+            .synonyms-section,
+            .examples-section,
+            .etymology-section,
+            .professional-usage {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .synonyms-list {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .synonym-item {
+                text-align: center;
+                padding: 10px 15px;
+            }
+            
+            .example-item {
+                padding: 12px;
+            }
+            
+            .confirmation-modal {
+                max-width: 95%;
+                margin: 5% auto;
+            }
+            
+            .confirmation-header {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-icon {
+                font-size: 2.5rem;
+            }
+            
+            .confirmation-title {
+                font-size: 1.5rem;
+            }
+            
+            .confirmation-body {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-message-en {
+                font-size: 1.1rem;
+            }
+            
+            .confirmation-message-ar {
+                font-size: 1rem;
+            }
+            
+            .confirmation-actions {
+                padding: 0 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .confirm-btn-cancel,
+            .confirm-btn-delete {
+                max-width: none;
+                padding: 12px 15px;
             }
         }
 
@@ -914,6 +1464,13 @@
                     <button class="search-refresh-btn" onclick="clearSearch()" title="Clear search">
                         🔄
                     </button>
+                    <button class="notes-export-btn" onclick="exportAllNotes()" title="Export all notes">
+                        📤
+                    </button>
+                    <button class="notes-import-btn" onclick="triggerImportNotes()" title="Import notes">
+                        📥
+                    </button>
+                    <input type="file" id="notesImportFile" accept=".json" style="display: none;" onchange="importAllNotes(event)">
                 </div>
             </div>
             
@@ -956,6 +1513,9 @@
                 <button class="general-notes-resize-btn" onclick="resetGeneralNotesSize()" title="Reset textarea size to default">
                     📐 Reset Size
                 </button>
+                <button class="go-to-unfilled-btn" onclick="goToFirstUnfilledQuestion()" title="Go to first unanswered question">
+                    🎯 Find Next Blank
+                </button>
             </div>
         </div>
         
@@ -996,6 +1556,76 @@
                         <div class="arabic-word" id="arabicWord"></div>
                         <div class="definition" id="arabicDefinition"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word Meaning Dictionary Modal -->
+        <div id="meaningModal" class="modal">
+            <div class="modal-content dictionary-modal">
+                <div class="modal-header">
+                    <h2 class="modal-title">📖 Dictionary Definition</h2>
+                    <button class="close-btn" onclick="closeMeaningModal()">&times;</button>
+                </div>
+                <div class="dictionary-content">
+                    <div class="word-header">
+                        <div class="main-word" id="dictionaryWord"></div>
+                        <div class="pronunciation" id="wordPronunciation"></div>
+                        <div class="part-of-speech" id="partOfSpeech"></div>
+                    </div>
+                    
+                    <div class="definition-section">
+                        <h3>📝 Definition</h3>
+                        <div class="main-definition" id="mainDefinition"></div>
+                    </div>
+                    
+                    <div class="synonyms-section">
+                        <h3>🔄 Synonyms</h3>
+                        <div class="synonyms-list" id="synonymsList"></div>
+                    </div>
+                    
+                    <div class="examples-section">
+                        <h3>💡 Examples</h3>
+                        <div class="examples-list" id="examplesList"></div>
+                    </div>
+                    
+                    <div class="etymology-section">
+                        <h3>🏛️ Etymology</h3>
+                        <div class="etymology-text" id="etymologyText"></div>
+                    </div>
+                    
+                    <div class="professional-usage">
+                        <h3>🏢 Professional Usage</h3>
+                        <div class="usage-text" id="professionalUsage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Confirmation Modal -->
+        <div id="confirmationModal" class="modal">
+            <div class="modal-content confirmation-modal">
+                <div class="confirmation-header">
+                    <div class="confirmation-icon">🗑️</div>
+                    <h2 class="confirmation-title">Clear All Notes</h2>
+                </div>
+                <div class="confirmation-body">
+                    <p class="confirmation-message-en">Are you sure you want to clear all notes?</p>
+                    <p class="confirmation-message-ar">هل أنت متأكد من أنك تريد مسح جميع النوتات؟</p>
+                    <div class="confirmation-warning" id="lockWarning" style="display: none;">
+                        <p class="warning-message-en">Note: Locked general notes will not be cleared.</p>
+                        <p class="warning-message-ar">ملاحظة: النوتات العامة المقفلة لن يتم مسحها.</p>
+                    </div>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="confirm-btn-cancel" onclick="closeConfirmationModal()">
+                        <span>❌ Cancel</span>
+                        <span>إلغاء</span>
+                    </button>
+                    <button class="confirm-btn-delete" onclick="confirmClearAllNotes()">
+                        <span>🗑️ Clear All</span>
+                        <span>مسح الكل</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1107,6 +1737,142 @@
         let filteredQuestions = [];
         let isSearchActive = false;
         let searchTerm = '';
+
+        // Comprehensive word dictionary with definitions, synonyms, and examples
+        const wordDictionary = {
+            "aback": {
+                definition: "By surprise; unexpectedly; taken off guard",
+                pronunciation: "/əˈbæk/",
+                partOfSpeech: "adverb",
+                synonyms: ["surprised", "stunned", "shocked"],
+                examples: [
+                    {
+                        text: "The unexpected test results took our engineering team aback during the patent review.",
+                        context: "Professional/Technical"
+                    },
+                    {
+                        text: "She was taken aback by the sudden change in the company's policy.",
+                        context: "General Usage"
+                    },
+                    {
+                        text: "The investor was aback when he saw the innovative prototype demonstration.",
+                        context: "Business Context"
+                    }
+                ],
+                etymology: "Originally a nautical term from Middle English 'abak', meaning 'backward' or 'behind'. The phrase 'taken aback' refers to a sailing ship caught with its sails pressed against the mast by a head wind.",
+                professionalUsage: "In professional settings, <span class='usage-highlight'>aback</span> is commonly used to describe unexpected reactions to presentations, results, or announcements. Often used in phrases like 'taken aback by the findings' or 'caught aback by the proposal'."
+            },
+            "abashed": {
+                definition: "Embarrassed, disconcerted, or ashamed; feeling awkward or uncomfortable",
+                pronunciation: "/əˈbæʃt/",
+                partOfSpeech: "adjective",
+                synonyms: ["embarrassed", "ashamed", "disconcerted"],
+                examples: [
+                    {
+                        text: "The junior researcher felt abashed when presenting incomplete data to the board.",
+                        context: "Professional/Academic"
+                    },
+                    {
+                        text: "He was abashed by his mistake during the important client meeting.",
+                        context: "Business Context"
+                    },
+                    {
+                        text: "The student appeared abashed after asking a basic question in the advanced seminar.",
+                        context: "Educational Setting"
+                    }
+                ],
+                etymology: "From Middle English 'abashen', derived from Old French 'esbahir' meaning 'to astonish'. The prefix 'a-' indicates a state or condition.",
+                professionalUsage: "In professional communication, <span class='usage-highlight'>abashed</span> describes the emotional state of someone who feels awkward about a professional mistake or social misstep in business settings."
+            },
+            "abattoir": {
+                definition: "A slaughterhouse; a building where animals are killed for food",
+                pronunciation: "/ˈæbəˌtwɑr/",
+                partOfSpeech: "noun",
+                synonyms: ["slaughterhouse", "butchery", "meat processing plant"],
+                examples: [
+                    {
+                        text: "The industrial equipment supplier operates an abattoir for specialized machinery components.",
+                        context: "Industrial/Manufacturing"
+                    },
+                    {
+                        text: "Health inspectors regularly monitor the abattoir to ensure safety standards.",
+                        context: "Regulatory/Health"
+                    },
+                    {
+                        text: "The company invested in modern technology to upgrade their abattoir facilities.",
+                        context: "Business Investment"
+                    }
+                ],
+                etymology: "From French 'abattoir', derived from 'abattre' meaning 'to strike down' or 'to fell'. Entered English in the early 19th century.",
+                professionalUsage: "In business contexts, <span class='usage-highlight'>abattoir</span> appears in discussions about food industry regulations, industrial facility management, and agricultural business operations."
+            },
+            "accelerate": {
+                definition: "To increase the speed, rate, or pace of something; to make something happen faster",
+                pronunciation: "/ækˈseləˌreɪt/",
+                partOfSpeech: "verb",
+                synonyms: ["speed up", "quicken", "hasten"],
+                examples: [
+                    {
+                        text: "The new funding will accelerate our research and development timeline.",
+                        context: "Business/R&D"
+                    },
+                    {
+                        text: "Digital transformation can accelerate business processes significantly.",
+                        context: "Technology/Business"
+                    },
+                    {
+                        text: "The particle accelerator enables advanced materials testing in our laboratory.",
+                        context: "Scientific/Technical"
+                    }
+                ],
+                etymology: "From Latin 'acceleratus', past participle of 'accelerare', from 'ad-' (to) + 'celerare' (to quicken), from 'celer' (swift).",
+                professionalUsage: "In professional contexts, <span class='usage-highlight'>accelerate</span> is commonly used in project management, business strategy, and technology implementation discussions."
+            },
+            "accurate": {
+                definition: "Correct in all details; exact; precise; free from errors or defects",
+                pronunciation: "/ˈækjərət/",
+                partOfSpeech: "adjective",
+                synonyms: ["precise", "exact", "correct"],
+                examples: [
+                    {
+                        text: "Accurate measurements are essential for our electrical component specifications.",
+                        context: "Engineering/Technical"
+                    },
+                    {
+                        text: "The financial report provides accurate data about quarterly performance.",
+                        context: "Business/Finance"
+                    },
+                    {
+                        text: "Accurate documentation is crucial for patent application success.",
+                        context: "Legal/Patent"
+                    }
+                ],
+                etymology: "From Latin 'accuratus', past participle of 'accurare' meaning 'to take care of', from 'ad-' (to) + 'cura' (care).",
+                professionalUsage: "In professional settings, <span class='usage-highlight'>accurate</span> is essential for quality control, data analysis, compliance reporting, and technical documentation."
+            },
+            "academy": {
+                definition: "An institution of learning, especially one for special training; a school or college for special instruction",
+                pronunciation: "/əˈkædəmi/",
+                partOfSpeech: "noun",
+                synonyms: ["institution", "school", "institute"],
+                examples: [
+                    {
+                        text: "Our engineering academy provides advanced training for technical staff.",
+                        context: "Education/Training"
+                    },
+                    {
+                        text: "The company established a leadership academy for management development.",
+                        context: "Corporate Training"
+                    },
+                    {
+                        text: "She graduated from the national academy of sciences with honors.",
+                        context: "Academic/Research"
+                    }
+                ],
+                etymology: "From Greek 'Akademeia', the name of the gymnasium near Athens where Plato taught, named after the hero Akademos.",
+                professionalUsage: "In professional contexts, <span class='usage-highlight'>academy</span> refers to corporate training centers, professional development institutions, and specialized educational programs."
+            }
+        };
 
         // Arabic translations for vocabulary words
         const arabicTranslations = {
@@ -2366,6 +3132,204 @@
             }, 100);
         }
 
+        function exportAllNotes() {
+            const exportButton = document.querySelector('.notes-export-btn');
+            
+            try {
+                // Collect all notes from localStorage
+                const notesData = {
+                    exportDate: new Date().toISOString(),
+                    exportVersion: "1.0",
+                    generalNotes: localStorage.getItem('generalQuizNotes') || '',
+                    individualNotes: {},
+                    metadata: {
+                        totalWords: words.length,
+                        exportedBy: 'GL Dictionary Quiz App'
+                    }
+                };
+                
+                // Collect all individual question notes
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('notes-')) {
+                        const questionNumber = key.replace('notes-', '');
+                        notesData.individualNotes[questionNumber] = localStorage.getItem(key);
+                    }
+                });
+                
+                // Count actual notes (non-empty)
+                const generalNotesCount = notesData.generalNotes.trim() ? 1 : 0;
+                const individualNotesCount = Object.values(notesData.individualNotes).filter(note => note && note.trim()).length;
+                const totalNotesCount = generalNotesCount + individualNotesCount;
+                
+                if (totalNotesCount === 0) {
+                    // No notes to export
+                    const originalText = exportButton.innerHTML;
+                    exportButton.innerHTML = '📝 No Notes to Export';
+                    exportButton.style.background = 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)';
+                    
+                    setTimeout(() => {
+                        exportButton.innerHTML = originalText;
+                        exportButton.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+                    }, 2000);
+                    return;
+                }
+                
+                // Create and download the file
+                const jsonString = JSON.stringify(notesData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+                const filename = `GL_Dictionary_Notes_${currentDate}.json`;
+                
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(url);
+                
+                // Visual feedback
+                const originalText = exportButton.innerHTML;
+                exportButton.classList.add('exporting');
+                exportButton.innerHTML = `✅ ${totalNotesCount} Notes Exported!`;
+                
+                setTimeout(() => {
+                    exportButton.classList.remove('exporting');
+                    exportButton.innerHTML = originalText;
+                }, 2000);
+                
+                console.log(`Notes exported successfully: ${totalNotesCount} total notes`);
+                
+            } catch (error) {
+                console.error('Export failed:', error);
+                
+                // Show error message
+                const originalText = exportButton.innerHTML;
+                exportButton.innerHTML = '❌ Export Failed';
+                exportButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+                
+                setTimeout(() => {
+                    exportButton.innerHTML = originalText;
+                    exportButton.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+                }, 2000);
+            }
+        }
+
+        function triggerImportNotes() {
+            const importFileInput = document.getElementById('notesImportFile');
+            importFileInput.click();
+        }
+
+        function importAllNotes(event) {
+            const importButton = document.querySelector('.notes-import-btn');
+            const file = event.target.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const notesData = JSON.parse(e.target.result);
+                    
+                    // Validate the file structure
+                    if (!notesData.hasOwnProperty('generalNotes') || !notesData.hasOwnProperty('individualNotes')) {
+                        throw new Error('Invalid notes file format');
+                    }
+                    
+                    let importedCount = 0;
+                    
+                    // Import general notes
+                    if (notesData.generalNotes && notesData.generalNotes.trim()) {
+                        localStorage.setItem('generalQuizNotes', notesData.generalNotes);
+                        
+                        // Update the general notes textarea if visible
+                        const generalNotesTextarea = document.getElementById('generalNotes');
+                        if (generalNotesTextarea) {
+                            generalNotesTextarea.value = notesData.generalNotes;
+                        }
+                        importedCount++;
+                    }
+                    
+                    // Import individual notes
+                    if (notesData.individualNotes) {
+                        Object.keys(notesData.individualNotes).forEach(questionNumber => {
+                            const noteContent = notesData.individualNotes[questionNumber];
+                            if (noteContent && noteContent.trim()) {
+                                localStorage.setItem(`notes-${questionNumber}`, noteContent);
+                                
+                                // Update the textarea if currently visible
+                                const notesTextarea = document.getElementById(`notes-${questionNumber}`);
+                                if (notesTextarea) {
+                                    notesTextarea.value = noteContent;
+                                }
+                                importedCount++;
+                            }
+                        });
+                    }
+                    
+                    // Visual feedback
+                    const originalText = importButton.innerHTML;
+                    importButton.classList.add('importing');
+                    importButton.innerHTML = `✅ ${importedCount} Notes Imported!`;
+                    
+                    setTimeout(() => {
+                        importButton.classList.remove('importing');
+                        importButton.innerHTML = originalText;
+                    }, 2000);
+                    
+                    console.log(`Notes imported successfully: ${importedCount} total notes`);
+                    
+                    // Show import summary
+                    const importDate = notesData.exportDate ? new Date(notesData.exportDate).toLocaleDateString() : 'Unknown';
+                    setTimeout(() => {
+                        alert(`تم استيراد النوتات بنجاح!\nNotes imported successfully!\n\n` +
+                              `📊 Total imported: ${importedCount} notes\n` +
+                              `📅 Export date: ${importDate}\n` +
+                              `📝 General notes: ${notesData.generalNotes ? 'Included' : 'Not included'}\n` +
+                              `🔢 Individual notes: ${Object.keys(notesData.individualNotes || {}).length} questions`);
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error('Import failed:', error);
+                    
+                    // Show error message
+                    const originalText = importButton.innerHTML;
+                    importButton.innerHTML = '❌ Import Failed';
+                    importButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+                    
+                    setTimeout(() => {
+                        importButton.innerHTML = originalText;
+                        importButton.style.background = 'linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)';
+                    }, 2000);
+                    
+                    alert('خطأ في استيراد الملف!\nImport failed!\n\nPlease make sure you selected a valid notes file exported from this application.');
+                }
+            };
+            
+            reader.onerror = function() {
+                console.error('File reading failed');
+                
+                const originalText = importButton.innerHTML;
+                importButton.innerHTML = '❌ File Read Error';
+                importButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+                
+                setTimeout(() => {
+                    importButton.innerHTML = originalText;
+                    importButton.style.background = 'linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)';
+                }, 2000);
+            };
+            
+            reader.readAsText(file);
+            
+            // Reset file input for next use
+            event.target.value = '';
+        }
+
         function loadShufflePreference() {
             const savedMode = localStorage.getItem('shuffleMode');
             if (savedMode && ['original', 'ascending', 'descending', 'random'].includes(savedMode)) {
@@ -2409,6 +3373,15 @@
                 }
                 
                 questionDiv.innerHTML = `
+                    <div class="navigation-arrows">
+                        <button class="nav-arrow up" onclick="scrollToTop()" title="Go to top of page">
+                            ↑
+                        </button>
+                        <button class="nav-arrow down" onclick="scrollToBottom()" title="Go to bottom of page">
+                            ↓
+                        </button>
+                    </div>
+                    
                     <div class="bookmark-container">
                         <input type="checkbox" class="bookmark-checkbox" id="bookmark-${question.number}" 
                                ${isBookmarked ? 'checked' : ''} 
@@ -2437,6 +3410,9 @@
                                 </button>
                                 <button class="arabic-btn" onclick="showArabicTranslation('${question.answer}')">
                                     🇸🇦 Arabic Translation
+                                </button>
+                                <button class="meaning-btn" onclick="showWordMeaning('${question.answer}')">
+                                    📖 Meaning
                                 </button>
                             </div>
                             <div class="answer" id="answer-${question.number}">
@@ -2754,25 +3730,22 @@
                 return;
             }
             
-            // Confirm before clearing
-            if (confirm('هل أنت متأكد من أنك تريد مسح النوتات العامة؟\nAre you sure you want to clear the general notes?')) {
-                // Clear the textarea
-                generalNotesTextarea.value = '';
-                
-                // Save the empty state
-                localStorage.removeItem('generalQuizNotes');
-                
-                // Visual feedback
-                const originalText = clearButton.innerHTML;
-                
-                clearButton.classList.add('cleared');
-                clearButton.innerHTML = '✅ Notes Cleared!';
-                
-                setTimeout(() => {
-                    clearButton.classList.remove('cleared');
-                    clearButton.innerHTML = originalText;
-                }, 2000);
-            }
+            // Clear the textarea immediately
+            generalNotesTextarea.value = '';
+            
+            // Save the empty state
+            localStorage.removeItem('generalQuizNotes');
+            
+            // Visual feedback
+            const originalText = clearButton.innerHTML;
+            
+            clearButton.classList.add('cleared');
+            clearButton.innerHTML = '✅ Notes Cleared!';
+            
+            setTimeout(() => {
+                clearButton.classList.remove('cleared');
+                clearButton.innerHTML = originalText;
+            }, 2000);
         }
 
         function toggleGeneralNotesLock() {
@@ -2850,14 +3823,22 @@
             const generalNotesTextarea = document.getElementById('generalNotes');
             const isGeneralNotesLocked = generalNotesTextarea && generalNotesTextarea.disabled;
             
-            let confirmMessage = 'هل أنت متأكد من أنك تريد مسح جميع النوتات؟\nAre you sure you want to clear all notes?';
+            // Show warning if general notes are locked
+            const lockWarning = document.getElementById('lockWarning');
             if (isGeneralNotesLocked) {
-                confirmMessage += '\n\nملاحظة: النوتات العامة المقفلة لن يتم مسحها.\nNote: Locked general notes will not be cleared.';
+                lockWarning.style.display = 'block';
+            } else {
+                lockWarning.style.display = 'none';
             }
             
-            if (!confirm(confirmMessage)) {
-                return;
-            }
+            // Show custom confirmation modal
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function confirmClearAllNotes() {
+            // Check if general notes are locked
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const isGeneralNotesLocked = generalNotesTextarea && generalNotesTextarea.disabled;
             
             // Clear from localStorage (but preserve locked general notes)
             Object.keys(localStorage).forEach(key => {
@@ -2880,7 +3861,35 @@
             if (generalNotesTextarea && !isGeneralNotesLocked) {
                 generalNotesTextarea.value = '';
             }
+            
+            // Close the modal
+            closeConfirmationModal();
+            
+            // Show success notification
+            showScrollFeedback('🗑️ All notes cleared successfully!');
         }
+
+        function closeConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        // Add event listeners for modal interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close modal when clicking outside
+            const confirmationModal = document.getElementById('confirmationModal');
+            confirmationModal.addEventListener('click', function(event) {
+                if (event.target === confirmationModal) {
+                    closeConfirmationModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && confirmationModal.style.display === 'block') {
+                    closeConfirmationModal();
+                }
+            });
+        });
 
         function handleEnterKey(event, currentQuestionNumber) {
             if (event.key === 'Enter') {
@@ -3168,6 +4177,121 @@
             window.onclick = null;
         }
 
+        function showWordMeaning(word) {
+            const modal = document.getElementById('meaningModal');
+            const wordLower = word.toLowerCase();
+            
+            // Get word data from dictionary or create default
+            const wordData = wordDictionary[wordLower] || createDefaultWordData(word);
+            
+            // Populate modal content
+            document.getElementById('dictionaryWord').textContent = word.toUpperCase();
+            document.getElementById('wordPronunciation').textContent = wordData.pronunciation;
+            document.getElementById('partOfSpeech').textContent = wordData.partOfSpeech;
+            document.getElementById('mainDefinition').textContent = wordData.definition;
+            
+            // Populate synonyms
+            const synonymsList = document.getElementById('synonymsList');
+            synonymsList.innerHTML = '';
+            wordData.synonyms.forEach(synonym => {
+                const synonymSpan = document.createElement('span');
+                synonymSpan.className = 'synonym-item';
+                synonymSpan.textContent = synonym;
+                synonymSpan.onclick = () => showWordMeaning(synonym);
+                synonymsList.appendChild(synonymSpan);
+            });
+            
+            // Populate examples
+            const examplesList = document.getElementById('examplesList');
+            examplesList.innerHTML = '';
+            wordData.examples.forEach(example => {
+                const exampleDiv = document.createElement('div');
+                exampleDiv.className = 'example-item';
+                exampleDiv.innerHTML = `
+                    <div class="example-text">"${example.text}"</div>
+                    <div class="example-context">— ${example.context}</div>
+                `;
+                examplesList.appendChild(exampleDiv);
+            });
+            
+            // Populate etymology
+            document.getElementById('etymologyText').textContent = wordData.etymology;
+            
+            // Populate professional usage
+            document.getElementById('professionalUsage').innerHTML = wordData.professionalUsage;
+            
+            // Show modal
+            modal.style.display = 'block';
+            
+            // Add click outside to close
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    closeMeaningModal();
+                }
+            };
+        }
+
+        function createDefaultWordData(word) {
+            // Create default data for words not in the dictionary
+            const defaultPartOfSpeech = getPartOfSpeech(word);
+            const defaultSynonyms = getDefaultSynonyms(word);
+            
+            return {
+                definition: `A ${defaultPartOfSpeech} commonly used in professional and technical vocabulary.`,
+                pronunciation: `/${word.toLowerCase()}/`,
+                partOfSpeech: defaultPartOfSpeech,
+                synonyms: defaultSynonyms,
+                examples: [
+                    {
+                        text: `Our patent application includes the term "${word}" in technical documentation.`,
+                        context: "Professional/Patent"
+                    },
+                    {
+                        text: `The innovation team discussed how to "${word}" the project effectively.`,
+                        context: "Business Strategy"
+                    },
+                    {
+                        text: `Understanding "${word}" is essential for our genetic learning research.`,
+                        context: "Technical/Research"
+                    }
+                ],
+                etymology: `The word "${word}" has its origins in professional and academic vocabulary, commonly used in technical and business contexts.`,
+                professionalUsage: `In professional settings, <span class='usage-highlight'>${word}</span> is frequently used in technical documentation, business communications, and academic research papers.`
+            };
+        }
+
+        function getPartOfSpeech(word) {
+            // Simple heuristics to determine part of speech
+            if (word.endsWith('ing')) return 'verb/noun (gerund)';
+            if (word.endsWith('ed')) return 'verb (past tense)';
+            if (word.endsWith('ly')) return 'adverb';
+            if (word.endsWith('tion') || word.endsWith('sion')) return 'noun';
+            if (word.endsWith('able') || word.endsWith('ible')) return 'adjective';
+            if (word.endsWith('er') || word.endsWith('or')) return 'noun';
+            return 'word';
+        }
+
+        function getDefaultSynonyms(word) {
+            // Simple synonym generation based on common patterns
+            const commonSynonyms = {
+                'accelerate': ['speed up', 'quicken', 'hasten'],
+                'accurate': ['precise', 'exact', 'correct'],
+                'achieve': ['accomplish', 'attain', 'reach'],
+                'acquire': ['obtain', 'gain', 'procure'],
+                'activate': ['enable', 'start', 'initiate'],
+                'adequate': ['sufficient', 'enough', 'satisfactory'],
+                'advance': ['progress', 'improve', 'develop'],
+                'analyze': ['examine', 'study', 'investigate']
+            };
+            
+            return commonSynonyms[word.toLowerCase()] || ['related term', 'similar word', 'equivalent'];
+        }
+
+        function closeMeaningModal() {
+            document.getElementById('meaningModal').style.display = 'none';
+            window.onclick = null;
+        }
+
         function getBestEnglishVoice() {
             const voices = window.speechSynthesis.getVoices();
             
@@ -3378,6 +4502,169 @@
                     window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
                 }
             });
+        }
+
+        function scrollToTop() {
+            // Smooth scroll to the top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Show brief visual feedback
+            showScrollFeedback('⬆️ Going to top');
+        }
+
+        function scrollToBottom() {
+            // Smooth scroll to the bottom of the page
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+            
+            // Show brief visual feedback
+            showScrollFeedback('⬇️ Going to bottom');
+        }
+
+        function showScrollFeedback(message) {
+            // Create temporary notification
+            const feedback = document.createElement('div');
+            feedback.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                z-index: 3000;
+                pointer-events: none;
+                animation: fadeInOut 1.5s ease;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            `;
+            feedback.textContent = message;
+            
+            // Add fade animation if not already added
+            if (!document.querySelector('#scrollFeedbackAnimation')) {
+                const style = document.createElement('style');
+                style.id = 'scrollFeedbackAnimation';
+                style.textContent = `
+                    @keyframes fadeInOut {
+                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                        20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                        80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 1500);
+        }
+
+        function goToFirstUnfilledQuestion() {
+            const button = document.querySelector('.go-to-unfilled-btn');
+            
+            // Function to check if an answer is filled
+            function isAnswerFilled(questionNumber) {
+                const savedAnswer = localStorage.getItem(`input-${questionNumber}`);
+                return savedAnswer && savedAnswer.trim() !== '';
+            }
+            
+            // Get the source questions based on current view (search or all)
+            const sourceQuestions = isSearchActive ? filteredQuestions : allQuestions;
+            
+            // Find the first unfilled question
+            let firstUnfilledQuestion = null;
+            for (let i = 0; i < sourceQuestions.length; i++) {
+                const question = sourceQuestions[i];
+                if (!isAnswerFilled(question.number)) {
+                    firstUnfilledQuestion = question;
+                    break;
+                }
+            }
+            
+            if (firstUnfilledQuestion) {
+                // Found an unfilled question - navigate to it
+                const targetQuestionNumber = firstUnfilledQuestion.number;
+                const targetPage = Math.ceil(sourceQuestions.findIndex(q => q.number === targetQuestionNumber) + 1) / questionsPerPage;
+                const targetPageRounded = Math.ceil(targetPage);
+                
+                // Visual feedback
+                const originalText = button.innerHTML;
+                button.classList.add('found');
+                button.innerHTML = `✅ Found Question ${targetQuestionNumber}!`;
+                
+                setTimeout(() => {
+                    button.classList.remove('found');
+                    button.innerHTML = originalText;
+                }, 2000);
+                
+                // Navigate to the page containing the question
+                if (targetPageRounded !== currentPage) {
+                    currentPage = targetPageRounded;
+                    loadCurrentPage();
+                }
+                
+                // Scroll to and focus on the specific question
+                setTimeout(() => {
+                    const questionElement = document.getElementById(`question-${targetQuestionNumber}`);
+                    const inputElement = document.getElementById(`input-${targetQuestionNumber}`);
+                    
+                    if (questionElement && inputElement) {
+                        // Scroll to the question
+                        questionElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center',
+                            inline: 'nearest'
+                        });
+                        
+                        // Add visual highlight effect
+                        questionElement.style.transform = 'scale(1.02)';
+                        questionElement.style.background = 'linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%)';
+                        
+                        setTimeout(() => {
+                            // Focus on the input field
+                            inputElement.focus();
+                            inputElement.select();
+                            
+                            // Remove highlight effect
+                            questionElement.style.transform = 'scale(1)';
+                            questionElement.style.background = '';
+                            
+                            // Show success notification
+                            showScrollFeedback(`🎯 Question ${targetQuestionNumber} ready for answer!`);
+                        }, 300);
+                    }
+                }, 200);
+                
+                console.log(`Found first unfilled question: ${targetQuestionNumber} on page ${targetPageRounded}`);
+                
+            } else {
+                // All questions are filled
+                const originalText = button.innerHTML;
+                button.classList.add('all-filled');
+                button.innerHTML = '🎉 All Questions Filled!';
+                
+                setTimeout(() => {
+                    button.classList.remove('all-filled');
+                    button.innerHTML = originalText;
+                }, 2000);
+                
+                // Show completion notification
+                showScrollFeedback('🎉 All questions have been answered! Great job!');
+                
+                console.log('All questions have been answered');
+            }
         }
         
         function showVoiceNotification(voice) {
