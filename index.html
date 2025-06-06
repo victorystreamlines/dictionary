@@ -121,7 +121,8 @@
         .general-notes-clear-btn,
         .general-notes-lock-btn,
         .general-notes-resize-btn,
-        .go-to-unfilled-btn {
+        .go-to-unfilled-btn,
+        .ai-prompt-generator-btn {
             border: none;
             padding: 8px 16px;
             border-radius: 15px;
@@ -231,6 +232,17 @@
         .go-to-unfilled-btn.all-filled {
             background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
             animation: copySuccess 0.6s ease;
+        }
+
+        .ai-prompt-generator-btn {
+            background: linear-gradient(135deg, #6c5ce7 0%, #74b9ff 100%);
+            color: white;
+            box-shadow: 0 3px 10px rgba(108, 92, 231, 0.3);
+        }
+
+        .ai-prompt-generator-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
         }
 
         .search-container input:focus {
@@ -504,6 +516,202 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
+        }
+
+        /* AI Prompt Generator Modal Styles */
+        .ai-prompt-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .ai-prompt-modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            margin: 2% auto;
+            padding: 0;
+            border: none;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        .ai-prompt-modal-header {
+            background: linear-gradient(135deg, #6c5ce7 0%, #74b9ff 100%);
+            color: white;
+            padding: 25px 30px 20px;
+            position: relative;
+        }
+
+        .ai-prompt-modal-title {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-prompt-modal-subtitle {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .ai-prompt-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ai-prompt-close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .ai-prompt-modal-body {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .prompt-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .prompt-section:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .prompt-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            min-height: 200px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2d3436;
+            background: #f8f9fa;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .prompt-textarea:focus {
+            border-color: #6c5ce7;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+
+        .prompt-copy-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+            margin-top: 15px;
+        }
+
+        .prompt-copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .prompt-copy-btn.copied {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            animation: copySuccess 0.6s ease;
+        }
+
+        .notes-summary {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #dee2e6;
+        }
+
+        .notes-summary-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notes-item {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-left: 4px solid #6c5ce7;
+            font-size: 0.9rem;
+            color: #636e72;
+        }
+
+        .notes-item strong {
+            color: #2d3436;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .question-actions {
@@ -1516,6 +1724,9 @@
                 <button class="go-to-unfilled-btn" onclick="goToFirstUnfilledQuestion()" title="Go to first unanswered question">
                     🎯 Find Next Blank
                 </button>
+                <button class="ai-prompt-generator-btn" onclick="openPromptGeneratorModal()" title="Generate AI Prompts for Notes">
+                    🤖 Generate AI Prompts
+                </button>
             </div>
         </div>
         
@@ -1626,6 +1837,47 @@
                         <span>🗑️ Clear All</span>
                         <span>مسح الكل</span>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Prompt Generator Modal -->
+        <div id="aiPromptModal" class="ai-prompt-modal">
+            <div class="ai-prompt-modal-content">
+                <div class="ai-prompt-modal-header">
+                    <h2 class="ai-prompt-modal-title">🤖 AI Prompt Generator</h2>
+                    <p class="ai-prompt-modal-subtitle">Generate professional prompts for AI assistance based on your notes</p>
+                    <button class="ai-prompt-close-btn" onclick="closePromptGeneratorModal()">&times;</button>
+                </div>
+                <div class="ai-prompt-modal-body">
+                    <div class="notes-summary" id="notesSummary">
+                        <div class="notes-summary-title">📝 Notes Summary</div>
+                        <div id="notesOverview">No notes found. Add some notes to generate prompts.</div>
+                    </div>
+                    
+                    <div class="prompt-section" id="generalPromptSection" style="display: none;">
+                        <div class="prompt-section-title">🌐 General Quiz Improvement Prompt</div>
+                        <textarea class="prompt-textarea" id="generalPromptText" readonly></textarea>
+                        <button class="prompt-copy-btn" onclick="copyPrompt('general')">
+                            📋 Copy General Prompt
+                        </button>
+                    </div>
+                    
+                    <div class="prompt-section" id="individualPromptsSection" style="display: none;">
+                        <div class="prompt-section-title">🎯 Individual Question Prompts</div>
+                        <textarea class="prompt-textarea" id="individualPromptsText" readonly></textarea>
+                        <button class="prompt-copy-btn" onclick="copyPrompt('individual')">
+                            📋 Copy Individual Prompts
+                        </button>
+                    </div>
+                    
+                    <div class="prompt-section" id="combinedPromptSection" style="display: none;">
+                        <div class="prompt-section-title">🔄 Combined Comprehensive Prompt</div>
+                        <textarea class="prompt-textarea" id="combinedPromptText" readonly></textarea>
+                        <button class="prompt-copy-btn" onclick="copyPrompt('combined')">
+                            📋 Copy Complete Prompt
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -6620,6 +6872,215 @@ Please provide detailed explanations for each section to help me master this voc
             
             // Reload the entire page
             window.location.reload();
+        }
+
+        // AI Prompt Generator Functions
+        function openPromptGeneratorModal() {
+            const modal = document.getElementById('aiPromptModal');
+            generateAIPrompts();
+            modal.style.display = 'block';
+        }
+
+        function closePromptGeneratorModal() {
+            const modal = document.getElementById('aiPromptModal');
+            modal.style.display = 'none';
+        }
+
+        function generateAIPrompts() {
+            const generalNotes = localStorage.getItem('generalQuizNotes') || '';
+            const individualNotes = collectIndividualNotes();
+            
+            updateNotesOverview(generalNotes, individualNotes);
+            
+            if (generalNotes.trim()) {
+                generateGeneralPrompt(generalNotes);
+            }
+            
+            if (Object.keys(individualNotes).length > 0) {
+                generateIndividualPrompts(individualNotes);
+            }
+            
+            if (generalNotes.trim() || Object.keys(individualNotes).length > 0) {
+                generateCombinedPrompt(generalNotes, individualNotes);
+            }
+        }
+
+        function collectIndividualNotes() {
+            const individualNotes = {};
+            
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('notes-')) {
+                    const questionNumber = key.replace('notes-', '');
+                    const note = localStorage.getItem(key);
+                    if (note && note.trim()) {
+                        // Get the word for this question
+                        const questionIndex = parseInt(questionNumber) - 1;
+                        const word = words[questionIndex] || `Question ${questionNumber}`;
+                        individualNotes[questionNumber] = {
+                            word: word,
+                            note: note
+                        };
+                    }
+                }
+            });
+            
+            return individualNotes;
+        }
+
+        function updateNotesOverview(generalNotes, individualNotes) {
+            const overview = document.getElementById('notesOverview');
+            let html = '';
+            
+            if (generalNotes.trim()) {
+                html += `<div class="notes-item"><strong>📋 General Notes:</strong> ${generalNotes.substring(0, 100)}${generalNotes.length > 100 ? '...' : ''}</div>`;
+            }
+            
+            const individualCount = Object.keys(individualNotes).length;
+            if (individualCount > 0) {
+                html += `<div class="notes-item"><strong>🎯 Individual Notes:</strong> ${individualCount} question(s) with specific notes</div>`;
+                
+                Object.entries(individualNotes).slice(0, 3).forEach(([questionNum, data]) => {
+                    html += `<div class="notes-item"><strong>Q${questionNum} - ${data.word}:</strong> ${data.note.substring(0, 80)}${data.note.length > 80 ? '...' : ''}</div>`;
+                });
+                
+                if (individualCount > 3) {
+                    html += `<div class="notes-item">... and ${individualCount - 3} more questions with notes</div>`;
+                }
+            }
+            
+            if (!html) {
+                html = '<div class="notes-item">No notes found. Add some notes to generate AI prompts.</div>';
+            }
+            
+            overview.innerHTML = html;
+        }
+
+        function generateGeneralPrompt(generalNotes) {
+            const prompt = `Please implement the following general notes for the quiz:
+
+📝 **General Notes:**
+"${generalNotes}"
+
+Please follow and implement exactly what is requested in these notes.`;
+
+            document.getElementById('generalPromptText').value = prompt;
+            document.getElementById('generalPromptSection').style.display = 'block';
+        }
+
+        function generateIndividualPrompts(individualNotes) {
+            let prompt = `Please implement the following individual question notes:
+
+📋 **Individual Notes:**
+
+`;
+
+            Object.entries(individualNotes).forEach(([questionNum, data], index) => {
+                prompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+   📝 Note: "${data.note}"
+
+`;
+            });
+
+            prompt += `Please follow and implement exactly what is requested in these individual notes.`;
+
+            document.getElementById('individualPromptsText').value = prompt;
+            document.getElementById('individualPromptsSection').style.display = 'block';
+        }
+
+        function generateCombinedPrompt(generalNotes, individualNotes) {
+            let prompt = `Please implement the following notes:
+
+`;
+
+            if (generalNotes.trim()) {
+                prompt += `📝 **General Notes:**
+"${generalNotes}"
+
+`;
+            }
+
+            const individualCount = Object.keys(individualNotes).length;
+            if (individualCount > 0) {
+                prompt += `📋 **Individual Notes:**
+
+`;
+
+                Object.entries(individualNotes).forEach(([questionNum, data], index) => {
+                    prompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+   📝 Note: "${data.note}"
+
+`;
+                });
+            }
+
+            prompt += `Please follow and implement exactly what is requested in these notes.`;
+
+            document.getElementById('combinedPromptText').value = prompt;
+            document.getElementById('combinedPromptSection').style.display = 'block';
+        }
+
+        function copyPrompt(type) {
+            let textArea;
+            let button;
+            
+            switch(type) {
+                case 'general':
+                    textArea = document.getElementById('generalPromptText');
+                    button = document.querySelector('#generalPromptSection .prompt-copy-btn');
+                    break;
+                case 'individual':
+                    textArea = document.getElementById('individualPromptsText');
+                    button = document.querySelector('#individualPromptsSection .prompt-copy-btn');
+                    break;
+                case 'combined':
+                    textArea = document.getElementById('combinedPromptText');
+                    button = document.querySelector('#combinedPromptSection .prompt-copy-btn');
+                    break;
+            }
+            
+            if (textArea && button) {
+                navigator.clipboard.writeText(textArea.value).then(() => {
+                    const originalText = button.innerHTML;
+                    button.classList.add('copied');
+                    button.innerHTML = '✅ Copied Successfully!';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    // Fallback for older browsers
+                    textArea.select();
+                    document.execCommand('copy');
+                    
+                    const originalText = button.innerHTML;
+                    button.classList.add('copied');
+                    button.innerHTML = '✅ Copied Successfully!';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = originalText;
+                    }, 2000);
+                });
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const aiPromptModal = document.getElementById('aiPromptModal');
+            const arabicModal = document.getElementById('arabicModal');
+            const meaningModal = document.getElementById('meaningModal');
+            const confirmationModal = document.getElementById('confirmationModal');
+            
+            if (event.target == aiPromptModal) {
+                closePromptGeneratorModal();
+            } else if (event.target == arabicModal) {
+                closeModal();
+            } else if (event.target == meaningModal) {
+                closeMeaningModal();
+            } else if (event.target == confirmationModal) {
+                closeConfirmationModal();
+            }
         }
 
         // Initialize quiz on page load
