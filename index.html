@@ -572,6 +572,236 @@
             backdrop-filter: blur(5px);
         }
 
+        /* Individual AI Prompt Modal Styles */
+        .ai-prompt-modal-content {
+            background-color: #ffffff;
+            margin: 3% auto;
+            padding: 0;
+            border: none;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .ai-prompt-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-prompt-modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .ai-prompt-controls {
+            padding: 20px 25px;
+            background-color: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .ai-control-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ai-control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .ai-control-btn.save-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .ai-control-btn.refresh-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .ai-control-btn.copy-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .ai-control-btn.copied {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            transform: scale(1.05);
+        }
+
+        .ai-prompt-textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .ai-prompt-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .ai-prompt-question-ref {
+            padding: 20px 25px;
+            background-color: #fff3cd;
+            border-top: 1px solid #e9ecef;
+            border-radius: 0 0 15px 15px;
+            text-align: center;
+        }
+
+        .ai-prompt-question-ref strong {
+            color: #856404;
+            font-size: 1rem;
+        }
+
+        .ai-prompt-question-ref p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Main AI Prompt Generator Controls */
+        .main-prompt-controls {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 0;
+        }
+
+        .main-prompt-control-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-prompt-control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .main-prompt-control-btn.save-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .main-prompt-control-btn.refresh-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .main-prompt-control-btn.copy-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .main-prompt-control-btn.copied {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            transform: scale(1.05);
+        }
+
+        .notes-summary-note {
+            padding: 10px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        /* Toggle Answers Button Styles */
+        .toggle-answers-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toggle-answers-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .toggle-answers-btn.answers-visible {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+        }
+
+        .toggle-answers-btn.answers-visible:hover {
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .ai-prompt-modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .ai-control-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .ai-prompt-controls {
+                padding: 15px 20px;
+            }
+            
+            .ai-prompt-modal-header {
+                padding: 15px 20px;
+            }
+            
+            .ai-prompt-modal-header h3 {
+                font-size: 1rem;
+            }
+
+            .main-prompt-control-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .main-prompt-controls {
+                padding: 10px 15px;
+            }
+        }
+
         .ai-prompt-modal-content {
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             margin: 2% auto;
@@ -1270,6 +1500,183 @@
             opacity: 0.8;
         }
 
+        /* Success Modal Styles */
+        .success-modal .success-header {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+        }
+
+        .success-modal .success-header::before {
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+
+        .success-modal::before {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+        }
+
+        .confirm-btn-success {
+            flex: 1;
+            max-width: 200px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .confirm-btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+            animation: successPulse 0.5s;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: translateY(-2px) scale(1); }
+            50% { transform: translateY(-2px) scale(1.05); }
+        }
+
+        .confirm-btn-success span:last-child {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Error Modal Styles */
+        .error-modal .error-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .error-modal .error-header::before {
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+
+        .error-modal::before {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .confirm-btn-error {
+            flex: 1;
+            max-width: 200px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .confirm-btn-error:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            animation: errorShake 0.5s;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateY(-2px) translateX(0); }
+            25% { transform: translateY(-2px) translateX(-3px); }
+            75% { transform: translateY(-2px) translateX(3px); }
+        }
+
+        .confirm-btn-error span:last-child {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Success and Error Details */
+        .success-details,
+        .error-details {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-details-content,
+        .error-details-content {
+            font-size: 0.95rem;
+            color: #495057;
+            line-height: 1.5;
+        }
+
+        /* Mobile responsiveness for new modals */
+        @media (max-width: 768px) {
+            .success-modal,
+            .error-modal {
+                max-width: 95%;
+                margin: 5% auto;
+            }
+            
+            .confirmation-header {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-title {
+                font-size: 1.5rem;
+            }
+            
+            .confirmation-icon {
+                font-size: 2.5rem;
+            }
+            
+            .confirmation-body {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-message-en {
+                font-size: 1.1rem;
+            }
+            
+            .confirmation-message-ar {
+                font-size: 1rem;
+            }
+            
+            .confirmation-actions {
+                padding: 0 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .confirm-btn-success,
+            .confirm-btn-error,
+            .confirm-btn-cancel,
+            .confirm-btn-delete {
+                max-width: 100%;
+                padding: 12px 16px;
+            }
+        }
+
         .quiz-container {
             padding: 20px 40px;
             flex: 1;
@@ -1731,9 +2138,9 @@
                 flex-wrap: wrap;
                 gap: 15px;
             ">
-                <button class="btn" onclick="showAnswers()">Show Answers</button>
-                <button class="btn" onclick="hideAnswers()">Hide Answers</button>
-                <button class="btn" onclick="generateNewQuiz()">New Quiz</button>
+                <button class="btn toggle-answers-btn" onclick="toggleAnswers()" id="toggleAnswersBtn">
+                    👁️ Show Answers
+                </button>
                 <button class="btn" onclick="clearAllNotes()" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);">🗑️ Clear Notes</button>
                 <button class="btn" onclick="refreshQuiz()" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔄 Refresh Page</button>
             </div>
@@ -1883,6 +2290,104 @@
             </div>
         </div>
 
+        <!-- Success Alert Modal -->
+        <div id="successAlertModal" class="modal">
+            <div class="modal-content confirmation-modal success-modal">
+                <div class="confirmation-header success-header">
+                    <div class="confirmation-icon" id="successIcon">✅</div>
+                    <h2 class="confirmation-title" id="successTitle">Success!</h2>
+                </div>
+                <div class="confirmation-body">
+                    <p class="confirmation-message-en" id="successMessageEn">Operation completed successfully!</p>
+                    <p class="confirmation-message-ar" id="successMessageAr">تمت العملية بنجاح!</p>
+                    <div class="success-details" id="successDetails" style="display: none;">
+                        <div class="success-details-content" id="successDetailsContent"></div>
+                    </div>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="confirm-btn-success" onclick="closeSuccessModal()">
+                        <span>✅ OK</span>
+                        <span>حسناً</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Alert Modal -->
+        <div id="errorAlertModal" class="modal">
+            <div class="modal-content confirmation-modal error-modal">
+                <div class="confirmation-header error-header">
+                    <div class="confirmation-icon" id="errorIcon">❌</div>
+                    <h2 class="confirmation-title" id="errorTitle">Error!</h2>
+                </div>
+                <div class="confirmation-body">
+                    <p class="confirmation-message-en" id="errorMessageEn">An error occurred!</p>
+                    <p class="confirmation-message-ar" id="errorMessageAr">حدث خطأ!</p>
+                    <div class="error-details" id="errorDetails" style="display: none;">
+                        <div class="error-details-content" id="errorDetailsContent"></div>
+                    </div>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="confirm-btn-error" onclick="closeErrorModal()">
+                        <span>❌ Close</span>
+                        <span>إغلاق</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clear Bookmarks Confirmation Modal -->
+        <div id="clearBookmarksModal" class="modal">
+            <div class="modal-content confirmation-modal">
+                <div class="confirmation-header">
+                    <div class="confirmation-icon">📚</div>
+                    <h2 class="confirmation-title">Clear All Bookmarks</h2>
+                </div>
+                <div class="confirmation-body">
+                    <p class="confirmation-message-en">Are you sure you want to clear all bookmarks?</p>
+                    <p class="confirmation-message-ar">هل أنت متأكد من أنك تريد مسح جميع الإشارات المرجعية؟</p>
+                    <div class="confirmation-warning">
+                        <p class="warning-message-en">This action cannot be undone. All bookmarked questions will be removed.</p>
+                        <p class="warning-message-ar">لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع الأسئلة المرجعية.</p>
+                    </div>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="confirm-btn-cancel" onclick="closeClearBookmarksModal()">
+                        <span>❌ Cancel</span>
+                        <span>إلغاء</span>
+                    </button>
+                    <button class="confirm-btn-delete" onclick="confirmClearBookmarks()">
+                        <span>📚 Clear Bookmarks</span>
+                        <span>مسح الإشارات</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Speech Not Supported Modal -->
+        <div id="speechNotSupportedModal" class="modal">
+            <div class="modal-content confirmation-modal error-modal">
+                <div class="confirmation-header error-header">
+                    <div class="confirmation-icon">🔇</div>
+                    <h2 class="confirmation-title">Speech Not Supported</h2>
+                </div>
+                <div class="confirmation-body">
+                    <p class="confirmation-message-en">Sorry, your browser does not support speech synthesis.</p>
+                    <p class="confirmation-message-ar">عذراً، متصفحك لا يدعم تقنية تحويل النص إلى كلام.</p>
+                    <div class="error-details">
+                        <p class="warning-message-en">Please try using a modern browser like Chrome, Firefox, or Safari for the best experience.</p>
+                        <p class="warning-message-ar">الرجاء استخدام متصفح حديث مثل Chrome أو Firefox أو Safari للحصول على أفضل تجربة.</p>
+                    </div>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="confirm-btn-error" onclick="closeSpeechNotSupportedModal()">
+                        <span>🔇 Understood</span>
+                        <span>مفهوم</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- AI Prompt Generator Modal -->
         <div id="aiPromptModal" class="ai-prompt-modal">
             <div class="ai-prompt-modal-content">
@@ -1895,30 +2400,51 @@
                     <div class="notes-summary" id="notesSummary">
                         <div class="notes-summary-title">📝 Notes Summary</div>
                         <div id="notesOverview">No notes found. Add some notes to generate prompts.</div>
+                        <div class="notes-summary-note">
+                            <em>📌 Note: This notes summary is always visible and cannot be hidden as it's important for context.</em>
+                        </div>
                     </div>
                     
                     <div class="prompt-section" id="generalPromptSection" style="display: none;">
                         <div class="prompt-section-title">🌐 General Quiz Improvement Prompt</div>
-                        <textarea class="prompt-textarea" id="generalPromptText" readonly></textarea>
-                        <button class="prompt-copy-btn" onclick="copyPrompt('general')">
-                            📋 Copy General Prompt
-                        </button>
+                        <div class="main-prompt-controls">
+                            <button id="general-toggle-btn" class="main-prompt-control-btn" onclick="toggleMainPromptVisibility('general')">👁️ Show</button>
+                            <button id="general-edit-btn" class="main-prompt-control-btn" onclick="editMainPrompt('general')">✏️ Edit</button>
+                            <button id="general-save-btn" class="main-prompt-control-btn save-btn" onclick="saveMainPrompt('general')" style="display: none;">💾 Save</button>
+                            <button id="general-refresh-btn" class="main-prompt-control-btn refresh-btn" onclick="refreshMainPromptToDefault('general')">🔄 Reset to Default</button>
+                            <button class="main-prompt-control-btn copy-btn" onclick="copyPrompt('general')">📋 Copy Prompt</button>
+                        </div>
+                        <div id="general-prompt-container" style="display: none;">
+                            <textarea class="prompt-textarea" id="generalPromptText" readonly></textarea>
+                        </div>
                     </div>
                     
                     <div class="prompt-section" id="individualPromptsSection" style="display: none;">
                         <div class="prompt-section-title">🎯 Individual Question Prompts</div>
-                        <textarea class="prompt-textarea" id="individualPromptsText" readonly></textarea>
-                        <button class="prompt-copy-btn" onclick="copyPrompt('individual')">
-                            📋 Copy Individual Prompts
-                        </button>
+                        <div class="main-prompt-controls">
+                            <button id="individual-toggle-btn" class="main-prompt-control-btn" onclick="toggleMainPromptVisibility('individual')">👁️ Show</button>
+                            <button id="individual-edit-btn" class="main-prompt-control-btn" onclick="editMainPrompt('individual')">✏️ Edit</button>
+                            <button id="individual-save-btn" class="main-prompt-control-btn save-btn" onclick="saveMainPrompt('individual')" style="display: none;">💾 Save</button>
+                            <button id="individual-refresh-btn" class="main-prompt-control-btn refresh-btn" onclick="refreshMainPromptToDefault('individual')">🔄 Reset to Default</button>
+                            <button class="main-prompt-control-btn copy-btn" onclick="copyPrompt('individual')">📋 Copy Prompt</button>
+                        </div>
+                        <div id="individual-prompt-container" style="display: none;">
+                            <textarea class="prompt-textarea" id="individualPromptsText" readonly></textarea>
+                        </div>
                     </div>
                     
                     <div class="prompt-section" id="combinedPromptSection" style="display: none;">
                         <div class="prompt-section-title">🔄 Combined Comprehensive Prompt</div>
-                        <textarea class="prompt-textarea" id="combinedPromptText" readonly></textarea>
-                        <button class="prompt-copy-btn" onclick="copyPrompt('combined')">
-                            📋 Copy Complete Prompt
-                        </button>
+                        <div class="main-prompt-controls">
+                            <button id="combined-toggle-btn" class="main-prompt-control-btn" onclick="toggleMainPromptVisibility('combined')">👁️ Show</button>
+                            <button id="combined-edit-btn" class="main-prompt-control-btn" onclick="editMainPrompt('combined')">✏️ Edit</button>
+                            <button id="combined-save-btn" class="main-prompt-control-btn save-btn" onclick="saveMainPrompt('combined')" style="display: none;">💾 Save</button>
+                            <button id="combined-refresh-btn" class="main-prompt-control-btn refresh-btn" onclick="refreshMainPromptToDefault('combined')">🔄 Reset to Default</button>
+                            <button class="main-prompt-control-btn copy-btn" onclick="copyPrompt('combined')">📋 Copy Prompt</button>
+                        </div>
+                        <div id="combined-prompt-container" style="display: none;">
+                            <textarea class="prompt-textarea" id="combinedPromptText" readonly></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -11669,11 +12195,20 @@
                     // Show import summary
                     const importDate = notesData.exportDate ? new Date(notesData.exportDate).toLocaleDateString() : 'Unknown';
                     setTimeout(() => {
-                        alert(`تم استيراد النوتات بنجاح!\nNotes imported successfully!\n\n` +
-                              `📊 Total imported: ${importedCount} notes\n` +
-                              `📅 Export date: ${importDate}\n` +
-                              `📝 General notes: ${notesData.generalNotes ? 'Included' : 'Not included'}\n` +
-                              `🔢 Individual notes: ${Object.keys(notesData.individualNotes || {}).length} questions`);
+                        const details = `
+                            <strong>📊 Import Summary:</strong><br>
+                            📈 Total imported: <strong>${importedCount} notes</strong><br>
+                            📅 Export date: <strong>${importDate}</strong><br>
+                            📝 General notes: <strong>${notesData.generalNotes ? 'Included' : 'Not included'}</strong><br>
+                            🔢 Individual notes: <strong>${Object.keys(notesData.individualNotes || {}).length} questions</strong>
+                        `;
+                        showSuccessAlert(
+                            'Import Successful!',
+                            'تم الاستيراد بنجاح!',
+                            'Notes imported successfully!',
+                            'تم استيراد النوتات بنجاح!',
+                            details
+                        );
                     }, 2000);
                     
                 } catch (error) {
@@ -11689,7 +12224,20 @@
                         importButton.style.background = 'linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)';
                     }, 2000);
                     
-                    alert('خطأ في استيراد الملف!\nImport failed!\n\nPlease make sure you selected a valid notes file exported from this application.');
+                    const errorDetails = `
+                        <strong>🔍 Troubleshooting:</strong><br>
+                        • Make sure you selected a valid notes file<br>
+                        • The file should be exported from this application<br>
+                        • Check that the file is not corrupted<br>
+                        • Try exporting and importing again
+                    `;
+                    showErrorAlert(
+                        'Import Failed!',
+                        'فشل الاستيراد!',
+                        'Import failed! Please make sure you selected a valid notes file.',
+                        'خطأ في استيراد الملف! تأكد من اختيار ملف نوتات صحيح.',
+                        errorDetails
+                    );
                 }
             };
             
@@ -12482,18 +13030,7 @@
         }
 
         function clearAllBookmarks() {
-            if (confirm('Are you sure you want to clear all bookmarks?')) {
-                bookmarkedQuestions.clear();
-                saveBookmarks();
-                updateBookmarkUI();
-                // Remove visual indicators from current page
-                document.querySelectorAll('.question.bookmarked').forEach(q => {
-                    q.classList.remove('bookmarked');
-                });
-                document.querySelectorAll('.bookmark-checkbox').forEach(cb => {
-                    cb.checked = false;
-                });
-            }
+            showClearBookmarksConfirmation();
         }
 
         function showArabicTranslation(word) {
@@ -12723,7 +13260,7 @@
         function readQuestion(questionNumber) {
             // Check if speech synthesis is supported
             if (!('speechSynthesis' in window)) {
-                alert('Sorry, your browser does not support speech synthesis.');
+                showSpeechNotSupportedModal();
                 return;
             }
 
@@ -12796,7 +13333,7 @@
         function pronounceWord(word, questionNumber) {
             // Check if speech synthesis is supported
             if (!('speechSynthesis' in window)) {
-                alert('Sorry, your browser does not support speech synthesis.');
+                showSpeechNotSupportedModal();
                 return;
             }
 
@@ -13092,8 +13629,84 @@
             }
         };
 
-        function generateAIPrompt(word, questionNumber) {
-            const prompt = `Please provide a comprehensive explanation of the word "${word}" including:
+        // AI Prompt Enhancement Functions
+        function toggleAIPromptVisibility(questionNumber) {
+            const promptContainer = document.getElementById(`ai-prompt-container-${questionNumber}`);
+            const toggleBtn = document.getElementById(`ai-toggle-btn-${questionNumber}`);
+            
+            if (promptContainer.style.display === 'none') {
+                promptContainer.style.display = 'block';
+                toggleBtn.innerHTML = '👁️ Hide';
+            } else {
+                promptContainer.style.display = 'none';
+                toggleBtn.innerHTML = '👁️ Show';
+            }
+        }
+
+        function editAIPrompt(questionNumber) {
+            const promptTextarea = document.getElementById(`ai-prompt-text-${questionNumber}`);
+            const editBtn = document.getElementById(`ai-edit-btn-${questionNumber}`);
+            const saveBtn = document.getElementById(`ai-save-btn-${questionNumber}`);
+            
+            if (promptTextarea.readOnly) {
+                // Enable editing
+                promptTextarea.readOnly = false;
+                promptTextarea.style.backgroundColor = '#fffbf0';
+                promptTextarea.style.border = '2px solid #f39c12';
+                promptTextarea.focus();
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+            }
+        }
+
+        function saveAIPrompt(questionNumber) {
+            const promptTextarea = document.getElementById(`ai-prompt-text-${questionNumber}`);
+            const editBtn = document.getElementById(`ai-edit-btn-${questionNumber}`);
+            const saveBtn = document.getElementById(`ai-save-btn-${questionNumber}`);
+            
+            // Save the edited content
+            const editedContent = promptTextarea.value;
+            localStorage.setItem(`ai-prompt-edited-${questionNumber}`, editedContent);
+            
+            // Disable editing
+            promptTextarea.readOnly = true;
+            promptTextarea.style.backgroundColor = '#f8f9fa';
+            promptTextarea.style.border = '1px solid #ddd';
+            editBtn.style.display = 'inline-block';
+            saveBtn.style.display = 'none';
+            
+            // Visual feedback
+            saveBtn.innerHTML = '✅ Saved!';
+            setTimeout(() => {
+                saveBtn.innerHTML = '💾 Save';
+            }, 1500);
+        }
+
+        function refreshAIPromptToDefault(questionNumber) {
+            const word = words[questionNumber - 1];
+            const defaultPrompt = generateDefaultAIPrompt(word);
+            const promptTextarea = document.getElementById(`ai-prompt-text-${questionNumber}`);
+            
+            // Remove edited version from localStorage
+            localStorage.removeItem(`ai-prompt-edited-${questionNumber}`);
+            
+            // Reset to default
+            promptTextarea.value = defaultPrompt;
+            
+            // Visual feedback
+            const refreshBtn = document.getElementById(`ai-refresh-btn-${questionNumber}`);
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '✅ Reset to Default!';
+            refreshBtn.style.backgroundColor = '#27ae60';
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.style.backgroundColor = '';
+            }, 2000);
+        }
+
+        function generateDefaultAIPrompt(word) {
+            return `Please provide a comprehensive explanation of the word "${word}" including:
 
 1. **Simple Definition**: 
    - Give me a clear, easy-to-understand definition of "${word}"
@@ -13129,80 +13742,167 @@
    - Tips for remembering the correct usage
 
 Please provide detailed explanations for each section to help me master this vocabulary word in professional contexts.`;
+        }
 
-            // Copy to clipboard
-            navigator.clipboard.writeText(prompt).then(() => {
-                // Visual feedback
-                const button = document.getElementById(`ai-btn-${questionNumber}`);
-                const originalText = button.innerHTML;
-                
-                button.classList.add('copied');
-                button.innerHTML = '✅ Copied to Clipboard!';
+        function generateAIPrompt(word, questionNumber) {
+            // Open the AI prompt modal for this specific question
+            openAIPromptModal(word, questionNumber);
+        }
+
+        function openAIPromptModal(word, questionNumber) {
+            // Create modal HTML if it doesn't exist
+            let modal = document.getElementById(`ai-prompt-modal-${questionNumber}`);
+            if (!modal) {
+                createAIPromptModal(word, questionNumber);
+                modal = document.getElementById(`ai-prompt-modal-${questionNumber}`);
+            }
+            
+            // Load saved content or default
+            const savedPrompt = localStorage.getItem(`ai-prompt-edited-${questionNumber}`);
+            const promptTextarea = document.getElementById(`ai-prompt-text-${questionNumber}`);
+            
+            if (savedPrompt) {
+                promptTextarea.value = savedPrompt;
+            } else {
+                promptTextarea.value = generateDefaultAIPrompt(word);
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeAIPromptModal(questionNumber) {
+            const modal = document.getElementById(`ai-prompt-modal-${questionNumber}`);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function createAIPromptModal(word, questionNumber) {
+            const modalHTML = `
+                <div id="ai-prompt-modal-${questionNumber}" class="ai-prompt-modal">
+                    <div class="ai-prompt-modal-content">
+                        <div class="ai-prompt-modal-header">
+                            <h3>🤖 AI Prompt for Question ${questionNumber}: "${word}"</h3>
+                            <button class="ai-prompt-close-btn" onclick="closeAIPromptModal(${questionNumber})">&times;</button>
+                        </div>
+                        
+                        <div class="ai-prompt-controls">
+                            <button id="ai-toggle-btn-${questionNumber}" class="ai-control-btn" onclick="toggleAIPromptVisibility(${questionNumber})">👁️ Show</button>
+                            <button id="ai-edit-btn-${questionNumber}" class="ai-control-btn" onclick="editAIPrompt(${questionNumber})">✏️ Edit</button>
+                            <button id="ai-save-btn-${questionNumber}" class="ai-control-btn save-btn" onclick="saveAIPrompt(${questionNumber})" style="display: none;">💾 Save</button>
+                            <button id="ai-refresh-btn-${questionNumber}" class="ai-control-btn refresh-btn" onclick="refreshAIPromptToDefault(${questionNumber})">🔄 Reset to Default</button>
+                            <button class="ai-control-btn copy-btn" onclick="copyAIPromptToClipboard(${questionNumber})">📋 Copy to Clipboard</button>
+                        </div>
+                        
+                        <div id="ai-prompt-container-${questionNumber}" style="display: none;">
+                            <textarea id="ai-prompt-text-${questionNumber}" class="ai-prompt-textarea" readonly></textarea>
+                        </div>
+                        
+                        <div class="ai-prompt-question-ref">
+                            <strong>📌 Question Reference: Question ${questionNumber} - "${word}"</strong>
+                            <p><em>Note: This question reference is always visible and cannot be hidden as it's important for context.</em></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        function copyAIPromptToClipboard(questionNumber) {
+            const promptTextarea = document.getElementById(`ai-prompt-text-${questionNumber}`);
+            const copyBtn = document.querySelector(`#ai-prompt-modal-${questionNumber} .copy-btn`);
+            
+            navigator.clipboard.writeText(promptTextarea.value).then(() => {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = '✅ Copied to Clipboard!';
                 
                 setTimeout(() => {
-                    button.classList.remove('copied');
-                    button.innerHTML = originalText;
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = originalText;
                 }, 2000);
                 
             }).catch(err => {
                 // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = prompt;
-                document.body.appendChild(textArea);
-                textArea.select();
+                promptTextarea.select();
                 document.execCommand('copy');
-                document.body.removeChild(textArea);
                 
-                // Visual feedback
-                const button = document.getElementById(`ai-btn-${questionNumber}`);
-                const originalText = button.innerHTML;
-                
-                button.classList.add('copied');
-                button.innerHTML = '✅ Copied to Clipboard!';
+                const originalText = copyBtn.innerHTML;
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = '✅ Copied to Clipboard!';
                 
                 setTimeout(() => {
-                    button.classList.remove('copied');
-                    button.innerHTML = originalText;
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = originalText;
                 }, 2000);
             });
         }
 
+        function toggleAnswers() {
+            const answers = document.querySelectorAll('.answer');
+            const toggleBtn = document.getElementById('toggleAnswersBtn');
+            
+            if (answersVisible) {
+                // Hide answers
+                answers.forEach(answer => {
+                    answer.classList.remove('show');
+                });
+                answersVisible = false;
+                toggleBtn.innerHTML = '👁️ Show Answers';
+                toggleBtn.classList.remove('answers-visible');
+            } else {
+                // Show answers
+                answers.forEach(answer => {
+                    answer.classList.add('show');
+                });
+                answersVisible = true;
+                toggleBtn.innerHTML = '🙈 Hide Answers';
+                toggleBtn.classList.add('answers-visible');
+            }
+        }
+
         function showAnswers() {
             const answers = document.querySelectorAll('.answer');
+            const toggleBtn = document.getElementById('toggleAnswersBtn');
+            
             answers.forEach(answer => {
                 answer.classList.add('show');
             });
             answersVisible = true;
+            
+            if (toggleBtn) {
+                toggleBtn.innerHTML = '🙈 Hide Answers';
+                toggleBtn.classList.add('answers-visible');
+            }
         }
 
         function hideAnswers() {
             const answers = document.querySelectorAll('.answer');
+            const toggleBtn = document.getElementById('toggleAnswersBtn');
+            
             answers.forEach(answer => {
                 answer.classList.remove('show');
             });
             answersVisible = false;
-        }
-
-        function generateNewQuiz() {
-            hideAnswers();
-            // Clear all saved answers but keep bookmarks
-            Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('input-')) {
-                    localStorage.removeItem(key);
-                }
-            });
-            generateAllQuestions();
+            
+            if (toggleBtn) {
+                toggleBtn.innerHTML = '👁️ Show Answers';
+                toggleBtn.classList.remove('answers-visible');
+            }
         }
 
         function refreshQuiz() {
-            // Clear localStorage data (answers, bookmarks, and shuffle data) but KEEP notes
+            // Clear localStorage data (answers, bookmarks, shuffle data, and AI prompt edits) but KEEP notes
             Object.keys(localStorage).forEach(key => {
                 if (key.startsWith('input-') || 
                     key === 'bookmarkedQuestions' || 
                     key === 'randomShuffleSeed' || 
                     key === 'randomWordOrder' ||
                     key === 'shuffleMode' ||
-                    key === 'generalNotesHeight') {  // Reset textarea size on refresh
+                    key === 'generalNotesHeight' ||
+                    key.startsWith('ai-prompt-edited-') ||
+                    key.startsWith('main-ai-prompt-edited-')) {  // Remove AI prompt edits on refresh
                     localStorage.removeItem(key);
                 }
                 // Notes (key.startsWith('notes-')) and general notes content are intentionally preserved
@@ -13294,44 +13994,52 @@ Please provide detailed explanations for each section to help me master this voc
         }
 
         function generateGeneralPrompt(generalNotes) {
-            const prompt = `Please implement the following general notes for the quiz:
+            const defaultPrompt = `Please implement the following general notes for the quiz:
 
 📝 **General Notes:**
 "${generalNotes}"
 
 Please follow and implement exactly what is requested in these notes.`;
 
-            document.getElementById('generalPromptText').value = prompt;
+            // Check if there's a saved edited version
+            const savedPrompt = localStorage.getItem('main-ai-prompt-edited-general');
+            const promptToShow = savedPrompt || defaultPrompt;
+            
+            document.getElementById('generalPromptText').value = promptToShow;
             document.getElementById('generalPromptSection').style.display = 'block';
         }
 
         function generateIndividualPrompts(individualNotes) {
-            let prompt = `Please implement the following individual question notes:
+            let defaultPrompt = `Please implement the following individual question notes:
 
 📋 **Individual Notes:**
 
 `;
 
             Object.entries(individualNotes).forEach(([questionNum, data], index) => {
-                prompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+                defaultPrompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
    📝 Note: "${data.note}"
 
 `;
             });
 
-            prompt += `Please follow and implement exactly what is requested in these individual notes.`;
+            defaultPrompt += `Please follow and implement exactly what is requested in these individual notes.`;
 
-            document.getElementById('individualPromptsText').value = prompt;
+            // Check if there's a saved edited version
+            const savedPrompt = localStorage.getItem('main-ai-prompt-edited-individual');
+            const promptToShow = savedPrompt || defaultPrompt;
+
+            document.getElementById('individualPromptsText').value = promptToShow;
             document.getElementById('individualPromptsSection').style.display = 'block';
         }
 
         function generateCombinedPrompt(generalNotes, individualNotes) {
-            let prompt = `Please implement the following notes:
+            let defaultPrompt = `Please implement the following notes:
 
 `;
 
             if (generalNotes.trim()) {
-                prompt += `📝 **General Notes:**
+                defaultPrompt += `📝 **General Notes:**
 "${generalNotes}"
 
 `;
@@ -13339,22 +14047,159 @@ Please follow and implement exactly what is requested in these notes.`;
 
             const individualCount = Object.keys(individualNotes).length;
             if (individualCount > 0) {
-                prompt += `📋 **Individual Notes:**
+                defaultPrompt += `📋 **Individual Notes:**
 
 `;
 
                 Object.entries(individualNotes).forEach(([questionNum, data], index) => {
-                    prompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+                    defaultPrompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
    📝 Note: "${data.note}"
 
 `;
                 });
             }
 
-            prompt += `Please follow and implement exactly what is requested in these notes.`;
+            defaultPrompt += `Please follow and implement exactly what is requested in these notes.`;
 
-            document.getElementById('combinedPromptText').value = prompt;
+            // Check if there's a saved edited version
+            const savedPrompt = localStorage.getItem('main-ai-prompt-edited-combined');
+            const promptToShow = savedPrompt || defaultPrompt;
+
+            document.getElementById('combinedPromptText').value = promptToShow;
             document.getElementById('combinedPromptSection').style.display = 'block';
+        }
+
+        // Main AI Prompt Generator Enhancement Functions
+        function toggleMainPromptVisibility(type) {
+            const promptContainer = document.getElementById(`${type}-prompt-container`);
+            const toggleBtn = document.getElementById(`${type}-toggle-btn`);
+            
+            if (promptContainer.style.display === 'none') {
+                promptContainer.style.display = 'block';
+                toggleBtn.innerHTML = '👁️ Hide';
+            } else {
+                promptContainer.style.display = 'none';
+                toggleBtn.innerHTML = '👁️ Show';
+            }
+        }
+
+        function editMainPrompt(type) {
+            const promptTextarea = document.getElementById(`${type}PromptText`);
+            const editBtn = document.getElementById(`${type}-edit-btn`);
+            const saveBtn = document.getElementById(`${type}-save-btn`);
+            
+            if (promptTextarea.readOnly) {
+                // Enable editing
+                promptTextarea.readOnly = false;
+                promptTextarea.style.backgroundColor = '#fffbf0';
+                promptTextarea.style.border = '2px solid #f39c12';
+                promptTextarea.focus();
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-flex';
+            }
+        }
+
+        function saveMainPrompt(type) {
+            const promptTextarea = document.getElementById(`${type}PromptText`);
+            const editBtn = document.getElementById(`${type}-edit-btn`);
+            const saveBtn = document.getElementById(`${type}-save-btn`);
+            
+            // Save the edited content
+            const editedContent = promptTextarea.value;
+            localStorage.setItem(`main-ai-prompt-edited-${type}`, editedContent);
+            
+            // Disable editing
+            promptTextarea.readOnly = true;
+            promptTextarea.style.backgroundColor = '#f8f9fa';
+            promptTextarea.style.border = '1px solid #ddd';
+            editBtn.style.display = 'inline-flex';
+            saveBtn.style.display = 'none';
+            
+            // Visual feedback
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '✅ Saved!';
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+            }, 1500);
+        }
+
+        function refreshMainPromptToDefault(type) {
+            const promptTextarea = document.getElementById(`${type}PromptText`);
+            
+            // Remove edited version from localStorage
+            localStorage.removeItem(`main-ai-prompt-edited-${type}`);
+            
+            // Regenerate the default content based on current notes
+            const generalNotes = localStorage.getItem('generalQuizNotes') || '';
+            const individualNotes = collectIndividualNotes();
+            
+            let defaultPrompt = '';
+            
+            switch(type) {
+                case 'general':
+                    defaultPrompt = `Please implement the following general notes for the quiz:
+
+📝 **General Notes:**
+"${generalNotes}"
+
+Please follow and implement exactly what is requested in these notes.`;
+                    break;
+                    
+                case 'individual':
+                    defaultPrompt = `Please implement the following individual question notes:
+
+📋 **Individual Notes:**
+
+`;
+                    Object.entries(individualNotes).forEach(([questionNum, data], index) => {
+                        defaultPrompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+   📝 Note: "${data.note}"
+
+`;
+                    });
+                    defaultPrompt += `Please follow and implement exactly what is requested in these individual notes.`;
+                    break;
+                    
+                case 'combined':
+                    defaultPrompt = `Please implement the following notes:
+
+`;
+                    if (generalNotes.trim()) {
+                        defaultPrompt += `📝 **General Notes:**
+"${generalNotes}"
+
+`;
+                    }
+                    
+                    const individualCount = Object.keys(individualNotes).length;
+                    if (individualCount > 0) {
+                        defaultPrompt += `📋 **Individual Notes:**
+
+`;
+                        Object.entries(individualNotes).forEach(([questionNum, data], index) => {
+                            defaultPrompt += `${index + 1}. **Question #${questionNum} - Word: "${data.word}"**
+   📝 Note: "${data.note}"
+
+`;
+                        });
+                    }
+                    defaultPrompt += `Please follow and implement exactly what is requested in these notes.`;
+                    break;
+            }
+            
+            // Reset to default
+            promptTextarea.value = defaultPrompt;
+            
+            // Visual feedback
+            const refreshBtn = document.getElementById(`${type}-refresh-btn`);
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '✅ Reset to Default!';
+            refreshBtn.style.backgroundColor = '#27ae60';
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.style.backgroundColor = '';
+            }, 2000);
         }
 
         function copyPrompt(type) {
@@ -13364,15 +14209,15 @@ Please follow and implement exactly what is requested in these notes.`;
             switch(type) {
                 case 'general':
                     textArea = document.getElementById('generalPromptText');
-                    button = document.querySelector('#generalPromptSection .prompt-copy-btn');
+                    button = document.querySelector('#generalPromptSection .copy-btn');
                     break;
                 case 'individual':
                     textArea = document.getElementById('individualPromptsText');
-                    button = document.querySelector('#individualPromptsSection .prompt-copy-btn');
+                    button = document.querySelector('#individualPromptsSection .copy-btn');
                     break;
                 case 'combined':
                     textArea = document.getElementById('combinedPromptText');
-                    button = document.querySelector('#combinedPromptSection .prompt-copy-btn');
+                    button = document.querySelector('#combinedPromptSection .copy-btn');
                     break;
             }
             
@@ -13483,6 +14328,20 @@ Please follow and implement exactly what is requested in these notes.`;
                 closeMeaningModal();
             } else if (event.target == confirmationModal) {
                 closeConfirmationModal();
+            } else if (event.target == document.getElementById('successAlertModal')) {
+                closeSuccessModal();
+            } else if (event.target == document.getElementById('errorAlertModal')) {
+                closeErrorModal();
+            } else if (event.target == document.getElementById('clearBookmarksModal')) {
+                closeClearBookmarksModal();
+            } else if (event.target == document.getElementById('speechNotSupportedModal')) {
+                closeSpeechNotSupportedModal();
+            }
+            
+            // Check for individual AI prompt modals
+            if (event.target.id && event.target.id.startsWith('ai-prompt-modal-')) {
+                const questionNumber = event.target.id.replace('ai-prompt-modal-', '');
+                closeAIPromptModal(questionNumber);
             }
         }
 
@@ -13496,6 +14355,9 @@ Please follow and implement exactly what is requested in these notes.`;
             // Setup resize listener for general notes textarea
             setupGeneralNotesResizeListener();
             
+            // Initialize toggle answers button state
+            updateToggleAnswersButton();
+            
             // Load speech synthesis voices
             if ('speechSynthesis' in window) {
                 loadVoices().then(() => {
@@ -13503,6 +14365,122 @@ Please follow and implement exactly what is requested in these notes.`;
                 });
             }
         });
+
+        function updateToggleAnswersButton() {
+            const toggleBtn = document.getElementById('toggleAnswersBtn');
+            if (toggleBtn) {
+                if (answersVisible) {
+                    toggleBtn.innerHTML = '🙈 Hide Answers';
+                    toggleBtn.classList.add('answers-visible');
+                } else {
+                    toggleBtn.innerHTML = '👁️ Show Answers';
+                    toggleBtn.classList.remove('answers-visible');
+                }
+            }
+        }
+
+        // Fancy Alert System Functions
+        function showSuccessAlert(titleEn, titleAr, messageEn, messageAr, details = '') {
+            const modal = document.getElementById('successAlertModal');
+            const title = document.getElementById('successTitle');
+            const messageEnEl = document.getElementById('successMessageEn');
+            const messageArEl = document.getElementById('successMessageAr');
+            const detailsEl = document.getElementById('successDetails');
+            const detailsContentEl = document.getElementById('successDetailsContent');
+            
+            title.textContent = titleEn;
+            messageEnEl.textContent = messageEn;
+            messageArEl.textContent = messageAr;
+            
+            if (details) {
+                detailsContentEl.innerHTML = details;
+                detailsEl.style.display = 'block';
+            } else {
+                detailsEl.style.display = 'none';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function showErrorAlert(titleEn, titleAr, messageEn, messageAr, details = '') {
+            const modal = document.getElementById('errorAlertModal');
+            const title = document.getElementById('errorTitle');
+            const messageEnEl = document.getElementById('errorMessageEn');
+            const messageArEl = document.getElementById('errorMessageAr');
+            const detailsEl = document.getElementById('errorDetails');
+            const detailsContentEl = document.getElementById('errorDetailsContent');
+            
+            title.textContent = titleEn;
+            messageEnEl.textContent = messageEn;
+            messageArEl.textContent = messageAr;
+            
+            if (details) {
+                detailsContentEl.innerHTML = details;
+                detailsEl.style.display = 'block';
+            } else {
+                detailsEl.style.display = 'none';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successAlertModal');
+            modal.style.display = 'none';
+        }
+
+        function closeErrorModal() {
+            const modal = document.getElementById('errorAlertModal');
+            modal.style.display = 'none';
+        }
+
+        function showClearBookmarksConfirmation() {
+            const modal = document.getElementById('clearBookmarksModal');
+            modal.style.display = 'block';
+        }
+
+        function closeClearBookmarksModal() {
+            const modal = document.getElementById('clearBookmarksModal');
+            modal.style.display = 'none';
+        }
+
+        function confirmClearBookmarks() {
+            // Clear all bookmarks
+            bookmarkedQuestions.clear();
+            localStorage.removeItem('bookmarkedQuestions');
+            
+            // Update UI
+            updateBookmarkUI();
+            const bookmarkedQuestionElements = document.querySelectorAll('.question.bookmarked');
+            bookmarkedQuestionElements.forEach(el => {
+                el.classList.remove('bookmarked');
+                const checkbox = el.querySelector('.bookmark-checkbox');
+                if (checkbox) {
+                    checkbox.checked = false;
+                }
+            });
+            
+            // Close modal
+            closeClearBookmarksModal();
+            
+            // Show success message
+            showSuccessAlert(
+                'Bookmarks Cleared!',
+                'تم مسح الإشارات المرجعية!',
+                'All bookmarks have been successfully cleared.',
+                'تم مسح جميع الإشارات المرجعية بنجاح.'
+            );
+        }
+
+        function showSpeechNotSupportedModal() {
+            const modal = document.getElementById('speechNotSupportedModal');
+            modal.style.display = 'block';
+        }
+
+        function closeSpeechNotSupportedModal() {
+            const modal = document.getElementById('speechNotSupportedModal');
+            modal.style.display = 'none';
+        }
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
@@ -13513,6 +14491,61 @@ Please follow and implement exactly what is requested in these notes.`;
                 } else if (e.key === 'ArrowRight') {
                     e.preventDefault();
                     nextPage();
+                }
+            }
+            
+            // Close modals with Escape key
+            if (e.key === 'Escape') {
+                // Check for individual AI prompt modals
+                const individualModals = document.querySelectorAll('[id^="ai-prompt-modal-"]');
+                individualModals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        const questionNumber = modal.id.replace('ai-prompt-modal-', '');
+                        closeAIPromptModal(questionNumber);
+                    }
+                });
+                
+                // Close main AI prompt modal
+                const mainAIModal = document.getElementById('aiPromptModal');
+                if (mainAIModal && mainAIModal.style.display === 'block') {
+                    closePromptGeneratorModal();
+                }
+                
+                // Close other modals
+                const arabicModal = document.getElementById('arabicModal');
+                if (arabicModal && arabicModal.style.display === 'block') {
+                    closeModal();
+                }
+                
+                const meaningModal = document.getElementById('meaningModal');
+                if (meaningModal && meaningModal.style.display === 'block') {
+                    closeMeaningModal();
+                }
+                
+                const confirmationModal = document.getElementById('confirmationModal');
+                if (confirmationModal && confirmationModal.style.display === 'block') {
+                    closeConfirmationModal();
+                }
+                
+                // Close new fancy modals
+                const successModal = document.getElementById('successAlertModal');
+                if (successModal && successModal.style.display === 'block') {
+                    closeSuccessModal();
+                }
+                
+                const errorModal = document.getElementById('errorAlertModal');
+                if (errorModal && errorModal.style.display === 'block') {
+                    closeErrorModal();
+                }
+                
+                const bookmarksModal = document.getElementById('clearBookmarksModal');
+                if (bookmarksModal && bookmarksModal.style.display === 'block') {
+                    closeClearBookmarksModal();
+                }
+                
+                const speechModal = document.getElementById('speechNotSupportedModal');
+                if (speechModal && speechModal.style.display === 'block') {
+                    closeSpeechNotSupportedModal();
                 }
             }
         });
